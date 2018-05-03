@@ -260,7 +260,7 @@ class CaseList extends React.Component {
     onFilterTypeSwitchChanged(value) {
         let filterType = '';
         let range = [];
-        if (value == true) {
+        if (value === true) {
             filterType = 'TOEFL'
             range = [80, 110];
         } else {
