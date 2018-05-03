@@ -1,0 +1,15 @@
+.universityText{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #666;
+}
+
+.majorText{
+    display: block;
+    color: #333;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.428571;
+    margin-top: 8px;
+}

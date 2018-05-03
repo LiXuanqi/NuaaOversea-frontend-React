@@ -1,0 +1,29 @@
+.card{
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    border-radius: 2px;
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-bottom: 16px;
+}
+
+.title{
+    display: block;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 30px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.contentContainer{
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+.text{
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(0, 0, 0, 0.87);
+}

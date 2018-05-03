@@ -1,0 +1,18 @@
+.container{
+    display: flex;
+    width: 100%;
+}
+
+.contentContainer{
+    width: 75%;
+    background-color: #fff; 
+    margin-top: 48px;
+    padding-top: 32px;
+    padding-right: 48px;
+}
+.sidebarContainer{
+    width: 25%;
+
+    margin-left: 32px;
+    background-color: #fff;
+}
