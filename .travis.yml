@@ -16,6 +16,8 @@ deploy:
   script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/public $user@$ip:/root/code/test
   on:
     branch: master
+addons:
+  ssh_known_hosts: $ip
 cache:
   directories:
     - "node_modules"
