@@ -27,7 +27,7 @@ function Header({ history, dispatch }) {
         // 2. if yes, 
         // 3. if no, navigate to /sso-v2/oauth/12345678?redirect_uri=' + history.location.pathname
         if (!isLogin()) {
-            window.location.href = '/sso-v2/oauth/12345678?redirect_uri=' + history.location.pathname;
+            window.location.href = 'http://my.nuaa.edu.cn/sso-v2/oauth/12345678?redirect_uri=' + history.location.pathname;
         }
         // will get code.
   
