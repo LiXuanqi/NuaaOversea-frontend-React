@@ -48,7 +48,7 @@ function Header({ history, dispatch }) {
             <div className={styles.headerLeft}>
                 <Link to="/">
                     <span>
-                        <img src="../../public/logo.png" alt="logo" width="48px"/>
+                        <img src="public/logo.png" alt="logo" width="48px"/>
                     </span>
                 </Link>
                 <div className={styles.brand}>

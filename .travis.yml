@@ -14,7 +14,7 @@ before_deploy:
 deploy:
   provider: script
   skip_cleanup: true
-  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/public $user@$ip:/root/www/nuaa-oversea
+  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/dist $user@$ip:/root/www/nuaa-oversea
   on:
     branch: master
 
