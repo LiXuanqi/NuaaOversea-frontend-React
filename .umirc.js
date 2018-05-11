@@ -1,3 +1,7 @@
 export default {
-  plugins: ['umi-plugin-dva']
+  context: {
+    title: 'NuaaOversea',
+  },
+  plugins: ['umi-plugin-dva'],
+  disableServiceWorker: true
 }

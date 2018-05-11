@@ -10,5 +10,5 @@ export default {
             "changeOrigin": true
         }
     },
-    "publicPath": "/static/"
+    "publicPath": "/oversea/static/"
 }
