@@ -10,6 +10,7 @@ import BillboardCard from '../../components/BillboardCard';
 import request from '../../utils/request';
 import CaseSearch from '../../components/CaseSearch';
 
+import pic1 from '../../assets/pic-1.jpg';
 const CheckableTag = Tag.CheckableTag;
 // TODO: fetch data from server.
 
@@ -375,7 +376,7 @@ class CaseList extends React.Component {
 
                             <div className={styles.picContainer}>
                                 <div className={styles.pic}>
-                                    <img src="public/pic-1.jpg" alt="pic-1" width="100%" height="368px"/>
+                                    <img src={pic1} alt="pic-1" width="100%" height="368px"/>
                                 </div>
                                 <div className={styles.picTextContainer}>
                                     <span className={styles.picTextTitle}>飞跃榜</span>

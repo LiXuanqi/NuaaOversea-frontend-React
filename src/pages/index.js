@@ -3,7 +3,9 @@ import { connect } from 'dva';
 import Link from 'umi/link';
 import { Row, Col, Card} from 'antd';
 import Cover from '../components/Cover';
-
+import cardCover1 from '../assets/card-1.jpg';
+import cardCover2 from '../assets/card-2.jpg';
+import cardCover3 from '../assets/card-3.jpg';
 const { Meta } = Card;
 
 function IndexPage() {
@@ -17,7 +19,7 @@ function IndexPage() {
                         <Link to="/cases">
                             <Card
                                 style={{ width: 350 }}
-                                cover={<img alt="example" src="public/card-1.jpg" />}
+                                cover={<img alt="example" src={cardCover1} />}
                             >
                                 <Meta
                                 title="飞跃榜"
@@ -30,7 +32,7 @@ function IndexPage() {
                        
                         <Card
                             style={{ width: 350 }}
-                            cover={<img alt="example" src="public/card-2.jpg" />}
+                            cover={<img alt="example" src={cardCover2}/>}
                         >
                             <Meta
                             title="选校测评"
@@ -42,7 +44,7 @@ function IndexPage() {
                     <Col span={8}>
                         <Card
                             style={{ width: 350 }}
-                            cover={<img alt="example" src="public/card-3.jpg" />}
+                            cover={<img alt="example" src={cardCover3} />}
                         >
                             <Meta
                             title="论坛专区"

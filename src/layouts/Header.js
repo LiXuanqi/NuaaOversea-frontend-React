@@ -6,6 +6,8 @@ import { Button, Dropdown, Avatar, Menu, message } from 'antd';
 import { isLogin, logout } from '../utils/user.js';
 import CaseSearch from '../components/CaseSearch';
 import router from 'umi/router';
+import logo from '../assets/logo.png';
+
 function Header({ history, dispatch }) {
 
     const handleUserActionMenuClicked = function ({ key }) {
@@ -48,7 +50,7 @@ function Header({ history, dispatch }) {
             <div className={styles.headerLeft}>
                 <Link to="/">
                     <span>
-                        <img src="public/logo.png" alt="logo" width="48px"/>
+                        <img src={logo} alt="logo" width="48px"/>
                     </span>
                 </Link>
                 <div className={styles.brand}>
