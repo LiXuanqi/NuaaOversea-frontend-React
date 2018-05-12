@@ -2,8 +2,7 @@ export default {
     "proxy": {
         "/api":{
             "target": "http://server.lixuanqi.me/oversea/api",
-            "changeOrigin": true,
-            "pathRewrite": { "^/api": "" }
+            "changeOrigin": true
         },
         "/lib":{
             "target": "http://127.0.0.1/",
