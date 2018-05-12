@@ -1,7 +1,7 @@
 export default {
     "proxy": {
         "/api":{
-            "target": "http://127.0.0.1:5000/",
+            "target": "http://server.lixuanqi.me/oversea/api",
             "changeOrigin": true,
             "pathRewrite": { "^/api": "" }
         },
