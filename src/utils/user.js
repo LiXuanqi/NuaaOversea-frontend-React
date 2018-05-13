@@ -15,21 +15,17 @@ const isLogin = () => {
 }
 
 async function login() {
-    let access_token = sessionStorage.getItem('access_token');
-    const response = await request('/api/tokens/' + access_token, {
+    let token = sessionStorage.getItem('token');
+    const { data: res } = await request('/api/users?token=' + token, {
         method: 'GET'
     });
-    const userInfo = response.data;
+    console.log(res);
+    const userInfo = res.data;
     Cookies.set('current-user', userInfo);
 }
 
-async function logout() {
-    let access_token = sessionStorage.getItem('access_token');
-    const response = await request('/api/tokens/' + access_token, {
-        method: 'DELETE'
-    })
-    console.log(response);
-    // TODO: notice of success.
+function logout() {
+    sessionStorage.removeItem('token');
     Cookies.remove('current-user');
     window.location.reload();
 }

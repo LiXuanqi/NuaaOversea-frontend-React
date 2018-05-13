@@ -6,18 +6,18 @@ install:
 script:
   - npm test
   - echo "$ip ecdsa-sha2-nistp256 $pub_key" >> $HOME/.ssh/known_hosts
-before_deploy:
-  - openssl aes-256-cbc -K $encrypted_5c9a41d00b85_key -iv $encrypted_5c9a41d00b85_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
-  - eval "$(ssh-agent -s)"
-  - chmod 600 /tmp/deploy_rsa
-  - ssh-add /tmp/deploy_rsa
-  - BASE_URL=/oversea umi build
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/dist $user@$ip:/root/www/nuaa-oversea
-  on:
-    branch: master
+# before_deploy:
+#   - openssl aes-256-cbc -K $encrypted_5c9a41d00b85_key -iv $encrypted_5c9a41d00b85_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+#   - eval "$(ssh-agent -s)"
+#   - chmod 600 /tmp/deploy_rsa
+#   - ssh-add /tmp/deploy_rsa
+#   - BASE_URL=/oversea umi build
+# deploy:
+#   provider: script
+#   skip_cleanup: true
+#   script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/dist $user@$ip:/root/www/nuaa-oversea
+#   on:
+#     branch: master
 
 cache:
   directories:

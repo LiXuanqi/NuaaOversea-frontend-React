@@ -4,13 +4,13 @@ import withRouter from 'umi/withRouter';
 import styles from './UserInfoCard.css';
 import { Button, Avatar } from 'antd';
 import { isLogin } from '../utils/user';
+import router from 'umi/router';
+import avatar2 from '../assets/avatar2.jpg';
 
 const UserInfoCard = ({ history, username, role, helpNumber }) => {
 
     const handleLogin = () => {
-        if (!isLogin()) {
-            window.location.href = '/sso-v2/oauth/12345678?redirect_uri=' + history.location.pathname;
-        } 
+        router.push('/login?redirect_url=' + history.location.pathname);
     };
 
     return (
@@ -19,7 +19,8 @@ const UserInfoCard = ({ history, username, role, helpNumber }) => {
                 <div className={styles.avatar}>
                     { 
                         username ?
-                        <Avatar size="large" src="public/avatar2.jpg" />
+                        // TODO: random avatar.
+                        <Avatar size="large" src={avatar2} />
                         :
                         <Avatar size="large" icon="user" />
                     }
@@ -47,7 +48,7 @@ const UserInfoCard = ({ history, username, role, helpNumber }) => {
            <div className={styles.textContainer}>
                 {
                     username ?
-                    '你的录取汇报已经帮助了{helpNumber}人。'
+                    '你的录取汇报已经帮助了'+ helpNumber + '人。'
                     :
                     ''
                 }

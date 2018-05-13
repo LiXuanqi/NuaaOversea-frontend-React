@@ -1,14 +1,23 @@
 import { connect } from 'dva';
 import withRouter from 'umi/withRouter';
 import Link from 'umi/link';
+import router from 'umi/router';
 import styles from './Header.css';
 import { Button, Dropdown, Avatar, Menu, message } from 'antd';
 import { isLogin, logout } from '../utils/user.js';
 import CaseSearch from '../components/CaseSearch';
-import router from 'umi/router';
 import logo from '../assets/logo.png';
 
 function Header({ history, dispatch }) {
+
+    const goToLoginPage = () => {
+
+        router.push('/login?redirect_url=' + history.location.pathname);
+    }
+
+    const goToRegisterPage = () => {
+        router.push('/register?redirect_url=' + history.location.pathname);
+    }
 
     const handleUserActionMenuClicked = function ({ key }) {
         console.log(`Click on item ${key}`);
@@ -23,17 +32,6 @@ function Header({ history, dispatch }) {
           <Menu.Item key="logout">注销</Menu.Item>
         </Menu>
     );
-
-    const handleLogin = () => {
-        // 1. judge isLogin();
-        // 2. if yes, 
-        // 3. if no, navigate to /sso-v2/oauth/12345678?redirect_uri=' + history.location.pathname
-        if (!isLogin()) {
-            window.location.href = 'http://my.nuaa.edu.cn/sso-v2/oauth/12345678?redirect_uri=' + history.location.pathname;
-        }
-        // will get code.
-  
-    };
     
     const handleLogout = () => {
         logout();
@@ -76,7 +74,10 @@ function Header({ history, dispatch }) {
 
                             </div>
                             :
-                            <Button size="large" type="primary" onClick={handleLogin}>登陆</Button> 
+                            <div>
+                                <Button size="large" type="primary" style={{ marginRight: '16px'}} onClick={goToLoginPage}>登陆</Button>
+                               <Button size="large" type="primary" onClick={goToRegisterPage}>注册</Button>
+                            </div>
                     }
                 </div>
             </div>
