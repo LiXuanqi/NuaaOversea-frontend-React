@@ -79,7 +79,7 @@ class CaseReport extends React.Component {
         const applicant_id = user_info.applicant_id;
       
         if (applicant_id) {
-            fetch('/api/applicants/' + applicant_id, {
+            fetch('/oversea/api/applicants/' + applicant_id, {
                 method: 'GET',
             })
             .then(function(response) {
@@ -199,7 +199,7 @@ class CaseReport extends React.Component {
         casesFields.cases.forEach((item, index) => {
             console.log(item);
 
-            fetch('/api/applications', {
+            fetch('/oversea/api/applications', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json'

@@ -30,7 +30,7 @@ export default {
     effects: {
         // get all posts.
         *fetchAllCasesList(action, { call, put }) {
-            const data = yield call(request, '/api/applications');
+            const data = yield call(request, '/oversea/api/applications');
             yield put({
                 type: 'saveAllCasesList',
                 payload: {
@@ -39,7 +39,7 @@ export default {
             });
         },
         *fetchRelatedCasesListByApplicantId({ payload: applicant_id }, { call, put }) {
-            const data = yield call(request, '/api/applications?applicant_id='+applicant_id);
+            const data = yield call(request, '/oversea/api/applications?applicant_id='+applicant_id);
             yield put({
                 type: 'saveRelatedCasesList',
                 payload: {
@@ -49,11 +49,11 @@ export default {
         },
         *fetchOneCase({ payload: response }, { call, put }){
             // FIXME: this is a workaround, it would be better if I can split it into 2 methods.
-            const data = yield call(request, '/api/applications/'+response.caseId);            
+            const data = yield call(request, '/oversea/api/applications/'+response.caseId);            
 
             const applicant_id = data.data.applicant_id;
             console.log(applicant_id);
-            const relatedData = yield call(request, '/api/applications?applicant_id='+applicant_id);
+            const relatedData = yield call(request, '/oversea/api/applications?applicant_id='+applicant_id);
 
             yield put({
                 type: 'saveOneCase',
@@ -70,7 +70,7 @@ export default {
             });
         },
         *fetchCasesByTopic({ payload: topic }, { call, put}){
-            const data = yield call(request, '/api/search/applications?q=topic:' + topic);
+            const data = yield call(request, '/oversea/api/search/applications?q=topic:' + topic);
             yield put({
                 type: 'saveAllCasesList',
                 payload: {

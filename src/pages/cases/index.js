@@ -107,7 +107,7 @@ class CaseList extends React.Component {
     };
 
     async componentWillMount(){
-        const tagsResponse = await request('/api/tags');
+        const tagsResponse = await request('/oversea/api/tags');
         let tagsFromServer = [];
         tagsResponse.data.tags.forEach((item)=>{
             tagsFromServer.push(item.name);
@@ -116,7 +116,7 @@ class CaseList extends React.Component {
             tagsItems: [...tagsFromServer]
         })
 
-        const countriesResponse = await request('/api/countries');
+        const countriesResponse = await request('/oversea/api/countries');
         let countriesFromServer = [];
         countriesResponse.data.countries.forEach((item)=>{
             countriesFromServer.push(item.name);

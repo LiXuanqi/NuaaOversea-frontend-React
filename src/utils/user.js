@@ -16,7 +16,7 @@ const isLogin = () => {
 
 async function login() {
     let token = sessionStorage.getItem('token');
-    const { data: res } = await request('/api/users?token=' + token, {
+    const { data: res } = await request('/oversea/api/users?token=' + token, {
         method: 'GET'
     });
     console.log(res);

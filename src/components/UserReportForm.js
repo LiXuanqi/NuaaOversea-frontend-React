@@ -40,19 +40,19 @@ class UserReportForm extends React.Component {
     };
 
     async componentWillMount(){
-        const projectsResponse = await request('/api/projects');
+        const projectsResponse = await request('/oversea/api/projects');
         let projectsFromServer = projectsResponse.data.projects;
         this.setState({
             projectItems: [...projectsFromServer]
         })
 
-        const recommendationsResponse = await request('/api/recommendations');
+        const recommendationsResponse = await request('/oversea/api/recommendations');
         let recommendationsFromServer = recommendationsResponse.data.recommendations;
         this.setState({
             recommendationItems: [...recommendationsFromServer]
         })
 
-        const researchesResponse = await request('/api/researches');
+        const researchesResponse = await request('/oversea/api/researches');
         let researchesFromServer = researchesResponse.data.researches;
         this.setState({
             researchItems: [...researchesFromServer]
@@ -67,7 +67,7 @@ class UserReportForm extends React.Component {
             if (!err) {
                 // console.log('Received values of form: ', values)
         
-                fetch('/api/applicants', {
+                fetch('/oversea/api/applicants', {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json'

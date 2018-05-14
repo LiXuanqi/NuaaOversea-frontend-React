@@ -5,8 +5,8 @@ export default {
         //     "changeOrigin": true,
         //     "pathRewrite": { "^/api" : "" }
         // },
-        "/api":{
-            "target": "http://127.0.0.1:5000/api",
+        "/oversea/api":{
+            "target": "http://127.0.0.1/oversea/api",
             "changeOrigin": true,
             "pathRewrite": {
                 "^/api": ""

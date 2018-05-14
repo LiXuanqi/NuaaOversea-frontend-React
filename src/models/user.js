@@ -12,7 +12,7 @@ export default {
     effects: { 
         *login({ payload: formData }, { call, put }){
             console.log(formData);
-            const { data: res } = yield call(request, '/api/tokens', {
+            const { data: res } = yield call(request, '/oversea/api/tokens', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ export default {
         },     
         *register({ payload: formData }, { call, put }){
             console.log(formData);
-            const response = yield call(request, '/api/users', {
+            const response = yield call(request, '/oversea/api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

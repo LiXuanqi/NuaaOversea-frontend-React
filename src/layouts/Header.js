@@ -11,12 +11,12 @@ import logo from '../assets/logo.png';
 function Header({ history, dispatch }) {
 
     const goToLoginPage = () => {
-
-        router.push('/login?redirect_url=' + history.location.pathname);
+        console.log(history);
+        router.push('/login?redirect_url=/oversea' + history.location.pathname);
     }
 
     const goToRegisterPage = () => {
-        router.push('/register?redirect_url=' + history.location.pathname);
+        router.push('/register?redirect_url=/oversea' + history.location.pathname);
     }
 
     const handleUserActionMenuClicked = function ({ key }) {

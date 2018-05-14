@@ -5,11 +5,11 @@ This is the frontend for NuaaOversea.
 ## CONFIG
 ### webpack
 In `.webpackrc.js`, you should change the config of proxy.
-If your backend is deployed at the url like "http:my.backend.com/api", you should do.
+If your backend is deployed at the url like "http:my.backend.com/oversea/api", you should do.
 
 ```
-    "/api":{
-        "target": "http:my.backend.com/api",
+    "/oversea/api":{
+        "target": "http:my.backend.com/oversea/api",
         "changeOrigin": true,
         "pathRewrite": {
             "^/api": ""

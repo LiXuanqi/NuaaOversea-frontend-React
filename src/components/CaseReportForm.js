@@ -10,7 +10,7 @@ class CaseReportForm extends React.Component {
         countriesItems: [],
     }
     async componentWillMount(){
-        const countriesResponse = await request('/api/countries');
+        const countriesResponse = await request('/oversea/api/countries');
         const countriesFromServer = countriesResponse.data.countries;
         this.setState({
             countriesItems: [...countriesFromServer]
