@@ -1,16 +1,13 @@
 export default {
     "proxy": {
-        // "/api": {
+        // "/oversea/api": {
         //     "target": "http://jsonplaceholder.typicode.com/",
         //     "changeOrigin": true,
-        //     "pathRewrite": { "^/api" : "" }
+        //     "pathRewrite": { "^/oversea/api" : "" }
         // },
         "/oversea/api":{
-            "target": "http://127.0.0.1/oversea/api",
+            "target": "http://127.0.0.1:5000",
             "changeOrigin": true,
-            "pathRewrite": {
-                "^/api": ""
-            }
         },
         "/lib":{
             "target": "http://127.0.0.1/",

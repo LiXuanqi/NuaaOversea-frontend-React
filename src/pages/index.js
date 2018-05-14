@@ -35,7 +35,7 @@ function IndexPage() {
                             cover={<img alt="example" src={cardCover2}/>}
                         >
                             <Meta
-                            title="选校测评"
+                            title="留学指南"
                             description="This is the description"
                             />
                         </Card>
@@ -47,7 +47,7 @@ function IndexPage() {
                             cover={<img alt="example" src={cardCover3} />}
                         >
                             <Meta
-                            title="论坛专区"
+                            title="关于我们"
                             description="This is the description"
                             />
                         </Card>

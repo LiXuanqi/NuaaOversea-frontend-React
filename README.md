@@ -3,20 +3,8 @@
 This is the frontend for NuaaOversea.
 
 ## CONFIG
-### webpack
-In `.webpackrc.js`, you should change the config of proxy.
-If your backend is deployed at the url like "http:my.backend.com/oversea/api", you should do.
 
-```
-    "/oversea/api":{
-        "target": "http:my.backend.com/oversea/api",
-        "changeOrigin": true,
-        "pathRewrite": {
-            "^/api": ""
-        }
-    },
-```
-### Nginx
+### For deploy
 NOTICE: you can't ignore `try_files $uri $uri/ /oversea/index.html;`, otherwise, when you refresh your browser, the 404 page will display.
 ```
     location /oversea {
@@ -25,7 +13,23 @@ NOTICE: you can't ignore `try_files $uri $uri/ /oversea/index.html;`, otherwise,
     }
 
 ```
+
+### FOR developer
+If you just want to deploy this website, there is no need for you to configure the proxy.
+
+In `.webpackrc.js`, you should change the config of proxy.
+If your backend is deployed at the url like `http:my.backend.com/oversea/api`, you should do.
+
+```
+    "/oversea/api":{
+        "target": "http:my.backend.com/",
+        "changeOrigin": true,
+    },
+```
+
 ## Get Start
+If your website is deployed at `/oversea`, you just need `npm run build`.
+
 If your html file is not located at root url, you should build with BASE_URL.
 For Example, if you want to deploy your website at "http://your.website.com/oversea"
 ```shell

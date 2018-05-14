@@ -6,6 +6,8 @@ import { Steps, Icon, Button, Divider} from 'antd';
 import WrappedCaseReportForm from '../../components/CaseReportForm';
 import { WrappedUserComplementReportForm } from '../../components/UserReportForm';
 import CaseReportCheckCard from '../../components/CaseReportCheckCard';
+import BillboardCard from '../../components/BillboardCard';
+
 import { loginUser } from '../../utils/user';
 const Step = Steps.Step;
 
@@ -77,7 +79,7 @@ class CaseReport extends React.Component {
 
         const user_info = loginUser();
         const applicant_id = user_info.applicant_id;
-      
+        console.log(user_info);
         if (applicant_id) {
             fetch('/oversea/api/applicants/' + applicant_id, {
                 method: 'GET',
@@ -354,7 +356,8 @@ class CaseReport extends React.Component {
                     
                     </div>        
                     <div className={styles.sidebarContainer}>
-                    
+                        <BillboardCard />
+                        <BillboardCard />
                     </div>
                 </div>     
         );
