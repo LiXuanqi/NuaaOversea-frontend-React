@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'umi/link';
 import styles from './CaseCard.css';
-import { Tag, Divider } from 'antd';
+import { Tag, Divider, Button } from 'antd';
 import CountryIcon from './CountryIcon';
 
 
-const CaseCard = ({id, result, university, country, major, degree, term, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing, tags }) => {
+const CaseCard = ({id, result, university, country, major, degree, term, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing, tags, editable }) => {
  
     return (
         <Link to={"/cases/"+id}>
@@ -58,7 +58,16 @@ const CaseCard = ({id, result, university, country, major, degree, term, gpa, la
                     <span className={styles.mark}>{gre_verbal+gre_quantitative}(V{gre_verbal}+Q{gre_quantitative}+W{gre_writing})</span>
                 </div>       
             </div>
-            <Divider />
+            {
+                editable ?
+                    <div>
+                        <Button>编辑</Button>
+                        <Button>删除</Button>
+                    </div>
+                    :
+                    <Divider />
+       
+            }
         </div>
         </Link>
     );

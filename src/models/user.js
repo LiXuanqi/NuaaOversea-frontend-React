@@ -49,7 +49,11 @@ export default {
                     email: formData.email
                 })
             });
-            console.log(response);
+            const { data } = response;
+            console.log(data);
+            if (data) {
+                // TODO: login and redirect to personal center.
+            }
         }
     },
     subscriptions: {
