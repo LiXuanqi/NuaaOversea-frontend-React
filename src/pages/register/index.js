@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Row, Form, Input, Tooltip, Icon } from 'antd'
+import { Button, Row, Form, Input, Tooltip, Icon, Checkbox } from 'antd'
 import styles from './index.less'
 import logo from '../../assets/logo.png'
+import Link from 'umi/link';
 
 const FormItem = Form.Item
   
@@ -48,9 +49,10 @@ class RegisterPage extends React.Component {
                     <span>NuaaOversea</span>
                 </div>
 
-                <p>
-                    <span>已有账号？ 登陆</span>
-                </p>
+                <div style={{marginBottom: '8px'}}>
+                    <span className={styles.hasUser}>已有账号？</span>
+                    <Link to="/login"><span className={styles.loginText}>登陆</span></Link>
+                </div>
 
                 <form>
                     <FormItem  
@@ -111,13 +113,16 @@ class RegisterPage extends React.Component {
                             <Input />
                         )}
                     </FormItem>
-
+                    <FormItem>
+                        {getFieldDecorator('will_contact', {
+                            valuePropName: 'checked',
+                        })(
+                            <Checkbox>我愿意通过电子邮件与学弟学妹进行联系</Checkbox>
+                        )}
+                    </FormItem>
                     <Row>
-                        <p>
-                        <span>我愿意通过电子邮件与学弟学妹进行联系。</span>
-                        </p>
                         <Button type="primary" onClick={this.handleOk}>
-                        注册
+                            注册
                         </Button>
                         {/* TODO: 验证码 */}
             

@@ -16,11 +16,14 @@ function Header({ history, dispatch }) {
     }
 
     const goToRegisterPage = () => {
-        router.push('/register?redirect_url=/oversea' + history.location.pathname);
+        router.push('/register');
     }
 
     const handleUserActionMenuClicked = function ({ key }) {
         console.log(`Click on item ${key}`);
+        if (key === 'user_info') {
+            router.push('/profile');
+        }
         if (key === 'logout') {
             handleLogout();
         }

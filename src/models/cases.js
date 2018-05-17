@@ -1,6 +1,6 @@
 import pathToRegexp from 'path-to-regexp';
 import request from '../utils/request';
-
+import { message } from 'antd'
 export default {
     namespace: 'cases',
     state: {
@@ -77,6 +77,19 @@ export default {
                     data,
                 },
             });
+        },
+        *deleteCaseById({ payload: applicant_id}, { call, put }){
+
+            const {data} = yield call(request, '/oversea/api/applications/' + applicant_id, {
+                method: 'DELETE'
+            });
+            console.log(data);
+            if (data === "") {
+                // DELETE SUCCEED
+                // TODO: message will not pop, should not use reload?
+                window.location.reload();
+                message.success('删除成功');
+            }
         },
     },
     subscriptions: {

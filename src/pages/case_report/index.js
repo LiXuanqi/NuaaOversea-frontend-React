@@ -57,9 +57,6 @@ class CaseReport extends React.Component {
             recommendation: {
                 value: undefined
             },
-            email: {
-                value: undefined
-            },
             agreement: {
                 value: undefined
             }
@@ -128,9 +125,6 @@ class CaseReport extends React.Component {
                     },
                     recommendation: {
                         value: json.recommendation
-                    },
-                    email: {
-                        value: json.email
                     },
                     agreement: {
                         value: true
@@ -238,8 +232,7 @@ class CaseReport extends React.Component {
             gre_writing: userInfoFields.gre_writing.value ? userInfoFields.gre_writing.value : "",
             research: userInfoFields.research.value ? userInfoFields.research.value : "",
             project: userInfoFields.project.value ? userInfoFields.project.value : "",
-            recommendation: userInfoFields.recommendation.value ? userInfoFields.recommendation.value : "",
-            email: userInfoFields.email.value ? userInfoFields.email.value : ""
+            recommendation: userInfoFields.recommendation.value ? userInfoFields.recommendation.value : ""         
         }
         return data;
     }

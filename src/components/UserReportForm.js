@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import { Form, Input, Cascader, Checkbox, Button, Radio, InputNumber } from 'antd';
 import { loginUser, login } from '../utils/user';
 import request from '../utils/request';
+import router from 'umi/router';
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -85,11 +86,14 @@ class UserReportForm extends React.Component {
                     return response.json()
                   }).then(function(json) {
                     console.log('parsed json', json)
-                    // get new user_info and store in cookie(applicant_id will change)
-                    login();
+            
+                    if (json.id) {
+                        router.push('/profile');
+                    }
            
                   }).catch(function(ex) {
                     console.log('parsing failed', ex)
+                    // TODO: 错误提示
                   })
             }
         });
@@ -328,18 +332,7 @@ class UserReportForm extends React.Component {
                     </RadioGroup>
                 )}
                 </FormItem>
-                <FormItem
-                {...formItemLayout}
-                label="E-mail"
-                >
-                {getFieldDecorator('email', {
-                    rules: [{
-                    type: 'email', message: 'The input is not valid E-mail!',
-                    }],
-                })(
-                    <Input />
-                )}
-                </FormItem>
+            
                 {/* FIXME: when you click the checkbox twice, It will pop-up nothing. */}
                 <FormItem {...tailFormItemLayout}>
                 {getFieldDecorator('agreement', {
@@ -422,10 +415,6 @@ const WrappedUserComplementReportForm = Form.create({
                 recommendation: Form.createFormField({
                     ...props.recommendation,
                     value: props.recommendation.value,
-                }),
-                email: Form.createFormField({
-                    ...props.email,
-                    value: props.email.value,
                 }),
                 agreement: Form.createFormField({
                     ...props.agreement,

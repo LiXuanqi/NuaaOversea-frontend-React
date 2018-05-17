@@ -3,26 +3,12 @@ import { connect } from 'dva';
 import { Row, Col, Button, Divider, Icon, Table } from 'antd';
 import styles from './index.css';
 import avatar from '../../assets/avatar4.jpg';
-
-const { Column } = Table;
-const data = [{
-        key: '1',
-        result: 'ad',
-        university: 'CMU',
-        major: 'CS'
-    }, {
-        key: '2',
-        result: 'rej',
-        university: 'NEU',
-        major: 'IS'
-    }, {
-        key: '3',
-        result: 'offer',
-        university: 'TAMU',
-        major: 'EE'
-}];
-
+import UserInfoCasesTabel from '../../components/UserInfoCasesTabel';
+import UserInfoStatusTable from '../../components/UserInfoStatusTable';
+import Link from 'umi/link'
+import { loginUser } from '../../utils/user';
 const LoginPage = () => {
+    const userInfo = loginUser();
     return (
         <div>
             <Row className={styles.container} type="flex" justify="center" gutter={24}>
@@ -33,87 +19,27 @@ const LoginPage = () => {
                         </div>
                      
                         <span className={styles.username}>
-                            Xuanqi Li
+                            { userInfo.username }
                         </span>
-                        <Button style={{width: '100%'}}>报三维</Button>
+                        <Link to="/user_report"><Button style={{width: '100%'}}>报三维</Button></Link>
                         <Divider />
                         <Icon style={{marginRight: '8px'}} type="mail" />
-                        <span className={styles.email}>lixuanqi1995@gmail.com</span>
+                        <span className={styles.email}>{ userInfo.email }</span>
                 </Col>
                 <Col span={16} >
                     <div className={styles.headerContainer}>
                         <h2>你的录取汇报</h2>
-                        <Button>报Offer</Button>
+                        <Link to="/case_report"><Button>报Offer</Button></Link>
                     </div>
                     <div className={styles.contentContainer}>
-                        <Table dataSource={data} >
-                            <Column
-                                title="录取结果"
-                                dataIndex="result"
-                                key="result"
-                            />
-                
-                            <Column
-                            title="学校"
-                            dataIndex="university"
-                            key="university"
-                            />
-                            <Column
-                            title="专业"
-                            dataIndex="major"
-                            key="major"
-                            />
-                            <Column
-                            title="操作"
-                            key="action"
-                            render={(text, record) => (
-                                <span>
-                                <a href="javascript:;">编辑</a>
-                                <Divider type="vertical" />
-                                <a href="javascript:;">删除</a>
-        
-                                </span>
-                            )}
-                            />
-                        </Table>
+                        <UserInfoCasesTabel applicant_id={ 1 }/>
                     </div>
                    
                     <div className={styles.headerContainer}>
                         <h2>你的三维</h2>
-                        <Button>编辑三维</Button>
                     </div>
-
                     <div className={styles.contentContainer}>
-                        <Table dataSource={data} >
-                            <Column
-                                title="录取结果"
-                                dataIndex="result"
-                                key="result"
-                            />
-                
-                            <Column
-                            title="学校"
-                            dataIndex="university"
-                            key="university"
-                            />
-                            <Column
-                            title="专业"
-                            dataIndex="major"
-                            key="major"
-                            />
-                            <Column
-                            title="操作"
-                            key="action"
-                            render={(text, record) => (
-                                <span>
-                                <a href="javascript:;">编辑</a>
-                                <Divider type="vertical" />
-                                <a href="javascript:;">删除</a>
-        
-                                </span>
-                            )}
-                            />
-                        </Table>
+                        <UserInfoStatusTable applicant_id={ 1 }/>  
                     </div>
 
                 </Col>

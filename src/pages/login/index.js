@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Button, Row, Form, Input } from 'antd'
 import styles from './index.less'
 import logo from '../../assets/logo.png'
+import Link from 'umi/link';
 
 const FormItem = Form.Item
 
@@ -36,6 +37,10 @@ const LoginPage = ({
                 <img alt="logo" src={logo} />
                 <span>NuaaOversea</span>
             </div>
+            <div style={{marginBottom: '8px'}}>
+                    <span className={styles.hasUser}>还没有账号？</span>
+                    <Link to="/register"><span className={styles.loginText}>注册</span></Link>
+                </div>
             <form>
                 <FormItem hasFeedback>
                     {getFieldDecorator('username', {
@@ -44,7 +49,7 @@ const LoginPage = ({
                         required: true,
                         },
                     ],
-                    })(<Input onPressEnter={handleOk} placeholder="Username" />)}
+                    })(<Input onPressEnter={handleOk} placeholder="用户名" />)}
                 </FormItem>
                 <FormItem hasFeedback>
                     {getFieldDecorator('password', {
@@ -53,7 +58,7 @@ const LoginPage = ({
                         required: true,
                         },
                     ],
-                    })(<Input type="password" onPressEnter={handleOk} placeholder="Password" />)}
+                    })(<Input type="password" onPressEnter={handleOk} placeholder="密码" />)}
                 </FormItem>
                 <Row>
                     <Button type="primary" onClick={handleOk}>
@@ -63,9 +68,7 @@ const LoginPage = ({
                         <span>Username：guest</span>
                         <span>Password：guest</span>
                     </p>
-                    <p>
-                        <span>还没有账号吗？ 注册</span>
-                    </p>
+       
                 </Row>
             </form>
       </div>
