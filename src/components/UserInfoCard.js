@@ -45,13 +45,7 @@ const UserInfoCard = ({ history, username, role, helpNumber }) => {
             }
 
            <div className={styles.textContainer}>
-                {
-                    username ?
-                    '你的录取汇报已经帮助了'+ helpNumber + '人。'
-                    :
-                    ''
-                }
-               
+                <Button className={styles.buttonRed} type="primary">个人中心</Button>
            </div>
         </div>
     );

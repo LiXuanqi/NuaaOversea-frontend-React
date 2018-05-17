@@ -7,7 +7,7 @@ import WrappedCaseReportForm from '../../components/CaseReportForm';
 import { WrappedUserComplementReportForm } from '../../components/UserReportForm';
 import CaseReportCheckCard from '../../components/CaseReportCheckCard';
 import BillboardCard from '../../components/BillboardCard';
-
+import request from '../../utils/request';
 import { loginUser } from '../../utils/user';
 const Step = Steps.Step;
 
@@ -17,6 +17,9 @@ class CaseReport extends React.Component {
         super(props);
         this.state = {
         current: 0,
+        projectItems: [],
+        researchItems: [],
+        recommendationItems: [],
         userInfoFields: {
             major: {
                 value: undefined
@@ -48,13 +51,13 @@ class CaseReport extends React.Component {
             gre_writing: {
                 value: undefined
             },
-            research: {
+            research_id: {
                 value: undefined
             },
-            project: {
+            project_id: {
                 value: undefined
             },
-            recommendation: {
+            recommendation_id: {
                 value: undefined
             },
             agreement: {
@@ -72,75 +75,192 @@ class CaseReport extends React.Component {
         };
     }
 
-    componentDidMount() {
+    async componentWillMount(){
+        const projectsResponse = await request('/oversea/api/projects');
+        let projectsFromServer = projectsResponse.data.projects;
+        this.setState({
+            projectItems: [...projectsFromServer]
+        })
 
+        const recommendationsResponse = await request('/oversea/api/recommendations');
+        let recommendationsFromServer = recommendationsResponse.data.recommendations;
+        this.setState({
+            recommendationItems: [...recommendationsFromServer]
+        })
+
+        const researchesResponse = await request('/oversea/api/researches');
+        let researchesFromServer = researchesResponse.data.researches;
+        this.setState({
+            researchItems: [...researchesFromServer]
+        })
+
+        // TRY
         const user_info = loginUser();
         const applicant_id = user_info.applicant_id;
-        console.log(user_info);
-        if (applicant_id) {
-            fetch('/oversea/api/applicants/' + applicant_id, {
-                method: 'GET',
-            })
-            .then(function(response) {
-                return response.json()
-            }).then((json) => {
-                console.log('parsed json', json)
-                let newMajor = [json.college, json.major];
-                const newUserInfoFields = {
-                    major: {
-                        value: newMajor
-                    },
-                    gpa: {
-                       value: json.gpa
-                    },
-                    language_type: {
-                        value: json.language_type
-                    },
-                    language_reading: {
-                        value: json.language_type
-                    },
-                    language_listening: {
-                        value: json.language_listening
-                    },
-                    language_speaking: {
-                        value: json.language_speaking
-                    },
-                    language_writing: {
-                        value: json.language_writing
-                    },
-                    gre_verbal: {
-                        value: json.gre_verbal
-                    },
-                    gre_quantitative: {
-                        value: json.gre_quantitative
-                    },
-                    gre_writing: {
-                        value: json.gre_writing
-                    },
-                    research: {
-                        value: json.research
-                    },
-                    project: {
-                        value: json.project
-                    },
-                    recommendation: {
-                        value: json.recommendation
-                    },
-                    agreement: {
-                        value: true
-                    }
-                }
-                this.setState({
-                    userInfoFields: newUserInfoFields, 
-                    current: 1
-                });
-                console.log(this.state);
-            }).catch(function(ex) {
-                console.log('parsing failed', ex)
-            })
-        }
-        
 
+        if (applicant_id) {
+            const { data } = await request('/oversea/api/applicants/' + applicant_id)
+            console.log(data);
+
+            let newMajor = [data.college, data.major];
+            const newUserInfoFields = {
+                major: {
+                    value: newMajor
+                },
+                gpa: {
+                   value: data.gpa
+                },
+                language_type: {
+                    value: data.language_type
+                },
+                language_reading: {
+                    value: data.language_type
+                },
+                language_listening: {
+                    value: data.language_listening
+                },
+                language_speaking: {
+                    value: data.language_speaking
+                },
+                language_writing: {
+                    value: data.language_writing
+                },
+                gre_verbal: {
+                    value: data.gre_verbal
+                },
+                gre_quantitative: {
+                    value: data.gre_quantitative
+                },
+                gre_writing: {
+                    value: data.gre_writing
+                },
+                research_id: {
+                    value: this.researchNameToId(data.research)
+                },
+                project_id: {
+                    value: this.projectNameToId(data.project)
+                },
+                recommendation_id: {
+                    value: this.recommendationNameToId(data.recommendation)
+                },
+                agreement: {
+                    value: true
+                }
+            }
+            this.setState({
+                userInfoFields: newUserInfoFields, 
+                current: 1
+            },() => {
+                console.log(this.state);
+            });
+
+        }
+
+       
+    }
+
+    // componentDidMount() {
+
+    //     const user_info = loginUser();
+    //     const applicant_id = user_info.applicant_id;
+
+    //     if (applicant_id) {
+    //         fetch('/oversea/api/applicants/' + applicant_id, {
+    //             method: 'GET',
+    //         })
+    //         .then(function(response) {
+    //             return response.json()
+    //         }).then((json) => {
+    //             let newMajor = [json.college, json.major];
+    //             const newUserInfoFields = {
+    //                 major: {
+    //                     value: newMajor
+    //                 },
+    //                 gpa: {
+    //                    value: json.gpa
+    //                 },
+    //                 language_type: {
+    //                     value: json.language_type
+    //                 },
+    //                 language_reading: {
+    //                     value: json.language_type
+    //                 },
+    //                 language_listening: {
+    //                     value: json.language_listening
+    //                 },
+    //                 language_speaking: {
+    //                     value: json.language_speaking
+    //                 },
+    //                 language_writing: {
+    //                     value: json.language_writing
+    //                 },
+    //                 gre_verbal: {
+    //                     value: json.gre_verbal
+    //                 },
+    //                 gre_quantitative: {
+    //                     value: json.gre_quantitative
+    //                 },
+    //                 gre_writing: {
+    //                     value: json.gre_writing
+    //                 },
+    //                 research_id: {
+    //                     value: this.researchNameToId(json.research)
+    //                 },
+    //                 project_id: {
+    //                     value: this.projectNameToId(json.project)
+    //                 },
+    //                 recommendation_id: {
+    //                     value: this.recommendationNameToId(json.recommendation)
+    //                 },
+    //                 agreement: {
+    //                     value: true
+    //                 }
+    //             }
+    //             this.setState({
+    //                 userInfoFields: newUserInfoFields, 
+    //                 current: 1
+    //             },() => {
+    //                 console.log(this.state);
+    //             });
+                
+    //         }).catch(function(ex) {
+    //             console.log('parsing failed', ex)
+    //         })
+    //     }  
+    // }
+
+    researchNameToId = (name) => {
+       
+        const items = this.state.researchItems;
+        
+        for (let i = 0; i < items.length; i++) {
+         
+            if (items[i].name === name) {
+                return items[i].id
+            }
+        }
+    }
+
+    projectNameToId = (name) => {
+        
+        const items = this.state.projectItems;
+        console.log(name);
+        for (let i = 0; i < items.length; i++) {
+            console.log(items[i].name);
+            if (items[i].name === name) {
+               
+                return items[i].id
+            }
+        }
+    }
+
+    recommendationNameToId = (name) => {
+        const items = this.state.recommendationItems;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].name === name) {
+                return items[i].id
+            }
+        }
     }
 
     handleUserFormChange = (changedFields) => {
@@ -192,27 +312,27 @@ class CaseReport extends React.Component {
         // TODO: handle user information update.
         console.log(userInfoFields);
         
-        casesFields.cases.forEach((item, index) => {
-            console.log(item);
+        // casesFields.cases.forEach((item, index) => {
+        //     console.log(item);
 
-            fetch('/oversea/api/applications', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    ...item,
-                    applicant_id: user_info.applicant_id
-                })
-            })
-            .then(function(response) {
-                return response.json()
-            }).then(function(json) {
-                console.log('parsed json', json)
-            }).catch(function(ex) {
-                console.log('parsing failed', ex)
-            })
-        })
+        //     fetch('/oversea/api/applications', {
+        //         method: 'POST',
+        //         headers: {
+        //         'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({
+        //             ...item,
+        //             applicant_id: user_info.applicant_id
+        //         })
+        //     })
+        //     .then(function(response) {
+        //         return response.json()
+        //     }).then(function(json) {
+        //         console.log('parsed json', json)
+        //     }).catch(function(ex) {
+        //         console.log('parsing failed', ex)
+        //     })
+        // })
        
     }
 
@@ -230,9 +350,9 @@ class CaseReport extends React.Component {
             gre_verbal: userInfoFields.gre_verbal.value ? userInfoFields.gre_verbal.value : "",
             gre_quantitative: userInfoFields.gre_quantitative.value ? userInfoFields.gre_quantitative.value : "",
             gre_writing: userInfoFields.gre_writing.value ? userInfoFields.gre_writing.value : "",
-            research: userInfoFields.research.value ? userInfoFields.research.value : "",
-            project: userInfoFields.project.value ? userInfoFields.project.value : "",
-            recommendation: userInfoFields.recommendation.value ? userInfoFields.recommendation.value : ""         
+            research_id: userInfoFields.research_id.value ? userInfoFields.research_id.value : "",
+            project_id: userInfoFields.project_id.value ? userInfoFields.project_id.value : "",
+            recommendation_id: userInfoFields.recommendation_id.value ? userInfoFields.recommendation_id.value : ""         
         }
         return data;
     }

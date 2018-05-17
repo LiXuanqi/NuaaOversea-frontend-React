@@ -29,28 +29,31 @@ function IndexPage() {
                         </Link>
                     </Col>
                     <Col span={8}>
-                       
-                        <Card
-                            style={{ width: 350 }}
-                            cover={<img alt="example" src={cardCover2}/>}
-                        >
-                            <Meta
-                            title="留学指南"
-                            description="This is the description"
-                            />
-                        </Card>
+                        <Link to="/tutorial">
+                            <Card
+                                style={{ width: 350 }}
+                                cover={<img alt="example" src={cardCover2}/>}
+                            >
+                                <Meta
+                                title="留学指南"
+                                description="This is the description"
+                                />
+                            </Card>
+                        </Link>
                     
                     </Col>
                     <Col span={8}>
-                        <Card
-                            style={{ width: 350 }}
-                            cover={<img alt="example" src={cardCover3} />}
-                        >
-                            <Meta
-                            title="关于我们"
-                            description="This is the description"
-                            />
-                        </Card>
+                        <Link to="/about">
+                            <Card
+                                style={{ width: 350 }}
+                                cover={<img alt="example" src={cardCover3} />}
+                            >
+                                <Meta
+                                title="关于我们"
+                                description="This is the description"
+                                />
+                            </Card>
+                        </Link>
                     </Col>
                 </Row>
             </div>

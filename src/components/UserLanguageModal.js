@@ -37,10 +37,10 @@ const UserLanguageModal = Form.create()(
             const { getFieldDecorator, getFieldValue } = this.props.form;
  
             const initLanguage = initValue.split('+');
-            const initReading = parseInt(initLanguage[0]);
-            const initListening = parseInt(initLanguage[1]);
-            const initSpeaking = parseInt(initLanguage[2]);
-            const initWriting = parseInt(initLanguage[3]);
+            const initReading = parseInt(initLanguage[0], 10);
+            const initListening = parseInt(initLanguage[1], 10);
+            const initSpeaking = parseInt(initLanguage[2], 10);
+            const initWriting = parseInt(initLanguage[3], 10);
        
 
             return (

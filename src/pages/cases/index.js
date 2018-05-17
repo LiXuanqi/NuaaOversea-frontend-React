@@ -545,7 +545,6 @@ class CaseList extends React.Component {
                     <UserInfoCard
                         username={user_info.username}
                         role={user_info.role}
-                        helpNumber='345'
                     />
                     <BillboardCard />
                     <BillboardCard />

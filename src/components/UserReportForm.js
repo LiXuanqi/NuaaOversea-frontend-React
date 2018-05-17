@@ -362,7 +362,6 @@ const WrappedUserComplementReportForm = Form.create({
         props.onChange(changedFields);
     },
     mapPropsToFields(props) {
-        console.log(props);
             return {
                 major: Form.createFormField({
                     ...props.major,
@@ -404,17 +403,17 @@ const WrappedUserComplementReportForm = Form.create({
                     ...props.gre_writing,
                     value: props.gre_writing.value,
                 }),
-                research: Form.createFormField({
-                    ...props.research,
-                    value: props.research.value,
+                research_id: Form.createFormField({
+                    ...props.research_id,
+                    value: props.research_id.value,
                 }),
-                project: Form.createFormField({
-                    ...props.project,
-                    value: props.project.value,
+                project_id: Form.createFormField({
+                    ...props.project_id,
+                    value: props.project_id.value,
                 }),
-                recommendation: Form.createFormField({
-                    ...props.recommendation,
-                    value: props.recommendation.value,
+                recommendation_id: Form.createFormField({
+                    ...props.recommendation_id,
+                    value: props.recommendation_id.value,
                 }),
                 agreement: Form.createFormField({
                     ...props.agreement,

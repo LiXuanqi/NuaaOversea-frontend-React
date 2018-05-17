@@ -25,9 +25,9 @@ const UserGreModal = Form.create()(
             let { visible, onCancel, form, initValue } = this.props;
             const { getFieldDecorator } = form;
             const initGre = initValue.split('+');
-            const initVerbal = parseInt(initGre[0]);
-            const initQuantitative = parseInt(initGre[1]);
-            const initWriting = parseInt(initGre[2]);
+            const initVerbal = parseInt(initGre[0], 10);
+            const initQuantitative = parseInt(initGre[1], 10);
+            const initWriting = parseInt(initGre[2], 10);
             return (
                 <Modal
                 visible={visible}
