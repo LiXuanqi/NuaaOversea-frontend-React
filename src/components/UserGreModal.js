@@ -1,5 +1,6 @@
 import { Modal, Form, Input } from 'antd';
 import React from 'react'
+import { connect } from 'dva'
 const FormItem = Form.Item;
 
 const UserGreModal = Form.create()(
@@ -43,4 +44,4 @@ const UserGreModal = Form.create()(
     }
 );
 
-export default UserGreModal;
+export default connect()(UserGreModal);

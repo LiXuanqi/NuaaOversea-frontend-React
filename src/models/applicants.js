@@ -19,7 +19,9 @@ export default {
                     ...formData
                 })
             });
-            console.log(data);
+            if (data.id) {
+                window.location.reload();
+            }
         }
     },
     subscriptions: {

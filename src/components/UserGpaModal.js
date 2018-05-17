@@ -1,5 +1,6 @@
 import { Modal, Form, Input } from 'antd';
 import React from 'react'
+import { connect } from 'dva'
 const FormItem = Form.Item;
 
 const UserGpaModal = Form.create()(
@@ -12,6 +13,10 @@ const UserGpaModal = Form.create()(
                     return;
                 }
                 console.log(values);
+                this.props.dispatch({
+                    type: 'applicants/patchApplicant',
+                    payload: values
+                });
                 form.resetFields();
                 this.props.onCancel();
             });
@@ -43,4 +48,4 @@ const UserGpaModal = Form.create()(
     }
 );
 
-export default UserGpaModal;
+export default connect()(UserGpaModal);

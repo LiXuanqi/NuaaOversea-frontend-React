@@ -1,5 +1,6 @@
 import { Modal, Form, Input } from 'antd';
 import React from 'react'
+import { connect } from 'dva'
 const FormItem = Form.Item;
 
 const UserMajorModal = Form.create()(
@@ -12,6 +13,10 @@ const UserMajorModal = Form.create()(
                     return;
                 }
                 console.log(values);
+                this.props.dispatch({
+                    type: 'applicants/patchApplicant',
+                    payload: values
+                });
                 form.resetFields();
                 this.props.onCancel();
             });
@@ -43,4 +48,4 @@ const UserMajorModal = Form.create()(
     }
 );
 
-export default UserMajorModal;
+export default connect()(UserMajorModal);

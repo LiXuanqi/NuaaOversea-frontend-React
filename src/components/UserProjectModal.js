@@ -1,10 +1,40 @@
-import { Modal, Form, Input } from 'antd';
+import { Modal, Form, Radio } from 'antd';
 import React from 'react'
+import { connect } from 'dva'
+import request from '../utils/request';
+
 const FormItem = Form.Item;
 
+const RadioGroup = Radio.Group;
+const radioStyle = {
+    display: 'block',
+    height: '30px',
+    lineHeight: '30px',
+};
+
 const UserProjectModal = Form.create()(
-    
     class extends React.Component {
+        state = {
+            projectItems: []
+        }
+
+        async componentWillMount(){
+            const projectsResponse = await request('/oversea/api/projects');
+            let projectsFromServer = projectsResponse.data.projects;
+            this.setState({
+                projectItems: [...projectsFromServer]
+            })
+        }
+
+        NameToId = (name) => {
+            const items = this.state.projectItems;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].name === name) {
+                    return items[i].id
+                }
+            }
+        }
+
         onCreate = () => {
             const form = this.props.form;
             form.validateFields((err, values) => {
@@ -12,6 +42,10 @@ const UserProjectModal = Form.create()(
                     return;
                 }
                 console.log(values);
+                this.props.dispatch({
+                    type: 'applicants/patchApplicant',
+                    payload: values
+                });
                 form.resetFields();
                 this.props.onCancel();
             });
@@ -29,11 +63,19 @@ const UserProjectModal = Form.create()(
                 > 
                 <Form layout="vertical">
                     <FormItem label="项目情况">
-                    {getFieldDecorator("project", {
-                        initialValue: this.props.initValue,
+                    {getFieldDecorator("project_id", {
+                        initialValue: this.NameToId(this.props.initValue),
                         rules: [{ required: true, message: "请输入你的项目经历" }],
                     })(
-                         <Input />
+                        <RadioGroup>
+                        {
+                            this.state.projectItems.map((item) => {
+                                return(
+                                    <Radio key={item.id} style={radioStyle} value={item.id}>{item.name}</Radio>
+                                );
+                            })
+                        }   
+                        </RadioGroup>
                     )}
                     </FormItem>                
                 </Form>
@@ -43,4 +85,4 @@ const UserProjectModal = Form.create()(
     }
 );
 
-export default UserProjectModal;
+export default connect()(UserProjectModal);

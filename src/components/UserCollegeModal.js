@@ -13,9 +13,10 @@ const UserCollegeModal = Form.create()(
                     return;
                 }
                 console.log(values);
-                // this.props.dispatch({
-                //     value
-                // });
+                this.props.dispatch({
+                    type: 'applicants/patchApplicant',
+                    payload: values
+                });
                 form.resetFields();
                 this.props.onCancel();
             });

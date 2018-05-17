@@ -105,9 +105,9 @@ class UserReportForm extends React.Component {
 
     render() {
         const radioStyle = {
-        display: 'block',
-        height: '30px',
-        lineHeight: '30px',
+            display: 'block',
+            height: '30px',
+            lineHeight: '30px',
         };
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const formItemLayout = {
