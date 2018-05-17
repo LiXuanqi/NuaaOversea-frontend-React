@@ -92,7 +92,6 @@ export default {
             }
         },
         *updateCase({ payload: formData }, { call, put }) {
-
             const { data } = yield call(request, '/oversea/api/applications/' + formData.application_id, {
                 method: 'PUT',
                 headers: {
@@ -107,7 +106,7 @@ export default {
                 window.location.reload();
                 message.success('修改成功');
             }
-        }
+        },
     },
     subscriptions: {
         setup({ dispatch, history }) {

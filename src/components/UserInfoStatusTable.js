@@ -62,14 +62,33 @@ class UserInfoStatusTabel extends React.Component {
     }
 
     showEditModal = (e) => {
-        console.log(e);
+        console.log(e)
+        if (e.key === "TOEFL" || e.key === "IELTS") {
+            console.log('language')
+            this.setState({
+                visible: {
+                    ...this.state.visible,
+                    language: true
+                }
+            });
+        }
+        if (e.key === "GRE") {
+            console.log('gre')
+            this.setState({
+                visible: {
+                    ...this.state.visible,
+                    gre: true
+                }
+            });
+        }
+
         if (e.key === "学院") {
             this.setState({
                 visible: {
                     ...this.state.visible,
                     college: true
                 }
-            });
+            }, ()=>{console.log(this.state.visible)});
         }  
         if (e.key === "专业") {
             this.setState({
@@ -84,22 +103,6 @@ class UserInfoStatusTabel extends React.Component {
                 visible: {
                     ...this.state.visible,
                     gpa: true
-                }
-            });
-        }
-        if (e.key === "TOEFL" || "IELTS") {
-            this.setState({
-                visible: {
-                    ...this.state.visible,
-                    gre: true
-                }
-            });
-        }
-        if (e.key === "GRE") {
-            this.setState({
-                visible: {
-                    ...this.state.visible,
-                    gre: true
                 }
             });
         }
@@ -127,6 +130,7 @@ class UserInfoStatusTabel extends React.Component {
                 }
             });
         }
+     
     }
 
     handleCancel = () => {
@@ -222,7 +226,7 @@ class UserInfoStatusTabel extends React.Component {
                                 record.key === "TOEFL" || "IELTS"
                                 ?
                                 <UserLanguageModal                          
-                                    visible={visible.recommendation}
+                                    visible={visible.language}
                                     onCancel={this.handleCancel}
                                     initValue={record.value}
                                 /> : null                    
@@ -231,7 +235,7 @@ class UserInfoStatusTabel extends React.Component {
                                 record.key === "GRE"
                                 ?
                                 <UserGreModal                          
-                                    visible={visible.recommendation}
+                                    visible={visible.gre}
                                     onCancel={this.handleCancel}
                                     initValue={record.value}
                                 /> : null                    

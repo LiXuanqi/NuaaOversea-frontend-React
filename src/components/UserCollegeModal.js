@@ -1,5 +1,6 @@
 import { Modal, Form, Input } from 'antd';
 import React from 'react'
+import { connect } from 'dva'
 const FormItem = Form.Item;
 
 const UserCollegeModal = Form.create()(
@@ -12,6 +13,9 @@ const UserCollegeModal = Form.create()(
                     return;
                 }
                 console.log(values);
+                // this.props.dispatch({
+                //     value
+                // });
                 form.resetFields();
                 this.props.onCancel();
             });
@@ -43,4 +47,4 @@ const UserCollegeModal = Form.create()(
     }
 );
 
-export default UserCollegeModal;
+export default connect()(UserCollegeModal);
