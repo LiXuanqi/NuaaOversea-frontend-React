@@ -1,4 +1,4 @@
-import { Modal, Form, Input } from 'antd';
+import { Modal, Form, InputNumber } from 'antd';
 import React from 'react'
 import { connect } from 'dva'
 const FormItem = Form.Item;
@@ -13,13 +13,21 @@ const UserGreModal = Form.create()(
                     return;
                 }
                 console.log(values);
+                this.props.dispatch({
+                    type: 'applicants/patchApplicant',
+                    payload: values
+                });
                 form.resetFields();
                 this.props.onCancel();
             });
         }
         render() {
-            let { visible, onCancel, form } = this.props;
+            let { visible, onCancel, form, initValue } = this.props;
             const { getFieldDecorator } = form;
+            const initGre = initValue.split('+');
+            const initVerbal = parseInt(initGre[0]);
+            const initQuantitative = parseInt(initGre[1]);
+            const initWriting = parseInt(initGre[2]);
             return (
                 <Modal
                 visible={visible}
@@ -29,14 +37,36 @@ const UserGreModal = Form.create()(
                 onOk={this.onCreate}
                 > 
                 <Form layout="vertical">
-                    <FormItem label="GRE">
-                    {getFieldDecorator("gre", {
-                        initialValue: this.props.initValue,
-                        rules: [{ required: true, message: "请输入你的gre分数" }],
+                    <FormItem
+                    label="GRE Verbal"
+                    >
+                    {getFieldDecorator('gre_verbal', {
+                        initialValue: initVerbal,
+                        rules: [{ required: true, message: "请输入你的GRE词汇成绩" }], 
                     })(
-                         <Input />
+                        <InputNumber min={130} max={170} />
                     )}
-                    </FormItem>                
+                    </FormItem>
+                    <FormItem
+                    label="GRE Quantitative"
+                    >
+                    {getFieldDecorator('gre_quantitative', {
+                        initialValue: initQuantitative,
+                        rules: [{ required: true, message: "请输入你的GRE数学成绩" }], 
+                    })(
+                        <InputNumber min={130} max={170} />
+                    )}
+                    </FormItem>
+                    <FormItem
+                    label="GRE Writing"
+                    >
+                    {getFieldDecorator('gre_writing', {
+                        initialValue: initWriting,
+                        rules: [{ required: true, message: "请输入你的GRE写作成绩" }], 
+                    })(
+                        <InputNumber min={2.0} max={5.0} />
+                    )}
+                    </FormItem>                           
                 </Form>
                 </Modal>
             );

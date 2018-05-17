@@ -62,7 +62,6 @@ class UserInfoStatusTabel extends React.Component {
     }
 
     showEditModal = (e) => {
-        console.log(e)
         if (e.key === "TOEFL" || e.key === "IELTS") {
             console.log('language')
             this.setState({
@@ -223,12 +222,13 @@ class UserInfoStatusTabel extends React.Component {
                                 /> : null                    
                             }
                             {
-                                record.key === "TOEFL" || "IELTS"
+                                record.key === "TOEFL" || record.key === "IELTS"
                                 ?
                                 <UserLanguageModal                          
                                     visible={visible.language}
                                     onCancel={this.handleCancel}
                                     initValue={record.value}
+                                    testType={record.key}
                                 /> : null                    
                             }
                             {
@@ -238,6 +238,7 @@ class UserInfoStatusTabel extends React.Component {
                                     visible={visible.gre}
                                     onCancel={this.handleCancel}
                                     initValue={record.value}
+                                 
                                 /> : null                    
                             }
                        
