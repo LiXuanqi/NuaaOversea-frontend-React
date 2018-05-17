@@ -1,6 +1,5 @@
 import request from '../utils/request';
 import { login } from '../utils/user';
-import pathToRegexp from 'path-to-regexp';
 
 export default {
     namespace: 'user',

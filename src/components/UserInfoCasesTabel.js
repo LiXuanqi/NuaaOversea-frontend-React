@@ -1,10 +1,10 @@
 import React from 'react';
-import { Table, Divider, Popconfirm } from 'antd';
+import { Table, Divider, Popconfirm, Tag } from 'antd';
 import request from '../utils/request';
 import PropTypes from 'prop-types';
 import { connect } from 'dva';
-import UserInfoStatusUpdateModal from '../components/UserInfoStatusUpdateModal';
-
+import UserInfoCaseUpdateModal from '../components/UserInfoCaseUpdateModal';
+import { loginUser } from '../utils/user';
 
 const { Column } = Table;
 
@@ -12,20 +12,46 @@ class UserInfoCasesTabel extends React.Component {
     state = {
         data: [],
         visible: false,
+        choosedCase: -1
     }
-    
+
     async componentWillMount(){
         const { data } = await request('/oversea/api/applications?applicant_id='+this.props.applicant_id);
         const applications = data.applications;
-        console.log(applications);
+  
         const newApplications = applications.map((item, index)=>{
+            // deal with init data.
+            const term = [item.term.substring(0,4), item.term.substring(4)]
+
+            let is_transfer = false;
+            item.tags.forEach((item)=>{
+                if (item.name === "转专业") {
+                    is_transfer = true;
+                }
+            })
+    
             const data = {
                 key: index,
                 application_id: item.id,
                 result: item.result,
                 university: item.university,
                 major: item.major,
-                description: item.term+'|'+item.degree
+                term: term,
+                degree: item.degree,
+                country: item.country,
+                is_transfer: is_transfer,
+                description: 
+                    <div>
+                        <Tag color="red">{item.term}</Tag>
+                        <Tag color="red">{item.degree}</Tag>
+                        <Tag color="red">{item.country}</Tag>
+                        {
+                            item.tags.map((tag)=>{
+                                return <Tag key={tag.id} color="blue">{tag.name}</Tag>
+                            })
+                        }
+                    </div>
+           
             }
    
             return data;
@@ -36,13 +62,18 @@ class UserInfoCasesTabel extends React.Component {
         })
     }
 
-    showModal = (applicant_id) => {
-        console.log(applicant_id);
-        this.setState({ visible: true });
+    showEditModal = (applicant_id) => {
+        this.setState({
+            visible: true,
+            choosedCase: applicant_id
+        });
     }
 
     handleCancel = () => {
-        this.setState({ visible: false });
+        this.setState({
+            visible: false,
+            choosedCase: -1
+        });
     }
 
     handleCreate = () => {
@@ -51,17 +82,32 @@ class UserInfoCasesTabel extends React.Component {
           if (err) {
             return;
           }
-    
-          console.log('Received values of form: ', values);
+        
+          this.props.dispatch({
+              type: 'cases/updateCase',
+              payload: {
+                  ...values,
+                  application_id: this.state.choosedCase,
+                  applicant_id: loginUser().applicant_id
+              }
+          })
+
           form.resetFields();
-          this.setState({ visible: false });
+          this.setState({
+            visible: false,
+            choosedCase: -1
+          });
         });
     }
 
-    deleteCase(applicant_id) {
+    saveFormRef = (formRef) => {
+        this.formRef = formRef;
+    }
+
+    deleteCase(application_id) {
         this.props.dispatch({
             type: 'cases/deleteCaseById',
-            payload: applicant_id,
+            payload: application_id,
         })       
     }
 
@@ -88,22 +134,22 @@ class UserInfoCasesTabel extends React.Component {
               
                 />
                 <Column
-                title="操作"
-            
+                title="操作"            
                 render={(text, record) => (
          
                     <span>
-                        <a href="javascript:;" onClick={() => this.showModal(record.application_id)}>编辑</a>
-                        <UserInfoStatusUpdateModal
+                        <a onClick={() => this.showEditModal(record.application_id)}>编辑</a>
+                        <UserInfoCaseUpdateModal
                             wrappedComponentRef={this.saveFormRef}
                             visible={this.state.visible}
                             onCancel={this.handleCancel}
                             onCreate={this.handleCreate}
+                            initData={record}
                         />
 
                         <Divider type="vertical" />
                         <Popconfirm title="你确定要删除吗?" onConfirm={() => this.deleteCase(record.application_id)}>
-                        <a href="javascript:;">删除</a>
+                        <a>删除</a>
                         </Popconfirm>
                     </span>
                 )}

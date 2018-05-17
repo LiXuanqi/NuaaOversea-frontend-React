@@ -3,7 +3,6 @@ import Link from 'umi/link';
 import withRouter from 'umi/withRouter';
 import styles from './UserInfoCard.css';
 import { Button, Avatar } from 'antd';
-import { isLogin } from '../utils/user';
 import router from 'umi/router';
 import avatar2 from '../assets/avatar2.jpg';
 

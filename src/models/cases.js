@@ -78,9 +78,9 @@ export default {
                 },
             });
         },
-        *deleteCaseById({ payload: applicant_id}, { call, put }){
+        *deleteCaseById({ payload: application_id}, { call, put }){
 
-            const {data} = yield call(request, '/oversea/api/applications/' + applicant_id, {
+            const {data} = yield call(request, '/oversea/api/applications/' + application_id, {
                 method: 'DELETE'
             });
             console.log(data);
@@ -91,6 +91,23 @@ export default {
                 message.success('删除成功');
             }
         },
+        *updateCase({ payload: formData }, { call, put }) {
+
+            const { data } = yield call(request, '/oversea/api/applications/' + formData.application_id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    term: formData.term[0] + formData.term[1]
+                })
+            });
+            if (data.id) {
+                window.location.reload();
+                message.success('修改成功');
+            }
+        }
     },
     subscriptions: {
         setup({ dispatch, history }) {

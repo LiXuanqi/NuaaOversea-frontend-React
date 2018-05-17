@@ -1,13 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Button, Divider, Icon, Table } from 'antd';
+import { Row, Col, Button, Divider, Icon } from 'antd';
 import styles from './index.css';
 import avatar from '../../assets/avatar4.jpg';
 import UserInfoCasesTabel from '../../components/UserInfoCasesTabel';
 import UserInfoStatusTable from '../../components/UserInfoStatusTable';
 import Link from 'umi/link'
 import { loginUser } from '../../utils/user';
-const LoginPage = () => {
+
+// TODO: check the login status before render, if not , redirect to home page.
+
+const ProfilePage = () => {
     const userInfo = loginUser();
     return (
         <div>
@@ -32,14 +35,14 @@ const LoginPage = () => {
                         <Link to="/case_report"><Button>报Offer</Button></Link>
                     </div>
                     <div className={styles.contentContainer}>
-                        <UserInfoCasesTabel applicant_id={ 1 }/>
+                        <UserInfoCasesTabel applicant_id={ loginUser().applicant_id }/>
                     </div>
                    
                     <div className={styles.headerContainer}>
                         <h2>你的三维</h2>
                     </div>
                     <div className={styles.contentContainer}>
-                        <UserInfoStatusTable applicant_id={ 1 }/>  
+                        <UserInfoStatusTable applicant_id={ loginUser().applicant_id }/>  
                     </div>
 
                 </Col>
@@ -49,7 +52,7 @@ const LoginPage = () => {
     );
 }
 
-LoginPage.propTypes = {
+ProfilePage.propTypes = {
 };
 
-export default connect()(LoginPage);
+export default connect()(ProfilePage);
