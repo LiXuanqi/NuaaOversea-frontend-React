@@ -170,6 +170,10 @@ class CaseReport extends React.Component {
 
     next() {
         const current = this.state.current + 1;
+        const userInfoFields = this.userFormData();
+        const casesFields = this.casesFormData();
+        console.log(userInfoFields);
+        console.log(casesFields);
         this.setState({ current });
     }
     prev() {
