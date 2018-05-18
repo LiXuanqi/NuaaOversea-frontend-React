@@ -177,7 +177,6 @@ class CaseReport extends React.Component {
     }
 
     handleNextClicked() {
-        console.log(this.state.current);
         const current = this.state.current;
         if (current === 0) {
             this.userForm.check();
@@ -188,7 +187,13 @@ class CaseReport extends React.Component {
     }
 
     handlePrevClicked() {
-        this.caseForm.check('prev');
+        const current = this.state.current;
+        if ( current === 1) {
+            this.caseForm.check('prev');
+        }
+        if ( current === 2) {
+            this.prevPage();
+        }
     }
 
     nextPage = () => {

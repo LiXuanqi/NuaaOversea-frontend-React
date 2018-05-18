@@ -11,8 +11,7 @@ class CaseReportForm extends React.Component {
     }
 
     check = (action) => {
-        const data = this.props.form.getFieldsValue();
-      
+        const data = this.props.form.getFieldsValue();   
         if (action === "next") {
             if (this.validate(data) === true) {
                 this.props.nextPage();
@@ -26,12 +25,9 @@ class CaseReportForm extends React.Component {
             }  
             this.props.prevPage();
         }
-   
-
     }
 
     validate = (data) => {
-        // no data.
         let validate = true;
         if (data.keys.length === 0) {
             return false;

@@ -60,6 +60,15 @@ const countryNameToId = (name) => {
     }
 }
 
+const countryIdToName = (id) => {
+    const items = getCountries();
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].id === id) {
+            return items[i].name;
+        }
+    }
+}
+
 
 const countriesFromServer = getCountriesList();
 
@@ -96,6 +105,15 @@ const projectNameToId = (name) => {
         }
     }
 }
+
+const projectIdToName = (id) => {
+    const items = getProjects();
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].id === id) {
+            return items[i].name;
+        }
+    }
+}
 // ---------------------------- RECOMMENDATION -----------------------------------
 
 async function fetchRecommendations() {
@@ -129,6 +147,16 @@ const recommendationNameToId = (name) => {
         }
     }
 }
+
+const recommendationIdToName = (id) => {
+    const items = getRecommendations();
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].id === id) {
+            return items[i].name;
+        }
+    }
+}
+
 // ---------------------------- RESEARCH -----------------------------------
 
 async function fetchResearches() {
@@ -163,6 +191,15 @@ const researchNameToId = (name) => {
     }
 }
 
+const researchIdToName = (id) => {
+    const items = getResearches();
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].id === id) {
+            return items[i].name;
+        }
+    }
+}
+
 // ---------------------------- OTHER -----------------------------------
 
 const degreesFromServer = ['Ph.D', 'Master'];
@@ -180,5 +217,9 @@ export {
     getRecommendations,
     recommendationNameToId,
     getResearches,
-    researchNameToId
+    researchNameToId,
+    researchIdToName,
+    projectIdToName,
+    recommendationIdToName,
+    countryIdToName
 }
