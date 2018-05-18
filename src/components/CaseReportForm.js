@@ -1,15 +1,77 @@
 import React from 'react';
-import { Form, Icon, Button, Divider, Checkbox } from 'antd';
+import { Form, Icon, Button, Divider, Checkbox, message } from 'antd';
 import CaseInput from './CaseInput';
 
 const FormItem = Form.Item;
 let uuid = 0;
 
 class CaseReportForm extends React.Component {
-    state = {
+    componentDidMount(){
+        this.props.onRef(this)
+    }
+
+    check = (action) => {
+        const data = this.props.form.getFieldsValue();
+      
+        if (action === "next") {
+            if (this.validate(data) === true) {
+                this.props.nextPage();
+            } else {
+                message.warn('请完善你的表单');
+            }  
+        }
+        if (action === "prev") {
+            if (this.validate(data) === false) {
+                this.props.form.resetFields();
+            }  
+            this.props.prevPage();
+        }
+   
 
     }
-  
+
+    validate = (data) => {
+        // no data.
+        let validate = true;
+        if (data.keys.length === 0) {
+            return false;
+        }
+        data.keys.forEach((item) => {
+            if (data.cases[item] === undefined) {
+                validate = false;
+                return;
+            }
+            if (data.cases[item].country_id === undefined || data.cases[item].country_id === "") {
+                validate = false;
+                return;
+            }
+            if (data.cases[item].degree === undefined || data.cases[item].degree === "") {
+                validate = false;
+                return;
+            }
+            if (data.cases[item].is_transfer === undefined) {
+                validate = false;
+                return;
+            }
+            if (data.cases[item].major === undefined || data.cases[item].major === "") {
+                validate = false;
+                return;
+            }
+            if (data.cases[item].result === undefined || data.cases[item].result === "") {
+                validate = false;
+                return;
+            }
+            if (data.cases[item].term === undefined || data.cases[item].term === "") {
+                validate = false;
+                return;
+            }
+            if (data.cases[item].university === undefined || data.cases[item].university === "") {
+                validate = false;
+                return;
+            }
+        });
+        return validate;
+    }
 
     remove = (k) => {
     const { form } = this.props;
@@ -137,7 +199,7 @@ class CaseReportForm extends React.Component {
                     type: 'object',
                     required: true,
                     whitespace: true,
-                    message: "请完善录取结果信息或删除该区域。",
+                    message: "请完善录取结果信息或删除该区域。"
                 }],
                 })(
                     <CaseInput>

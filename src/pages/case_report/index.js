@@ -66,7 +66,7 @@ class CaseReport extends React.Component {
                 value: [],
             },
             cases: [{
-                value: {},
+                value: undefined,
             }],
         },
         };
@@ -167,16 +167,36 @@ class CaseReport extends React.Component {
 
 
       }
+    // TRY
+    onUserRef = (ref) => {
+        this.userForm = ref;
+    }
 
-    next() {
+    onCaseRef = (ref) => {
+        this.caseForm = ref;
+    }
+
+    handleNextClicked() {
+        console.log(this.state.current);
+        const current = this.state.current;
+        if (current === 0) {
+            this.userForm.check();
+        }
+        if (current === 1) {
+            this.caseForm.check('next');
+        }
+    }
+
+    handlePrevClicked() {
+        this.caseForm.check('prev');
+    }
+
+    nextPage = () => {
         const current = this.state.current + 1;
-        const userInfoFields = this.userFormData();
-        const casesFields = this.casesFormData();
-        console.log(userInfoFields);
-        console.log(casesFields);
         this.setState({ current });
     }
-    prev() {
+
+    prevPage = () => {
         const current = this.state.current - 1;
         this.setState({ current });
     }
@@ -291,7 +311,7 @@ class CaseReport extends React.Component {
                         {
                             current === 0 ? 
                                 <div>
-                                    <WrappedUserComplementReportForm {...userInfoFields} onChange={this.handleUserFormChange}/>
+                                    <WrappedUserComplementReportForm {...userInfoFields} onChange={this.handleUserFormChange} onRef={this.onUserRef} nextPage={this.nextPage}/>
                                   
                                 </div>
                                 : null
@@ -299,7 +319,7 @@ class CaseReport extends React.Component {
                         {
                             current === 1 ? 
                                 <div>
-                                    <WrappedCaseReportForm {...casesFields} keys={this.state.casesFields.keys} onChange={this.handleCasesFormChange} />
+                                    <WrappedCaseReportForm {...casesFields} keys={this.state.casesFields.keys} onChange={this.handleCasesFormChange} onRef={this.onCaseRef} nextPage={this.nextPage} prevPage={this.prevPage} />
                              
                                 </div>
                                 : null
@@ -319,7 +339,7 @@ class CaseReport extends React.Component {
                             {
                                 this.state.current < 2
                                 &&
-                                <Button type="primary" onClick={() => this.next()}>Next</Button>
+                                <Button type="primary" onClick={() => this.handleNextClicked()}>Next</Button>
                             }
                             {
                                 this.state.current === 2
@@ -329,7 +349,7 @@ class CaseReport extends React.Component {
                             {
                                 this.state.current > 0
                                 &&
-                                <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
+                                <Button style={{ marginLeft: 8 }} onClick={() => this.handlePrevClicked()}>
                                 Previous
                                 </Button>
                             }

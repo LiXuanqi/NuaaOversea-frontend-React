@@ -37,6 +37,21 @@ class UserReportForm extends React.Component {
         autoCompleteResult: [],
     };
 
+    componentDidMount(){
+        this.props.onRef(this)
+    }
+
+    check = () => {
+        this.props.form.validateFieldsAndScroll(
+            (err) => {
+                if (!err) {
+                console.info('success');
+                this.props.nextPage();
+                }
+            },
+        );
+      }
+
     handleSubmit = (e) => {
 
         const user_info = loginUser();
