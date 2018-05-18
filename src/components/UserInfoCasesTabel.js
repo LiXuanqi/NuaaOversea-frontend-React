@@ -4,19 +4,16 @@ import request from '../utils/request';
 import PropTypes from 'prop-types';
 import { connect } from 'dva';
 import UserInfoCaseUpdateModal from '../components/UserInfoCaseUpdateModal';
-import { loginUser } from '../utils/user';
 
 const { Column } = Table;
 
 class UserInfoCasesTabel extends React.Component {
     state = {
         data: [],
-        visible: false,
         choosedCase: -1
     }
 
     async componentWillMount(){
-        // TEST
         this.props.dispatch({
             type: 'app/fetchAllTags'
         });
@@ -68,47 +65,19 @@ class UserInfoCasesTabel extends React.Component {
     }
 
     showEditModal = (applicant_id) => {
+        console.log(applicant_id);
         this.setState({
-            visible: true,
             choosedCase: applicant_id
         });
     }
 
     handleCancel = () => {
         this.setState({
-            visible: false,
             choosedCase: -1
         });
     }
 
-    handleCreate = () => {
-        const form = this.formRef.props.form;
-        form.validateFields((err, values) => {
-          if (err) {
-            return;
-          }
-        
-          this.props.dispatch({
-              type: 'cases/updateCase',
-              payload: {
-                  formData: values,
-                  application_id: this.state.choosedCase,
-                  applicant_id: loginUser().applicant_id,
-                  redirect_url: '/profile'
-              }
-          })
-
-          form.resetFields();
-          this.setState({
-            visible: false,
-            choosedCase: -1
-          });
-        });
-    }
-
-    saveFormRef = (formRef) => {
-        this.formRef = formRef;
-    }
+  
 
     deleteCase(application_id) {
         this.props.dispatch({
@@ -149,10 +118,9 @@ class UserInfoCasesTabel extends React.Component {
                     <span>
                         <a onClick={() => this.showEditModal(record.application_id)}>编辑</a>
                         <UserInfoCaseUpdateModal
-                            wrappedComponentRef={this.saveFormRef}
-                            visible={this.state.visible}
                             onCancel={this.handleCancel}
-                            onCreate={this.handleCreate}
+                            caseId={record.application_id}
+                            choosedCase={this.state.choosedCase}
                             initData={record}
                         />
 

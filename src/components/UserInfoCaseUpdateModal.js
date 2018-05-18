@@ -1,7 +1,8 @@
 import React from 'react'
 import { Modal, Form, Input, Select, Switch, Icon, Cascader } from 'antd';
 import { getCountries, countryNameToId } from '../utils/dataFromServer';
-
+import { loginUser } from '../utils/user';
+import { connect } from 'dva';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -29,17 +30,43 @@ const termOptions = [{
 
 const UserInfoCaseUpdateModal = Form.create()(
     class extends React.Component {
+        onCreate = () => {
+            const form = this.props.form;
+            form.validateFields((err, values) => {
+              if (err) {
+                return;
+              }
+        
+              this.props.dispatch({
+                  type: 'cases/updateCase',
+                  payload: {
+                      formData: values,
+                      application_id: this.props.choosedCase,
+                      applicant_id: loginUser().applicant_id,
+                      redirect_url: '/profile'
+                  }
+              })
+    
+              form.resetFields();
+              this.setState({
+                choosedCase: -1
+              });
+            });
+        }
+
         render() {
-            const { visible, onCancel, onCreate, form } = this.props;
+            const { choosedCase,caseId, onCancel, form } = this.props;
             const { getFieldDecorator } = form;
             const initData = this.props.initData;
+
             return (
+               
                 <Modal
-                visible={visible}
+                visible={choosedCase === caseId}
                 title="修改案例"
                 okText="修改"
                 onCancel={onCancel}
-                onOk={onCreate}
+                onOk={this.onCreate}
                 >
                 {/* TODO: set initial value. */}
                 <Form layout="vertical">
@@ -125,4 +152,4 @@ const UserInfoCaseUpdateModal = Form.create()(
     }
 );
 
-export default UserInfoCaseUpdateModal;
+export default connect()(UserInfoCaseUpdateModal);
