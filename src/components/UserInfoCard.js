@@ -45,7 +45,7 @@ const UserInfoCard = ({ history, username, role, helpNumber }) => {
             }
 
            <div className={styles.textContainer}>
-                <Button className={styles.buttonRed} type="primary">个人中心</Button>
+                <Link to="/profile"><Button className={styles.buttonRed} type="primary">个人中心</Button></Link>
            </div>
         </div>
     );

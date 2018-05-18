@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './index.css'
-import fetch from 'dva/fetch';
 import { Steps, Icon, Button, Divider} from 'antd';
 import WrappedCaseReportForm from '../../components/CaseReportForm';
 import { WrappedUserComplementReportForm } from '../../components/UserReportForm';
@@ -94,7 +93,6 @@ class CaseReport extends React.Component {
             researchItems: [...researchesFromServer]
         })
 
-        // TRY
         const user_info = loginUser();
         const applicant_id = user_info.applicant_id;
 
@@ -114,7 +112,7 @@ class CaseReport extends React.Component {
                     value: data.language_type
                 },
                 language_reading: {
-                    value: data.language_type
+                    value: data.language_reading
                 },
                 language_listening: {
                     value: data.language_listening
@@ -150,8 +148,6 @@ class CaseReport extends React.Component {
             this.setState({
                 userInfoFields: newUserInfoFields, 
                 current: 1
-            },() => {
-                console.log(this.state);
             });
 
         }
@@ -159,80 +155,8 @@ class CaseReport extends React.Component {
        
     }
 
-    // componentDidMount() {
-
-    //     const user_info = loginUser();
-    //     const applicant_id = user_info.applicant_id;
-
-    //     if (applicant_id) {
-    //         fetch('/oversea/api/applicants/' + applicant_id, {
-    //             method: 'GET',
-    //         })
-    //         .then(function(response) {
-    //             return response.json()
-    //         }).then((json) => {
-    //             let newMajor = [json.college, json.major];
-    //             const newUserInfoFields = {
-    //                 major: {
-    //                     value: newMajor
-    //                 },
-    //                 gpa: {
-    //                    value: json.gpa
-    //                 },
-    //                 language_type: {
-    //                     value: json.language_type
-    //                 },
-    //                 language_reading: {
-    //                     value: json.language_type
-    //                 },
-    //                 language_listening: {
-    //                     value: json.language_listening
-    //                 },
-    //                 language_speaking: {
-    //                     value: json.language_speaking
-    //                 },
-    //                 language_writing: {
-    //                     value: json.language_writing
-    //                 },
-    //                 gre_verbal: {
-    //                     value: json.gre_verbal
-    //                 },
-    //                 gre_quantitative: {
-    //                     value: json.gre_quantitative
-    //                 },
-    //                 gre_writing: {
-    //                     value: json.gre_writing
-    //                 },
-    //                 research_id: {
-    //                     value: this.researchNameToId(json.research)
-    //                 },
-    //                 project_id: {
-    //                     value: this.projectNameToId(json.project)
-    //                 },
-    //                 recommendation_id: {
-    //                     value: this.recommendationNameToId(json.recommendation)
-    //                 },
-    //                 agreement: {
-    //                     value: true
-    //                 }
-    //             }
-    //             this.setState({
-    //                 userInfoFields: newUserInfoFields, 
-    //                 current: 1
-    //             },() => {
-    //                 console.log(this.state);
-    //             });
-                
-    //         }).catch(function(ex) {
-    //             console.log('parsing failed', ex)
-    //         })
-    //     }  
-    // }
-
-    researchNameToId = (name) => {
-       
-        const items = this.state.researchItems;
-        
+    researchNameToId = (name) => {       
+        const items = this.state.researchItems;        
         for (let i = 0; i < items.length; i++) {
          
             if (items[i].name === name) {
@@ -242,13 +166,9 @@ class CaseReport extends React.Component {
     }
 
     projectNameToId = (name) => {
-        
         const items = this.state.projectItems;
-        console.log(name);
         for (let i = 0; i < items.length; i++) {
-            console.log(items[i].name);
             if (items[i].name === name) {
-               
                 return items[i].id
             }
         }
@@ -310,29 +230,22 @@ class CaseReport extends React.Component {
         const userInfoFields = this.userFormData();
         const casesFields = this.casesFormData();
         // TODO: handle user information update.
-        console.log(userInfoFields);
         
-        // casesFields.cases.forEach((item, index) => {
-        //     console.log(item);
-
-        //     fetch('/oversea/api/applications', {
-        //         method: 'POST',
-        //         headers: {
-        //         'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify({
-        //             ...item,
-        //             applicant_id: user_info.applicant_id
-        //         })
-        //     })
-        //     .then(function(response) {
-        //         return response.json()
-        //     }).then(function(json) {
-        //         console.log('parsed json', json)
-        //     }).catch(function(ex) {
-        //         console.log('parsing failed', ex)
-        //     })
-        // })
+        this.props.dispatch({
+            type: 'applicants/updateApplicant',
+            payload: userInfoFields
+        });
+        
+   
+        casesFields.cases.forEach((item, index) => {
+            this.props.dispatch({
+                type: 'cases/postCase',
+                payload: {
+                    ...item,
+                    applicant_id: user_info.applicant_id
+                }
+            });
+        })
        
     }
 

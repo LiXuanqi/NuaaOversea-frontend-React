@@ -9,7 +9,7 @@ import router from 'umi/router';
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-
+// TODO: click next should validate data.
 // TODO: 收集学校的所有专业名,fetch from database.
 const majors = [{
     value: '能源与动力学院',
@@ -103,6 +103,15 @@ class UserReportForm extends React.Component {
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
+    handleTestTypeChange = () => {
+        this.props.form.setFieldsValue({
+            language_reading: "",
+            language_listening: "",
+            language_speaking: "",
+            language_writing: ""
+          });
+    }
+
     render() {
         const radioStyle = {
             display: 'block',
@@ -168,7 +177,7 @@ class UserReportForm extends React.Component {
                         required: true, message: '请选择你的语言考试类型!',
                     }],
                 })(
-                    <RadioGroup>
+                    <RadioGroup onChange={this.handleTestTypeChange}>
                     <RadioButton value="TOEFL">TOEFL</RadioButton>
                     <RadioButton value="IELTS">IELTS</RadioButton>
                     </RadioGroup>
@@ -182,7 +191,12 @@ class UserReportForm extends React.Component {
                         {...formItemLayout}
                         label="阅读"
                         >
-                        {getFieldDecorator('language_reading', { initialValue: 7 })(
+                        {getFieldDecorator('language_reading', {
+                            initialValue: 7,
+                            rules: [{
+                                required: true, message: '请选择你的阅读成绩!',
+                            }]
+                        })(
                             <InputNumber min={0} max={9} />
                         )}
                         </FormItem>
@@ -190,7 +204,12 @@ class UserReportForm extends React.Component {
                         {...formItemLayout}
                         label="听力"
                         >
-                        {getFieldDecorator('language_listening', { initialValue: 7 })(
+                        {getFieldDecorator('language_listening', {
+                            initialValue: 7,
+                            rules: [{
+                                required: true, message: '请选择你的听力成绩!',
+                            }]
+                        })(
                             <InputNumber min={0} max={9} />
                         )}
                         </FormItem>
@@ -198,7 +217,12 @@ class UserReportForm extends React.Component {
                         {...formItemLayout}
                         label="口语"
                         >
-                        {getFieldDecorator('language_speaking', { initialValue: 7 })(
+                        {getFieldDecorator('language_speaking', {
+                            initialValue: 7,
+                            rules: [{
+                                required: true, message: '请选择你的口语成绩!',
+                            }]
+                        })(
                             <InputNumber min={0} max={9} />
                         )}
                         </FormItem>
@@ -206,7 +230,12 @@ class UserReportForm extends React.Component {
                         {...formItemLayout}
                         label="写作"
                         >
-                        {getFieldDecorator('language_writing', { initialValue: 7 })(
+                        {getFieldDecorator('language_writing', {
+                            initialValue: 7,
+                            rules: [{
+                                required: true, message: '请选择你的写作成绩!',
+                            }]
+                        })(
                             <InputNumber min={0} max={9} />
                         )}
                         </FormItem>
@@ -217,7 +246,12 @@ class UserReportForm extends React.Component {
                         {...formItemLayout}
                         label="阅读"
                         >
-                        {getFieldDecorator('language_reading', { initialValue: 20 })(
+                        {getFieldDecorator('language_reading', {
+                            initialValue: 20,
+                            rules: [{
+                                required: true, message: '请选择你的阅读成绩!',
+                            }]
+                        })(
                             <InputNumber min={0} max={30} />
                         )}
                         </FormItem>
@@ -225,7 +259,12 @@ class UserReportForm extends React.Component {
                         {...formItemLayout}
                         label="听力"
                         >
-                        {getFieldDecorator('language_listening', { initialValue: 20 })(
+                        {getFieldDecorator('language_listening', {
+                            initialValue: 20,
+                            rules: [{
+                                required: true, message: '请选择你的听力成绩!',
+                            }]
+                        })(
                             <InputNumber min={0} max={30} />
                         )}
                         </FormItem>
@@ -233,7 +272,12 @@ class UserReportForm extends React.Component {
                         {...formItemLayout}
                         label="口语"
                         >
-                        {getFieldDecorator('language_speaking', { initialValue: 20 })(
+                        {getFieldDecorator('language_speaking', {
+                            initialValue: 20,
+                            rules: [{
+                                required: true, message: '请选择你的口语成绩!',
+                            }]
+                        })(
                             <InputNumber min={0} max={30} />
                         )}
                         </FormItem>
@@ -241,7 +285,12 @@ class UserReportForm extends React.Component {
                         {...formItemLayout}
                         label="写作"
                         >
-                        {getFieldDecorator('language_writing', { initialValue: 20 })(
+                        {getFieldDecorator('language_writing', {
+                            initialValue: 20,
+                            rules: [{
+                                required: true, message: '请选择你的写作成绩!',
+                            }]
+                        })(
                             <InputNumber min={0} max={30} />
                         )}
                         </FormItem>
@@ -252,7 +301,12 @@ class UserReportForm extends React.Component {
                 {...formItemLayout}
                 label="GRE Verbal"
                 >
-                {getFieldDecorator('gre_verbal', { initialValue: 150 })(
+                {getFieldDecorator('gre_verbal', {
+                    initialValue: 150,
+                    rules: [{
+                        required: true, message: '请选择你的GRE词汇成绩!',
+                    }]
+                })(
                     <InputNumber min={130} max={170} />
                 )}
                 </FormItem>
@@ -260,7 +314,12 @@ class UserReportForm extends React.Component {
                 {...formItemLayout}
                 label="GRE Quantitative"
                 >
-                {getFieldDecorator('gre_quantitative', { initialValue: 150 })(
+                {getFieldDecorator('gre_quantitative', {
+                    initialValue: 150,
+                    rules: [{
+                        required: true, message: '请选择你的GRE数学成绩!',
+                    }]
+                })(
                     <InputNumber min={130} max={170} />
                 )}
                 </FormItem>
@@ -268,7 +327,12 @@ class UserReportForm extends React.Component {
                 {...formItemLayout}
                 label="GRE Writing"
                 >
-                {getFieldDecorator('gre_writing', { initialValue: 3.5 })(
+                {getFieldDecorator('gre_writing', {
+                    initialValue: 3.5,
+                    rules: [{
+                        required: true, message: '请选择你的GRE写作成绩!',
+                    }]
+                })(
                     <InputNumber min={2.0} max={5.0} />
                 )}
                 </FormItem>

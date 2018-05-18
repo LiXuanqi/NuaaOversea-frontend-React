@@ -1,6 +1,7 @@
 import pathToRegexp from 'path-to-regexp';
 import request from '../utils/request';
 import { message } from 'antd'
+import router from 'umi/router';
 export default {
     namespace: 'cases',
     state: {
@@ -107,6 +108,20 @@ export default {
                 message.success('修改成功');
             }
         },
+        *postCase({ payload: formData }, { call, put}) {
+            const { data } = yield call(request, '/oversea/api/applications', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...formData
+                })
+            })
+            if (data.id) {
+                console.log("添加案例成功")
+            }
+        }
     },
     subscriptions: {
         setup({ dispatch, history }) {

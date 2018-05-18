@@ -15,7 +15,7 @@ class CaseInput extends React.Component {
         term: value.term ,
         result: value.result ,
         degree: value.degree ,
-        is_transfer: value.is_transfer
+        is_transfer: value.is_transfer || false
         };
     }
 
