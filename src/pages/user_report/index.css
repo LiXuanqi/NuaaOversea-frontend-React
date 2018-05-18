@@ -1,18 +1,13 @@
 .container{
     display: flex;
     width: 100%;
+    margin-top: 64px;
+    justify-content: center;
 }
 
 .contentContainer{
-    width: 75%;
     background-color: #fff; 
-    margin-top: 48px;
-    padding-top: 32px;
+    padding-top: 48px;
     padding-right: 48px;
-}
-.sidebarContainer{
-    width: 25%;
-
-    margin-left: 32px;
-    background-color: #fff;
+    border-radius: 5px;
 }

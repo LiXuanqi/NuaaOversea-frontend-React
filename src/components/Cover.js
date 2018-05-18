@@ -24,8 +24,8 @@ const Cover = () => {
                     <div className={styles.maskContent}>
                         <div className={styles.empty} />
                         <div className={styles.contentText}>
-                            <span className={styles.title}>Compass</span>
-                            <span className={styles.intro1}>南航人自己的免费案例库</span>
+                            <span className={styles.title}>Oversea</span>
+                            <span className={styles.intro1}>南航人自己的留学案例库</span>
                             <span className={styles.intro2}>希望能够帮到迷茫中的你，也希望你能够帮助更多的他们。</span>
                             <div className={styles.searchContainer}>
                                 <CaseSearch />

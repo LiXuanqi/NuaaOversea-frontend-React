@@ -8,19 +8,23 @@ const Search = Input.Search;
 
 const CaseSearch = ({ dispatch, history }) => {
     const handleSearch = (str) => {
-        console.log(history);
-        if (history.location.pathname !== "/cases") {
-            router.push('/cases');
-        }
+
+
         let lists = str.split(' ');
         let topic = "";
         for (let i = 0; i < lists.length; i++) {
             topic = topic + (i === 0 ? "" : "*") + lists[i];
         }
-        dispatch({
-            type: 'cases/fetchCasesByTopic',
-            payload: topic
-        })
+        // if (history.location.pathname !== "/cases") {
+        //     router.push('/cases');
+        // } else {
+            
+        // }
+        router.push('/cases?topic='+topic);
+        // dispatch({
+        //     type: 'cases/fetchCasesByTopic',
+        //     payload: topic
+        // })
    
     }
     return (

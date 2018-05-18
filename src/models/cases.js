@@ -79,32 +79,29 @@ export default {
                 },
             });
         },
-        *deleteCaseById({ payload: application_id}, { call, put }){
-
-            const {data} = yield call(request, '/oversea/api/applications/' + application_id, {
+        *deleteCaseById({ payload }, { call, put }){
+            const {data} = yield call(request, '/oversea/api/applications/' + payload.application_id, {
                 method: 'DELETE'
             });
-            console.log(data);
             if (data === "") {
-                // DELETE SUCCEED
-                // TODO: message will not pop, should not use reload?
-                window.location.reload();
+                router.push('/refresh?redirect_url='+payload.redirect_url);
                 message.success('删除成功');
             }
         },
-        *updateCase({ payload: formData }, { call, put }) {
-            const { data } = yield call(request, '/oversea/api/applications/' + formData.application_id, {
+        *updateCase({ payload }, { call, put }) {
+            const { data } = yield call(request, '/oversea/api/applications/' + payload.application_id, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    ...formData,
-                    term: formData.term[0] + formData.term[1]
+                    ...payload.formData,
+                    term: payload.formData.term[0] + payload.formData.term[1],
+                    applicant_id: payload.applicant_id
                 })
             });
             if (data.id) {
-                window.location.reload();
+                router.push('/refresh?redirect_url='+payload.redirect_url);
                 message.success('修改成功');
             }
         },
@@ -125,11 +122,19 @@ export default {
     },
     subscriptions: {
         setup({ dispatch, history }) {
-            return history.listen(({ pathname })=> {
+            return history.listen(({ pathname, query })=> {
                 if (pathToRegexp('/cases').exec(pathname)) {
-                    dispatch({
-                        type: 'fetchAllCasesList',
-                    });
+                    // with topic in query.
+                    if (query.topic) {
+                        dispatch({
+                            type: 'fetchCasesByTopic',
+                            payload: query.topic
+                        })
+                    } else {
+                        dispatch({
+                            type: 'fetchAllCasesList',
+                        });
+                    }
                 } 
                 const match = pathToRegexp('/cases/:caseId').exec(pathname);
                 if (match) {

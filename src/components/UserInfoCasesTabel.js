@@ -91,9 +91,10 @@ class UserInfoCasesTabel extends React.Component {
           this.props.dispatch({
               type: 'cases/updateCase',
               payload: {
-                  ...values,
+                  formData: values,
                   application_id: this.state.choosedCase,
-                  applicant_id: loginUser().applicant_id
+                  applicant_id: loginUser().applicant_id,
+                  redirect_url: '/profile'
               }
           })
 
@@ -112,7 +113,10 @@ class UserInfoCasesTabel extends React.Component {
     deleteCase(application_id) {
         this.props.dispatch({
             type: 'cases/deleteCaseById',
-            payload: application_id,
+            payload: {
+                application_id,
+                redirect_url: '/profile'
+            }
         })       
     }
 

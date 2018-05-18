@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './index.css'
-import { Steps, Icon, Button, Divider} from 'antd';
+import { Steps, Icon, Button, Divider, message } from 'antd';
 import WrappedCaseReportForm from '../../components/CaseReportForm';
 import { WrappedUserComplementReportForm } from '../../components/UserReportForm';
 import CaseReportCheckCard from '../../components/CaseReportCheckCard';
@@ -9,6 +9,8 @@ import BillboardCard from '../../components/BillboardCard';
 import request from '../../utils/request';
 import { loginUser } from '../../utils/user';
 import { researchNameToId, recommendationNameToId, projectNameToId } from '../../utils/dataFromServer';
+import router from 'umi/router';
+
 const Step = Steps.Step;
 
 class CaseReport extends React.Component {
@@ -206,15 +208,16 @@ class CaseReport extends React.Component {
         this.setState({ current });
     }
 
-    handleSubmit() {
+   handleSubmit() {
         const user_info = loginUser();
         const userInfoFields = this.userFormData();
         const casesFields = this.casesFormData();
-        // TODO: handle user information update.
         
         this.props.dispatch({
             type: 'applicants/updateApplicant',
-            payload: userInfoFields
+            payload: {
+                formData: userInfoFields
+            }
         });
         
    
@@ -225,8 +228,11 @@ class CaseReport extends React.Component {
                     ...item,
                     applicant_id: user_info.applicant_id
                 }
-            });
+            });  
         })
+        
+        router.push('/cases');
+        message.success('汇报成功');
        
     }
 
@@ -340,6 +346,7 @@ class CaseReport extends React.Component {
                                 </div>
                                 : null
                         }
+            
                         <div className="steps-action">
                             {
                                 this.state.current < 2

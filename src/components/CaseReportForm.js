@@ -12,6 +12,7 @@ class CaseReportForm extends React.Component {
 
     check = (action) => {
         const data = this.props.form.getFieldsValue();   
+        console.log(data);
         if (action === "next") {
             if (this.validate(data) === true) {
                 this.props.nextPage();
@@ -20,9 +21,7 @@ class CaseReportForm extends React.Component {
             }  
         }
         if (action === "prev") {
-            if (this.validate(data) === false) {
-                this.props.form.resetFields();
-            }  
+
             this.props.prevPage();
         }
     }

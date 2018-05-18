@@ -13,10 +13,12 @@ const UserLanguageModal = Form.create()(
                 if (err) {
                     return;
                 }
-                console.log(values);
                 this.props.dispatch({
                     type: 'applicants/patchApplicant',
-                    payload: values
+                    payload: {
+                        formData: values,
+                        redirect_url: '/profile'
+                    }
                 });
                 form.resetFields();
                 this.props.onCancel();

@@ -1,10 +1,10 @@
 import React from 'react';
-import fetch from 'dva/fetch';
+
 import { connect } from 'dva';
 import { Form, Input, Cascader, Checkbox, Button, Radio, InputNumber } from 'antd';
-import { loginUser, login } from '../utils/user';
-import { getRecommendations, getResearches, getProjects } from '../utils/dataFromServer';
-import router from 'umi/router';
+import { loginUser } from '../utils/user';
+import { getRecommendations, getResearches, getProjects, projectNameToId, recommendationNameToId, researchNameToId } from '../utils/dataFromServer';
+import request from '../utils/request';
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -35,7 +35,18 @@ class UserReportForm extends React.Component {
     state = {
         confirmDirty: false,
         autoCompleteResult: [],
+        initData: {},
     };
+
+    async componentWillMount(){
+        if (loginUser().applicant_id) {
+            const { data } = await request('/oversea/api/applicants/' + loginUser().applicant_id);
+            this.setState({
+                ...this.state,
+                initData: {...data}
+            })
+        }
+    }
 
     componentDidMount(){
         this.props.onRef(this)
@@ -53,40 +64,35 @@ class UserReportForm extends React.Component {
       }
 
     handleSubmit = (e) => {
-
-        const user_info = loginUser();
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                // console.log('Received values of form: ', values)
-        
-                fetch('/oversea/api/applicants', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        ...values,
-                        college: values.major[0],
-                        major: values.major[1],
-                        name: user_info.name,
-                        student_id: user_info.stu_num,
-                        user_id: user_info.id
+
+                const newValues = {
+                    ...values,
+                    college: values.major[0],
+                    major: values.major[1]
+                }
+                if (loginUser().applicant_id) {
+                    console.log('update');
+                    this.props.dispatch({
+                        type: 'applicants/updateApplicant',
+                        payload: {
+                            formData: newValues,
+                            redirect_url: '/cases',
+                        }
                     })
-                  })
-                  .then(function(response) {
-                    return response.json()
-                  }).then(function(json) {
-                    console.log('parsed json', json)
-            
-                    if (json.id) {
-                        router.push('/profile');
-                    }
-           
-                  }).catch(function(ex) {
-                    console.log('parsing failed', ex)
-                    // TODO: 错误提示
-                  })
+                } else {
+                    console.log('post');
+                    
+                    this.props.dispatch({
+                        type: 'applicants/postApplicant',
+                        payload: {
+                            formData: newValues,
+                            redirect_url: '/cases',
+                        }
+                    })
+                }              
             }
         });
     }
@@ -110,6 +116,8 @@ class UserReportForm extends React.Component {
             height: '30px',
             lineHeight: '30px',
         };
+        const { initData } = this.state;
+        console.log(initData);
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const formItemLayout = {
         labelCol: {
@@ -141,7 +149,7 @@ class UserReportForm extends React.Component {
                 label="本科专业"
                 >
                 {getFieldDecorator('major', {
-                    initialValue: ['能源与动力学院', '飞行器动力工程'],
+                    initialValue: [initData.college, initData.major],
                     rules: [{ type: 'array', required: true, message: '请选择你的本科专业' }],
                 })(
                     <Cascader options={majors} />
@@ -153,6 +161,7 @@ class UserReportForm extends React.Component {
                 label="本科GPA"
                 >
                 {getFieldDecorator('gpa', {
+                    initialValue: initData.gpa,
                     rules: [{
                     required: true, message: '请输入你的本科GPA!',
                     }],
@@ -165,6 +174,7 @@ class UserReportForm extends React.Component {
                 label="语言考试类型"
                 >
                 {getFieldDecorator('language_type', {
+                    initialValue: initData.language_type,
                     rules: [{
                         required: true, message: '请选择你的语言考试类型!',
                     }],
@@ -184,7 +194,7 @@ class UserReportForm extends React.Component {
                         label="阅读"
                         >
                         {getFieldDecorator('language_reading', {
-                            initialValue: 7,
+                            initialValue: initData.language_reading,
                             rules: [{
                                 required: true, message: '请选择你的阅读成绩!',
                             }]
@@ -197,7 +207,7 @@ class UserReportForm extends React.Component {
                         label="听力"
                         >
                         {getFieldDecorator('language_listening', {
-                            initialValue: 7,
+                            initialValue: initData.language_listening,
                             rules: [{
                                 required: true, message: '请选择你的听力成绩!',
                             }]
@@ -210,7 +220,7 @@ class UserReportForm extends React.Component {
                         label="口语"
                         >
                         {getFieldDecorator('language_speaking', {
-                            initialValue: 7,
+                            initialValue: initData.language_speaking,
                             rules: [{
                                 required: true, message: '请选择你的口语成绩!',
                             }]
@@ -223,7 +233,7 @@ class UserReportForm extends React.Component {
                         label="写作"
                         >
                         {getFieldDecorator('language_writing', {
-                            initialValue: 7,
+                            initialValue: initData.language_writing,
                             rules: [{
                                 required: true, message: '请选择你的写作成绩!',
                             }]
@@ -239,7 +249,7 @@ class UserReportForm extends React.Component {
                         label="阅读"
                         >
                         {getFieldDecorator('language_reading', {
-                            initialValue: 20,
+                            initialValue: initData.language_reading,
                             rules: [{
                                 required: true, message: '请选择你的阅读成绩!',
                             }]
@@ -252,7 +262,7 @@ class UserReportForm extends React.Component {
                         label="听力"
                         >
                         {getFieldDecorator('language_listening', {
-                            initialValue: 20,
+                            initialValue: initData.language_listening,
                             rules: [{
                                 required: true, message: '请选择你的听力成绩!',
                             }]
@@ -265,7 +275,7 @@ class UserReportForm extends React.Component {
                         label="口语"
                         >
                         {getFieldDecorator('language_speaking', {
-                            initialValue: 20,
+                            initialValue: initData.language_speaking,
                             rules: [{
                                 required: true, message: '请选择你的口语成绩!',
                             }]
@@ -278,7 +288,7 @@ class UserReportForm extends React.Component {
                         label="写作"
                         >
                         {getFieldDecorator('language_writing', {
-                            initialValue: 20,
+                            initialValue: initData.language_writing,
                             rules: [{
                                 required: true, message: '请选择你的写作成绩!',
                             }]
@@ -294,7 +304,7 @@ class UserReportForm extends React.Component {
                 label="GRE Verbal"
                 >
                 {getFieldDecorator('gre_verbal', {
-                    initialValue: 150,
+                    initialValue: initData.gre_verbal,
                     rules: [{
                         required: true, message: '请选择你的GRE词汇成绩!',
                     }]
@@ -307,7 +317,7 @@ class UserReportForm extends React.Component {
                 label="GRE Quantitative"
                 >
                 {getFieldDecorator('gre_quantitative', {
-                    initialValue: 150,
+                    initialValue: initData.gre_quantitative,
                     rules: [{
                         required: true, message: '请选择你的GRE数学成绩!',
                     }]
@@ -320,7 +330,7 @@ class UserReportForm extends React.Component {
                 label="GRE Writing"
                 >
                 {getFieldDecorator('gre_writing', {
-                    initialValue: 3.5,
+                    initialValue: initData.gre_writing,
                     rules: [{
                         required: true, message: '请选择你的GRE写作成绩!',
                     }]
@@ -333,6 +343,7 @@ class UserReportForm extends React.Component {
                 label="研究经历"
                 >
                 {getFieldDecorator('research_id', {
+                    initialValue: researchNameToId(initData.research),
                     rules: [{
                     required: true, message: '请输入你的研究经历!',
                     }],
@@ -353,6 +364,7 @@ class UserReportForm extends React.Component {
                 label="实习经历"
                 >
                 {getFieldDecorator('project_id', {
+                    initialValue: projectNameToId(initData.project),
                     rules: [{
                     required: true, message: '请输入你的项目经历!',
                     }],
@@ -373,6 +385,7 @@ class UserReportForm extends React.Component {
                 label="推荐信"
                 >
                 {getFieldDecorator('recommendation_id', {
+                    initialValue: recommendationNameToId(initData.recommendation),
                     rules: [{
                     required: true, message: '请输入你的信息!',
                     }],
@@ -388,23 +401,13 @@ class UserReportForm extends React.Component {
                     </RadioGroup>
                 )}
                 </FormItem>
+        
             
-                {/* FIXME: when you click the checkbox twice, It will pop-up nothing. */}
-                <FormItem {...tailFormItemLayout}>
-                {getFieldDecorator('agreement', {
-                    valuePropName: 'checked',
-                    rules: [{
-                        required: true, message: '请同意用户守则!',
-                    }],
-                })(
-                    <Checkbox>I have read the <a href="">agreement</a></Checkbox>
-                )}
-                </FormItem>
                 {
                     this.props.hasSubmitButton === 'true' ?
                     (
                         <FormItem {...tailFormItemLayout}>
-                            <Button type="primary" htmlType="submit">Register</Button>
+                            <Button type="primary" htmlType="submit">注册</Button>
                         </FormItem>
                     ) : null
                 }
