@@ -16,6 +16,11 @@ class UserInfoCasesTabel extends React.Component {
     }
 
     async componentWillMount(){
+        // TEST
+        this.props.dispatch({
+            type: 'app/fetchAllTags'
+        });
+
         const { data } = await request('/oversea/api/applications?applicant_id='+this.props.applicant_id);
         const applications = data.applications;
   

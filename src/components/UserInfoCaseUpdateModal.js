@@ -1,7 +1,6 @@
-import { Modal, Form, Input, Select, Switch, Icon, Cascader } from 'antd';
 import React from 'react'
-
-import request from '../utils/request';
+import { Modal, Form, Input, Select, Switch, Icon, Cascader } from 'antd';
+import { getCountries, countryNameToId } from '../utils/dataFromServer';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -29,27 +28,7 @@ const termOptions = [{
   }];
 
 const UserInfoCaseUpdateModal = Form.create()(
-    
     class extends React.Component {
-        state = {
-            countriesItems: []
-        }
-        async componentWillMount(){
-            const countriesResponse = await request('/oversea/api/countries');
-            const countriesFromServer = countriesResponse.data.countries;
-            this.setState({
-                countriesItems: [...countriesFromServer]
-            })
-        }
-        countryToCountryId(name) {   
-            const items = this.state.countriesItems;
-            for (let i = 0; i < items.length; i++) {
-                if (items[i].name === name) {
-                    return items[i].id;
-                }                 
-            }
-        }
-
         render() {
             const { visible, onCancel, onCreate, form } = this.props;
             const { getFieldDecorator } = form;
@@ -115,12 +94,12 @@ const UserInfoCaseUpdateModal = Form.create()(
                     </FormItem>
                     <FormItem label="国家">
                     {getFieldDecorator('country_id', {
-                        initialValue: this.countryToCountryId(initData.country),
+                        initialValue: countryNameToId(initData.country),
                         rules: [{ required: true, message: '请选择你所申请的国家!' }],
                     })(
                         <Select> 
                             {
-                                this.state.countriesItems.map((item) => {
+                                getCountries().map((item) => {
                                     return (
                                         <Option key={item.id} value={item.id}>{item.name}</Option>
                                     );

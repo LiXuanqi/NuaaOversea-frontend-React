@@ -1,22 +1,15 @@
 import React from 'react';
 import { Form, Icon, Button, Divider, Checkbox } from 'antd';
 import CaseInput from './CaseInput';
-import request from '../utils/request';
+
 const FormItem = Form.Item;
 let uuid = 0;
 
 class CaseReportForm extends React.Component {
     state = {
-        countriesItems: [],
-    }
-    async componentWillMount(){
-        const countriesResponse = await request('/oversea/api/countries');
-        const countriesFromServer = countriesResponse.data.countries;
-        this.setState({
-            countriesItems: [...countriesFromServer]
-        })
 
     }
+  
 
     remove = (k) => {
     const { form } = this.props;
@@ -147,9 +140,7 @@ class CaseReportForm extends React.Component {
                     message: "请完善录取结果信息或删除该区域。",
                 }],
                 })(
-                    <CaseInput
-                        countriesItems = {this.state.countriesItems}
-                    >
+                    <CaseInput>
                         {
                             index !== 0 ? (
                                 <Checkbox value={k} onChange={this.onInfoRepeatChanged}>与上个案例一致</Checkbox>

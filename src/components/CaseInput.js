@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Select, Switch, Icon } from 'antd';
-
+import { countriesFromServer } from '../utils/dataFromServer';
 
 const Option = Select.Option;
 
@@ -81,7 +81,7 @@ class CaseInput extends React.Component {
         }
     }
     render() {
-        const { size, countriesItems } = this.props;
+        const { size } = this.props;
         const state = this.state;
 
         return (
@@ -145,7 +145,7 @@ class CaseInput extends React.Component {
             placeholder="国家"
             >
             {
-                countriesItems.map((item) => {
+                countriesFromServer.map((item) => {
                     return (
                         <Option key={item.id} value={item.id}>{item.name}</Option>
                     );

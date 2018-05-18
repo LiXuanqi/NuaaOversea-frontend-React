@@ -1,7 +1,7 @@
 import { Modal, Form, Radio } from 'antd';
-import React from 'react'
-import { connect } from 'dva'
-import request from '../utils/request'
+import React from 'react';
+import { connect } from 'dva';
+import { getRecommendations, recommendationNameToId} from '../utils/dataFromServer';
 
 const FormItem = Form.Item;
 
@@ -15,21 +15,9 @@ const radioStyle = {
 const UserRecommendationModal = Form.create()(
     
     class extends React.Component {
-        state = {
-            recommendationItems: []
-        }
-
-        async componentWillMount(){
-            const recommendationsResponse = await request('/oversea/api/recommendations');
-            let recommendationsFromServer = recommendationsResponse.data.recommendations;
-            this.setState({
-                recommendationItems: [...recommendationsFromServer]
-            })
-
-        }
 
         NameToId = (name) => {
-            const items = this.state.recommendationItems;
+            const items = getRecommendations();
             for (let i = 0; i < items.length; i++) {
                 if (items[i].name === name) {
                     return items[i].id
@@ -66,12 +54,12 @@ const UserRecommendationModal = Form.create()(
                 <Form layout="vertical">
                     <FormItem label="推荐信">
                     {getFieldDecorator("recommendation_id", {
-                        initialValue: this.NameToId(this.props.initValue),
+                        initialValue: recommendationNameToId(this.props.initValue),
                         rules: [{ required: true, message: "请输入你的推荐信情况" }],
                     })(
                         <RadioGroup>
                         {
-                            this.state.recommendationItems.map((item) => {
+                            getRecommendations().map((item) => {
                                 return(
                                     <Radio key={item.id} style={radioStyle} value={item.id}>{item.name}</Radio>
                                 );

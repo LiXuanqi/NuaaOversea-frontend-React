@@ -8,6 +8,7 @@ import CaseReportCheckCard from '../../components/CaseReportCheckCard';
 import BillboardCard from '../../components/BillboardCard';
 import request from '../../utils/request';
 import { loginUser } from '../../utils/user';
+import { researchNameToId, recommendationNameToId, projectNameToId } from '../../utils/dataFromServer';
 const Step = Steps.Step;
 
 class CaseReport extends React.Component {
@@ -16,9 +17,6 @@ class CaseReport extends React.Component {
         super(props);
         this.state = {
         current: 0,
-        projectItems: [],
-        researchItems: [],
-        recommendationItems: [],
         userInfoFields: {
             major: {
                 value: undefined
@@ -75,24 +73,6 @@ class CaseReport extends React.Component {
     }
 
     async componentWillMount(){
-        const projectsResponse = await request('/oversea/api/projects');
-        let projectsFromServer = projectsResponse.data.projects;
-        this.setState({
-            projectItems: [...projectsFromServer]
-        })
-
-        const recommendationsResponse = await request('/oversea/api/recommendations');
-        let recommendationsFromServer = recommendationsResponse.data.recommendations;
-        this.setState({
-            recommendationItems: [...recommendationsFromServer]
-        })
-
-        const researchesResponse = await request('/oversea/api/researches');
-        let researchesFromServer = researchesResponse.data.researches;
-        this.setState({
-            researchItems: [...researchesFromServer]
-        })
-
         const user_info = loginUser();
         const applicant_id = user_info.applicant_id;
 
@@ -133,13 +113,13 @@ class CaseReport extends React.Component {
                     value: data.gre_writing
                 },
                 research_id: {
-                    value: this.researchNameToId(data.research)
+                    value: researchNameToId(data.research)
                 },
                 project_id: {
-                    value: this.projectNameToId(data.project)
+                    value: projectNameToId(data.project)
                 },
                 recommendation_id: {
-                    value: this.recommendationNameToId(data.recommendation)
+                    value: recommendationNameToId(data.recommendation)
                 },
                 agreement: {
                     value: true
@@ -153,34 +133,6 @@ class CaseReport extends React.Component {
         }
 
        
-    }
-
-    researchNameToId = (name) => {       
-        const items = this.state.researchItems;        
-        for (let i = 0; i < items.length; i++) {
-         
-            if (items[i].name === name) {
-                return items[i].id
-            }
-        }
-    }
-
-    projectNameToId = (name) => {
-        const items = this.state.projectItems;
-        for (let i = 0; i < items.length; i++) {
-            if (items[i].name === name) {
-                return items[i].id
-            }
-        }
-    }
-
-    recommendationNameToId = (name) => {
-        const items = this.state.recommendationItems;
-        for (let i = 0; i < items.length; i++) {
-            if (items[i].name === name) {
-                return items[i].id
-            }
-        }
     }
 
     handleUserFormChange = (changedFields) => {

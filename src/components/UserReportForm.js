@@ -3,7 +3,7 @@ import fetch from 'dva/fetch';
 import { connect } from 'dva';
 import { Form, Input, Cascader, Checkbox, Button, Radio, InputNumber } from 'antd';
 import { loginUser, login } from '../utils/user';
-import request from '../utils/request';
+import { getRecommendations, getResearches, getProjects } from '../utils/dataFromServer';
 import router from 'umi/router';
 
 const FormItem = Form.Item;
@@ -35,30 +35,7 @@ class UserReportForm extends React.Component {
     state = {
         confirmDirty: false,
         autoCompleteResult: [],
-        projectItems: [],
-        researchItems: [],
-        recommendationItems: [],
     };
-
-    async componentWillMount(){
-        const projectsResponse = await request('/oversea/api/projects');
-        let projectsFromServer = projectsResponse.data.projects;
-        this.setState({
-            projectItems: [...projectsFromServer]
-        })
-
-        const recommendationsResponse = await request('/oversea/api/recommendations');
-        let recommendationsFromServer = recommendationsResponse.data.recommendations;
-        this.setState({
-            recommendationItems: [...recommendationsFromServer]
-        })
-
-        const researchesResponse = await request('/oversea/api/researches');
-        let researchesFromServer = researchesResponse.data.researches;
-        this.setState({
-            researchItems: [...researchesFromServer]
-        })
-    }
 
     handleSubmit = (e) => {
 
@@ -347,7 +324,7 @@ class UserReportForm extends React.Component {
                 })(
                     <RadioGroup>
                         {
-                            this.state.researchItems.map((item) => {
+                            getResearches().map((item) => {
                                 return(
                                     <Radio key={item.id} style={radioStyle} value={item.id}>{item.name}</Radio>
                                 );
@@ -367,7 +344,7 @@ class UserReportForm extends React.Component {
                 })(
                     <RadioGroup>
                         {
-                            this.state.projectItems.map((item) => {
+                            getProjects().map((item) => {
                                 return(
                                     <Radio key={item.id} style={radioStyle} value={item.id}>{item.name}</Radio>
                                 );
@@ -387,7 +364,7 @@ class UserReportForm extends React.Component {
                 })(
                     <RadioGroup>
                         {
-                            this.state.recommendationItems.map((item) => {
+                            getRecommendations().map((item) => {
                                 return(
                                     <Radio key={item.id} style={radioStyle} value={item.id}>{item.name}</Radio>
                                 );

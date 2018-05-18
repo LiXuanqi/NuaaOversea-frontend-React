@@ -7,15 +7,14 @@ import { loginUser } from '../../utils/user';
 import CaseCard from '../../components/CaseCard';
 import UserInfoCard from '../../components/UserInfoCard';
 import BillboardCard from '../../components/BillboardCard';
-import request from '../../utils/request';
 import CaseSearch from '../../components/CaseSearch';
 
 import pic1 from '../../assets/pic-1.jpg';
+
+import { tagsFromServer, countriesFromServer, degreesFromServer, resultsFromServer } from '../../utils/dataFromServer';
+
 const CheckableTag = Tag.CheckableTag;
 // TODO: fetch data from server.
-
-const degreesFromServer = ['Ph.D', 'Master'];
-const resultsFromServer = ['ad', 'rej', 'offer'];
 
 const gpaMarks = {
     1: '1.0',
@@ -93,8 +92,7 @@ class CaseList extends React.Component {
             selectedCountry: '',
             selectedTerm: [],
         },
-        tagsItems: [],
-        countriesItems: [],
+  
         rangeFilter: {
             type: 'TOEFL',
             gpa: [],
@@ -105,27 +103,6 @@ class CaseList extends React.Component {
         filterBySelected: false,
 
     };
-
-    async componentWillMount(){
-        const tagsResponse = await request('/oversea/api/tags');
-        let tagsFromServer = [];
-        tagsResponse.data.tags.forEach((item)=>{
-            tagsFromServer.push(item.name);
-        })
-        this.setState({
-            tagsItems: [...tagsFromServer]
-        })
-
-        const countriesResponse = await request('/oversea/api/countries');
-        let countriesFromServer = [];
-        countriesResponse.data.countries.forEach((item)=>{
-            countriesFromServer.push(item.name);
-        })
-        this.setState({
-            countriesItems: [...countriesFromServer]
-        })
-
-    }
 
     filterCasesBySelected = () => {
         this.setState({
@@ -303,9 +280,12 @@ class CaseList extends React.Component {
     }
    
     render() {
-        const { selectedFilter, tagsItems, countriesItems, rangeFilter, filterByRange, filterBySelected } = this.state;
+        const { selectedFilter, rangeFilter, filterByRange, filterBySelected } = this.state;
         const { selectedTags, selectedDegree, selectedCountry, selectedResult, selectedTerm } = selectedFilter;
         const user_info = loginUser();
+
+
+
         const checkRangeFilter = (item) => {
             const minGpa = rangeFilter.gpa[0];
             const maxGpa = rangeFilter.gpa[1];
@@ -426,7 +406,7 @@ class CaseList extends React.Component {
 
                                     <div>
                                         <h6 className={styles.tagSelectTitle}>特色筛选:</h6>
-                                        {tagsItems.map(tag => (
+                                        {tagsFromServer.map(tag => (
                                             <CheckableTag
                                                 key={tag}
                                                 checked={selectedTags.indexOf(tag) > -1}
@@ -439,7 +419,7 @@ class CaseList extends React.Component {
                                     
                                     <div>
                                         <h6 className={styles.tagSelectTitle}>申请国家:</h6>
-                                        {countriesItems.map(tag => (
+                                        {countriesFromServer.map(tag => (
                                             <CheckableTag
                                                 key={tag}
                                                 checked={selectedCountry === tag}
