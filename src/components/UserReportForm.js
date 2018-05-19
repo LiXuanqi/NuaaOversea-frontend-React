@@ -114,7 +114,7 @@ class UserReportForm extends React.Component {
             lineHeight: '30px',
         };
         const { initData } = this.state;
-        console.log(initData);
+
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const formItemLayout = {
         labelCol: {
@@ -478,7 +478,7 @@ const WrappedUserComplementReportForm = Form.create({
             };
     },
     onValuesChange(_, values) {
-    //   console.log(values);
+
     },
 })(UserReportForm);
 

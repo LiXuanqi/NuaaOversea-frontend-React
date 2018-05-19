@@ -22,32 +22,7 @@ class EvaluationForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                // console.log('Received values of form: ', values)
-        
-                // fetch('/api/applicants', {
-                //     method: 'POST',
-                //     headers: {
-                //       'Content-Type': 'application/json'
-                //     },
-                //     body: JSON.stringify({
-                //         ...values,
-                //         college: values.major[0],
-                //         major: values.major[1],
-                //         name: user_info.name,
-                //         student_id: user_info.stu_num,
-                //         user_id: user_info.id
-                //     })
-                //   })
-                //   .then(function(response) {
-                //     return response.json()
-                //   }).then(function(json) {
-                //     console.log('parsed json', json)
-                //     // get new user_info and store in cookie(applicant_id will change)
-                //     login();
-           
-                //   }).catch(function(ex) {
-                //     console.log('parsing failed', ex)
-                //   })
+
             }
         });
     }

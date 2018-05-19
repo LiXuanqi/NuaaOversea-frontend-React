@@ -80,7 +80,7 @@ class CaseReport extends React.Component {
 
         if (applicant_id) {
             const { data } = await request('/oversea/api/applicants/' + applicant_id)
-            console.log(data);
+
 
             let newMajor = [data.college, data.major];
             const newUserInfoFields = {

@@ -48,7 +48,6 @@ const CaseReportCheckCard = ({userInfoFields, casesFields}) => {
             </div>
         }
     });
-    console.log(caseData);
     return (
         <div>    
             <div style={{marginBottom: '24px'}}>

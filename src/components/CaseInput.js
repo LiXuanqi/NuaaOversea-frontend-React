@@ -66,7 +66,6 @@ class CaseInput extends React.Component {
         this.triggerChange({ major });
     }
     handleIsTransferChange = (e) => {
-        console.log(e);
         this.setState({
             is_transfer: e
         })

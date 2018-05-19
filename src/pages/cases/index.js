@@ -126,7 +126,7 @@ class CaseList extends React.Component {
         const nextSelectedTags = checked ?
                 [...selectedTags, tag] :
                 selectedTags.filter(t => t !== tag);
-        // console.log('You are interested in: ', nextSelectedTags);
+
         this.setState({
             selectedFilter: {
                 ...this.state.selectedFilter,
@@ -203,7 +203,7 @@ class CaseList extends React.Component {
         }
     }
     onGpaSliderChange(value) {
-        // console.log(value);
+
         this.setState({
             rangeFilter: {
                 ...this.state.rangeFilter,
@@ -212,7 +212,7 @@ class CaseList extends React.Component {
         }, () => {this.filterByRange()})
     }
     onGreSliderChange(value) {
-        // console.log(value);
+
         this.setState({
             rangeFilter: {
                 ...this.state.rangeFilter,
@@ -251,7 +251,7 @@ class CaseList extends React.Component {
                 type: filterType,
                 language: range
             }
-        }, () => {console.log(this.state.rangeFilter)})
+        })
     }
     // render a single CaseCard.
     renderCaseCard(key, id, university, country, result, major, term, degree, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing, tags){

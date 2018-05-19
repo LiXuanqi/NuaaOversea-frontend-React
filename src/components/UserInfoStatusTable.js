@@ -66,7 +66,7 @@ class UserInfoStatusTabel extends React.Component {
 
     showEditModal = (e) => {
         if (e.key === "TOEFL" || e.key === "IELTS") {
-            console.log('language')
+
             this.setState({
                 visible: {
                     ...this.state.visible,
@@ -75,7 +75,7 @@ class UserInfoStatusTabel extends React.Component {
             });
         }
         if (e.key === "GRE") {
-            console.log('gre')
+
             this.setState({
                 visible: {
                     ...this.state.visible,
@@ -90,7 +90,7 @@ class UserInfoStatusTabel extends React.Component {
                     ...this.state.visible,
                     college: true
                 }
-            }, ()=>{console.log(this.state.visible)});
+            });
         }  
         if (e.key === "专业") {
             this.setState({

@@ -12,7 +12,6 @@ class CaseReportForm extends React.Component {
 
     check = (action) => {
         const data = this.props.form.getFieldsValue();   
-        console.log(data);
         if (action === "next") {
             if (this.validate(data) === true) {
                 this.props.nextPage();
@@ -103,7 +102,6 @@ class CaseReportForm extends React.Component {
             return;
         }
         // TODO: format the Date data.
-        console.log('Received values of form: ', values);
     });
     }
 
@@ -112,7 +110,6 @@ class CaseReportForm extends React.Component {
         const checkedValue = e.target.value;
 
         const oldCase = this.props.form.getFieldValue(`cases[${checkedValue}]`);
-        console.log(oldCase);
         const university = oldCase === undefined ? undefined : oldCase.university ;
         const result = oldCase === undefined ? undefined : oldCase.result;
         
@@ -126,12 +123,6 @@ class CaseReportForm extends React.Component {
 
             const lastNameIndex = keys[index - 1];
             const lastCase = this.props.form.getFieldValue(`cases[${lastNameIndex}]`);
-            // console.log(this.props.cases);
-            // console.log('checkedValue:' + checkedValue);
-            // console.log('keys:');
-            // console.log(keys);   
-            // console.log('index:' + index);
-            // console.log(lastCase);
 
 
             let newCase = {...lastCase, university, result};
@@ -262,7 +253,7 @@ const WrappedCaseReportForm = Form.create({
         return formField;
     },
     onValuesChange(_, values) {
-    //   console.log(values);
+
     },
   })(CaseReportForm);
 export default WrappedCaseReportForm;

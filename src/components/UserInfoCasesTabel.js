@@ -65,7 +65,6 @@ class UserInfoCasesTabel extends React.Component {
     }
 
     showEditModal = (applicant_id) => {
-        console.log(applicant_id);
         this.setState({
             choosedCase: applicant_id
         });

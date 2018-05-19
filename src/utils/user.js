@@ -34,7 +34,6 @@ function logout() {
 function updateApplicantId(applicant_id) {
     const str = Cookies.get('current-user');
     let json = JSON.parse(str);
-    console.log(json);
     const newJson = {
         ...json,
         applicant_id: applicant_id

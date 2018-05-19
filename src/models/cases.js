@@ -11,13 +11,13 @@ export default {
     },
     reducers: {
         saveAllCasesList(state, { payload: { data: newData } }) {
-            // console.log(newData.data.posts_list[0].body);
+
             return { ...state,
                 cases_list: newData.data.applications,
             }
         },
         saveRelatedCasesList(state, { payload: { relatedData: newData } }) {
-            // console.log(newData.data.posts_list[0].body);
+
             return { ...state,
                 related_cases_list: newData.data.applications,
             }
@@ -53,7 +53,7 @@ export default {
             const data = yield call(request, '/oversea/api/applications/'+response.caseId);            
 
             const applicant_id = data.data.applicant_id;
-            console.log(applicant_id);
+
             const relatedData = yield call(request, '/oversea/api/applications?applicant_id='+applicant_id);
 
             yield put({
@@ -118,7 +118,7 @@ export default {
                 })
             })
             if (data.id) {
-                console.log("添加案例成功")
+                message.success("添加案例成功")
             }
         }
     },

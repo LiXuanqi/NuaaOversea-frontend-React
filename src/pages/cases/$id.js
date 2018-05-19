@@ -18,8 +18,7 @@ class Case extends React.Component {
     };    
     
     render() {
-        const case_data = this.props.case_data;
-        console.log(this.props.case_data);
+
         return (
             <div className={styles.content}>
                 <CaseCard
@@ -67,7 +66,7 @@ class Case extends React.Component {
 
                 {
                     this.props.related_cases_list.map((item, index)=>{
-                        console.log(item);
+
                         return this.renderResultCard(
                             index,
                             item.university,

@@ -23,7 +23,7 @@ export default {
                     password: formData.password
                 })
             })
-            console.log(res);
+
             
             if (res.error) {
                 message.warn(res.error);
