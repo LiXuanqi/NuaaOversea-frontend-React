@@ -74,7 +74,6 @@ class UserReportForm extends React.Component {
                     major: values.major[1]
                 }
                 if (loginUser().applicant_id) {
-                    console.log('update');
                     this.props.dispatch({
                         type: 'applicants/updateApplicant',
                         payload: {
@@ -82,9 +81,7 @@ class UserReportForm extends React.Component {
                             redirect_url: '/cases',
                         }
                     })
-                } else {
-                    console.log('post');
-                    
+                } else {       
                     this.props.dispatch({
                         type: 'applicants/postApplicant',
                         payload: {

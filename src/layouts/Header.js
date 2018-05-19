@@ -12,7 +12,7 @@ import { BASE_URL } from '../utils/config';
 function Header({ history, dispatch }) {
 
     const goToLoginPage = () => {
-        router.push('/login?redirect_url='+ BASE_URL + history.location.pathname);
+        router.push('/login?redirect_url=' + history.location.pathname);
     }
 
     const goToRegisterPage = () => {

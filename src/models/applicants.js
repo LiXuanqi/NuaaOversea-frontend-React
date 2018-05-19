@@ -1,5 +1,5 @@
 import request from '../utils/request';
-import { loginUser } from '../utils/user';
+import { loginUser, updateApplicantId } from '../utils/user';
 import router from 'umi/router';
 import { message } from 'antd';
 
@@ -19,12 +19,16 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    ...payload.formData
+                    ...payload.formData,
+                    token: sessionStorage.getItem('token')
+
                 })
             })
             if (data.id) {
+                updateApplicantId(data.id);
                 router.push(payload.redirect_url);
                 message.success('添加成功');
+                // FIXME: fetch user info again to update applicant_id in cookie.
             }
         },
         *updateApplicant({ payload }, { call, put }) {
@@ -34,7 +38,8 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    ...payload.formData
+                    ...payload.formData,
+                    token: sessionStorage.getItem('token')
                 })
             })
             if (data.id) {
@@ -53,7 +58,8 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    ...payload.formData
+                    ...payload.formData,
+                    token: sessionStorage.getItem('token')
                 })
             });
             if (data.id) {

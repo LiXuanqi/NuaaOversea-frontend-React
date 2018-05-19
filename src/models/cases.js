@@ -80,7 +80,7 @@ export default {
             });
         },
         *deleteCaseById({ payload }, { call, put }){
-            const {data} = yield call(request, '/oversea/api/applications/' + payload.application_id, {
+            const {data} = yield call(request, '/oversea/api/applications/' + payload.application_id + '?token=' + sessionStorage.getItem('token'), {
                 method: 'DELETE'
             });
             if (data === "") {
@@ -97,7 +97,8 @@ export default {
                 body: JSON.stringify({
                     ...payload.formData,
                     term: payload.formData.term[0] + payload.formData.term[1],
-                    applicant_id: payload.applicant_id
+                    applicant_id: payload.applicant_id,
+                    token: sessionStorage.getItem('token')
                 })
             });
             if (data.id) {
@@ -112,7 +113,8 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    ...formData
+                    ...formData,
+                    token: sessionStorage.getItem('token')
                 })
             })
             if (data.id) {

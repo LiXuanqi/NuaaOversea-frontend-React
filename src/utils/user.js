@@ -23,7 +23,6 @@ async function login() {
         const userInfo = res;
         Cookies.set('current-user', userInfo);
     }
-
 }
 
 function logout() {
@@ -32,9 +31,21 @@ function logout() {
     window.location.reload();
 }
 
+function updateApplicantId(applicant_id) {
+    const str = Cookies.get('current-user');
+    let json = JSON.parse(str);
+    console.log(json);
+    const newJson = {
+        ...json,
+        applicant_id: applicant_id
+    }
+    Cookies.set('current-user', newJson);
+}
+
 export {
     loginUser,
     isLogin,
     login,
-    logout
+    logout,
+    updateApplicantId
 };

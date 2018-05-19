@@ -1,7 +1,6 @@
 import request from '../utils/request';
 import { login } from '../utils/user';
 import { message } from 'antd';
-import router from 'umi/router';
 import { BASE_URL } from '../utils/config';
 
 export default {
@@ -73,7 +72,7 @@ export default {
                         login();
                     }
              
-                    window.location.href = '/profile';
+                    window.location.href = BASE_URL+ '/profile';
                 } else {
                     message.warn(res.error);
                 }

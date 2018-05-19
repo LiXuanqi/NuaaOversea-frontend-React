@@ -1,5 +1,7 @@
 import request from './request';
 
+// TODO: can't fetch data async, it will affect render of react componets.
+
 // ---------------------------- TAG -----------------------------------
 
 async function fetchTags() {
@@ -9,11 +11,29 @@ async function fetchTags() {
 }
 
 const getTags = () => {
-    let str = sessionStorage.getItem('tags');
-    let tags = JSON.parse(str);
-    if (tags === null) {
-        tags = fetchTags();
-    }
+    // let str = sessionStorage.getItem('tags');
+    // let tags = JSON.parse(str);
+    // if (tags === null) {
+    //     tags = fetchTags();
+    // }
+    const tags = [
+        {
+            "id": 1,
+            "name": "渣三维"
+        },
+        {
+            "id": 2,
+            "name": "转专业"
+        },
+        {
+            "id": 4,
+            "name": "高GPA"
+        },
+        {
+            "id": 3,
+            "name": "高GT"
+        }
+    ];      
     return tags;
 }
 
@@ -35,11 +55,49 @@ async function fetchCountries() {
 }
 
 const getCountries = () => {
-    let str = sessionStorage.getItem('countries');
-    let countries = JSON.parse(str);
-    if (countries === null) {
-        countries = fetchCountries();
-    }
+    // let str = sessionStorage.getItem('countries');
+    // let countries = JSON.parse(str);
+    // if (countries === null) {
+    //     countries = fetchCountries();
+    // }
+    const countries = [
+        {
+            "id": 3,
+            "name": "加拿大"
+        },
+        {
+            "id": 5,
+            "name": "德国"
+        },
+        {
+            "id": 9,
+            "name": "新加坡"
+        },
+        {
+            "id": 8,
+            "name": "日本"
+        },
+        {
+            "id": 6,
+            "name": "法国"
+        },
+        {
+            "id": 4,
+            "name": "澳大利亚"
+        },
+        {
+            "id": 1,
+            "name": "美国"
+        },
+        {
+            "id": 2,
+            "name": "英国"
+        },
+        {
+            "id": 7,
+            "name": "香港"
+        }
+    ]
     return countries;
 }
 
@@ -81,11 +139,38 @@ async function fetchProjects() {
 }
 
 const getProjects = () => {
-    let str = sessionStorage.getItem('projects');
-    let projects = JSON.parse(str);
-    if (projects === null) {
-        projects = fetchProjects();
-    }
+    // let str = sessionStorage.getItem('projects');
+    // let projects = JSON.parse(str);
+    // if (projects === null) {
+    //     projects = fetchProjects();
+    // }
+    const projects = [
+        {
+        "value": 2,
+        "id": 1,
+        "name": "无相关实习经历，有个人项目"
+        },
+        {
+        "value": 2,
+        "id": 2,
+        "name": "国内小公司实习"
+        },
+        {
+        "value": 3,
+        "id": 3,
+        "name": "国内大公司实习"
+        },
+        {
+        "value": 4,
+        "id": 4,
+        "name": "BAT实习"
+        },
+        {
+        "value": 5,
+        "id": 5,
+        "name": "外企实习"
+        }
+    ]
     return projects;
 }
 
@@ -123,11 +208,38 @@ async function fetchRecommendations() {
 }
 
 const getRecommendations = () => {
-    let str = sessionStorage.getItem('recommendations');
-    let recommendations = JSON.parse(str);
-    if (recommendations === null) {
-        recommendations = fetchRecommendations();
-    }
+    // let str = sessionStorage.getItem('recommendations');
+    // let recommendations = JSON.parse(str);
+    // if (recommendations === null) {
+    //     recommendations = fetchRecommendations();
+    // }
+    const recommendations = [
+        {
+        "value": 1,
+        "id": 1,
+        "name": "无推荐信"
+        },
+        {
+        "value": 2,
+        "id": 2,
+        "name": "国内普通推"
+        },
+        {
+        "value": 3,
+        "id": 3,
+        "name": "海外普通推"
+        },
+        {
+        "value": 4,
+        "id": 4,
+        "name": "国内牛推"
+        },
+        {
+        "value": 5,
+        "id": 5,
+        "name": "海外牛推"
+        }
+    ]
     return recommendations;
 }
 
@@ -166,11 +278,38 @@ async function fetchResearches() {
 }
 
 const getResearches = () => {
-    let str = sessionStorage.getItem('researches');
-    let researches = JSON.parse(str);
-    if (researches === null) {
-        researches = fetchResearches();
-    }
+    // let str = sessionStorage.getItem('researches');
+    // let researches = JSON.parse(str);
+    // if (researches === null) {
+    //     researches = fetchResearches();
+    // }
+    const researches = [
+        {
+        "value": 1,
+        "id": 1,
+        "name": "无科研经历"
+        },
+        {
+        "value": 2,
+        "id": 2,
+        "name": "初步的科研经历"
+        },
+        {
+        "value": 3,
+        "id": 3,
+        "name": "大学实验室做过较深入的研究"
+        },
+        {
+        "value": 4,
+        "id": 4,
+        "name": "1~3个月的海外研究经历"
+        },
+        {
+        "value": 5,
+        "id": 5,
+        "name": "大于3个月的海外研究经历"
+        }
+    ]
     return researches;
 }
 
