@@ -5,11 +5,11 @@ import styles from './UserInfoCard.css';
 import { Button, Avatar } from 'antd';
 import router from 'umi/router';
 import avatar2 from '../assets/avatar2.jpg';
-
+import { BASE_URL } from '../utils/config';
 const UserInfoCard = ({ history, username, role, helpNumber }) => {
 
     const handleLogin = () => {
-        router.push('/login?redirect_url=' + history.location.pathname);
+        router.push('/login?redirect_url='+ BASE_URL + history.location.pathname);
     };
 
     return (
@@ -28,14 +28,19 @@ const UserInfoCard = ({ history, username, role, helpNumber }) => {
 
                 <div className={styles.userInfo}>
                     <span className={styles.username}>{username ? username : '未登录'}</span>
-                    <span className={styles.role}>{role ? role : '访问者'}</span>
+                    <span className={styles.role}>{role ? role : ''}</span>
                 </div>
             </div>
             {
                 username ?
-                    <div className={styles.actionsContainer}>
-                        <Link to="/case_report"><Button className={styles.buttonBlue} type="primary">报OFFER</Button></Link>
-                        <Link to="/user_report"><Button className={styles.buttonBlue} type="primary">报三维</Button></Link>
+                    <div>
+                        <div className={styles.actionsContainer}>
+                            <Link to="/case_report"><Button className={styles.buttonBlue} type="primary">报OFFER</Button></Link>
+                            <Link to="/user_report"><Button className={styles.buttonBlue} type="primary">报三维</Button></Link>
+                        </div>
+                        <div className={styles.textContainer}>
+                                <Link to="/profile"><Button className={styles.buttonRed} type="primary">个人中心</Button></Link>
+                        </div>
                     </div>
                 :
                     <div className={styles.actionsContainer}>
@@ -44,9 +49,7 @@ const UserInfoCard = ({ history, username, role, helpNumber }) => {
                     </div>
             }
 
-           <div className={styles.textContainer}>
-                <Link to="/profile"><Button className={styles.buttonRed} type="primary">个人中心</Button></Link>
-           </div>
+
         </div>
     );
 };

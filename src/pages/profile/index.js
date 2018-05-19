@@ -6,13 +6,14 @@ import avatar from '../../assets/avatar4.jpg';
 import UserInfoCasesTabel from '../../components/UserInfoCasesTabel';
 import UserInfoStatusTable from '../../components/UserInfoStatusTable';
 import Link from 'umi/link'
-import { loginUser } from '../../utils/user';
-
+import { loginUser, isLogin } from '../../utils/user';
+import Redirect from 'umi/redirect';
 // TODO: check the login status before render, if not , redirect to home page.
 
 const ProfilePage = () => {
     const userInfo = loginUser();
     return (
+        isLogin() ?
         <div>
             <Row className={styles.container} type="flex" justify="center" gutter={24}>
 
@@ -49,6 +50,8 @@ const ProfilePage = () => {
 
             </Row>
         </div>
+        :
+        <Redirect to="/" />
     );
 }
 

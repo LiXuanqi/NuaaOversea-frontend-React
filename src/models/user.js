@@ -1,5 +1,7 @@
 import request from '../utils/request';
 import { login } from '../utils/user';
+import { message } from 'antd';
+import router from 'umi/router';
 
 export default {
     namespace: 'user',
@@ -11,7 +13,6 @@ export default {
     },
     effects: { 
         *login({ payload: formData }, { call, put }){
-            console.log(formData);
             const { data: res } = yield call(request, '/oversea/api/tokens', {
                 method: 'POST',
                 headers: {
@@ -23,22 +24,24 @@ export default {
                 })
             })
             console.log(res);
-            if (res.status === true) {
-                const { data } = res;
-                const { token } = data;
+            
+            if (res.error) {
+                message.warn(res.error);
+            } 
+            if (res.token) {
+                const token = res.token;
                 if (token) {
                     sessionStorage.setItem('token', token);
                     login();
                 }
                 if (formData.redirect_url) {
-                    window.location.href = formData.redirect_url;
+                    router.push('/refresh?redirect_url='+formData.redirect_url);
                 } 
             }
    
         },     
         *register({ payload: formData }, { call, put }){
-            console.log(formData);
-            const response = yield call(request, '/oversea/api/users', {
+            const { data } = yield call(request, '/oversea/api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -50,10 +53,7 @@ export default {
                     will_contact: formData.will_contact
                 })
             });
-            const { data } = response;
-            console.log(data);
-            if (data) {
-                // TODO: login and redirect to personal center.
+            if (data.id) {
                 const { data: res } = yield call(request, '/oversea/api/tokens', {
                     method: 'POST',
                     headers: {
@@ -65,14 +65,16 @@ export default {
                     })
                 })
        
-                if (res.status === true) {
-                    const { data } = res;
-                    const { token } = data;
+                if (!res.error) {
+                    const token = res.token;
                     if (token) {
                         sessionStorage.setItem('token', token);
                         login();
                     }
+             
                     window.location.href = '/profile';
+                } else {
+                    message.warn(res.error);
                 }
 
             }

@@ -7,12 +7,12 @@ import { Button, Dropdown, Avatar, Menu, message } from 'antd';
 import { isLogin, logout } from '../utils/user.js';
 import CaseSearch from '../components/CaseSearch';
 import logo from '../assets/logo.png';
+import { BASE_URL } from '../utils/config';
 
 function Header({ history, dispatch }) {
 
     const goToLoginPage = () => {
-        console.log(history);
-        router.push('/login?redirect_url=/oversea' + history.location.pathname);
+        router.push('/login?redirect_url='+ BASE_URL + history.location.pathname);
     }
 
     const goToRegisterPage = () => {
@@ -20,7 +20,6 @@ function Header({ history, dispatch }) {
     }
 
     const handleUserActionMenuClicked = function ({ key }) {
-        console.log(`Click on item ${key}`);
         if (key === 'user_info') {
             router.push('/profile');
         }

@@ -19,9 +19,11 @@ async function login() {
     const { data: res } = await request('/oversea/api/users?token=' + token, {
         method: 'GET'
     });
-    console.log(res);
-    const userInfo = res.data;
-    Cookies.set('current-user', userInfo);
+    if (!res.error) {
+        const userInfo = res;
+        Cookies.set('current-user', userInfo);
+    }
+
 }
 
 function logout() {
