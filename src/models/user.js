@@ -2,6 +2,7 @@ import request from '../utils/request';
 import { login } from '../utils/user';
 import { message } from 'antd';
 import router from 'umi/router';
+import { BASE_URL } from '../utils/config';
 
 export default {
     namespace: 'user',
@@ -35,7 +36,7 @@ export default {
                     login();
                 }
                 if (formData.redirect_url) {
-                    router.push('/refresh?redirect_url='+formData.redirect_url);
+                    window.location.href = BASE_URL + formData.redirect_url
                 } 
             }
    
