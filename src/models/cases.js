@@ -92,7 +92,7 @@ export default {
             const { data } = yield call(request, '/oversea/api/applications/' + payload.application_id, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-type": "application/json; charset=UTF-8;"
                 },
                 body: JSON.stringify({
                     ...payload.formData,
@@ -110,7 +110,7 @@ export default {
             const { data } = yield call(request, '/oversea/api/applications', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-type": "application/json; charset=UTF-8;"
                 },
                 body: JSON.stringify({
                     ...formData,

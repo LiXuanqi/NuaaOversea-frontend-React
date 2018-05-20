@@ -16,7 +16,7 @@ export default {
             const { data: res } = yield call(request, '/oversea/api/tokens', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-type": "application/json; charset=UTF-8;"
                 },
                 body: JSON.stringify({
                     username: formData.username,
@@ -44,7 +44,7 @@ export default {
             const { data } = yield call(request, '/oversea/api/users', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-type": "application/json; charset=UTF-8;"
                 },
                 body: JSON.stringify({
                     username: formData.username,
@@ -57,7 +57,7 @@ export default {
                 const { data: res } = yield call(request, '/oversea/api/tokens', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        "Content-type": "application/json; charset=UTF-8;"
                     },
                     body: JSON.stringify({
                         username: formData.username,
