@@ -18,7 +18,7 @@ class Case extends React.Component {
     };    
     
     render() {
-
+        const case_data = this.props.case_data;
         return (
             <div className={styles.content}>
                 <CaseCard

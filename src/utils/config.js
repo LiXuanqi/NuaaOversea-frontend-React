@@ -1,4 +1,4 @@
-const ENV = 'dev';
+const ENV = 'production';
 const BASE_URL = ENV === 'dev' ? '' : '/oversea'
 
 export {
