@@ -1,7 +1,6 @@
 import request from '../utils/request';
 
 import { message } from 'antd';
-import { BASE_URL } from '../utils/config';
 import router from 'umi/router';
 
 export default {
@@ -59,8 +58,6 @@ export default {
                     });
                 }
                 if (formData.redirect_url) {
-                    // window.location.href = BASE_URL + formData.redirect_url
-  
                     router.push(formData.redirect_url);
                 } else {
                     router.push('/');
@@ -82,7 +79,7 @@ export default {
                 })
             }
         },  
-        *register({ payload: formData }, { call, put }){
+        *register({ payload: formData }, { call, put, take }){
             const { data } = yield call(request, '/oversea/api/users', {
                 method: 'POST',
                 headers: {
@@ -113,8 +110,11 @@ export default {
                         sessionStorage.setItem('token', token);
                         yield put({
                             type: 'fetchUserInfo'
-                        });
-                        router.push('/profile');
+                        })
+                      
+                        // FIXME: should make sure the fetchUserInfo is finished and then redirect.
+                        router.push('/');
+                        message.success('注册成功!')
                     }
                 } else {
                     message.warn(res.error);

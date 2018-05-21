@@ -116,7 +116,10 @@ export default {
                 })
             })
             if (data.id) {
-                message.success("添加案例成功")
+                // message.success("添加案例成功")
+                yield put({
+                    type: 'fetchAllCasesList'
+                })
             }
         }
     },
