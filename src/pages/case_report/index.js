@@ -7,7 +7,6 @@ import { WrappedUserComplementReportForm } from '../../components/UserReportForm
 import CaseReportCheckCard from '../../components/CaseReportCheckCard';
 import BillboardCard from '../../components/BillboardCard';
 import request from '../../utils/request';
-import { loginUser } from '../../utils/user';
 import { researchNameToId, recommendationNameToId, projectNameToId } from '../../utils/dataFromServer';
 import router from 'umi/router';
 
@@ -74,13 +73,12 @@ class CaseReport extends React.Component {
         };
     }
 
-    async componentWillMount(){
-        const user_info = loginUser();
+    async UNSAFE_componentWillMount(){
+        const user_info = this.props.userInfo;
         const applicant_id = user_info.applicant_id;
 
         if (applicant_id) {
             const { data } = await request('/oversea/api/applicants/' + applicant_id)
-
 
             let newMajor = [data.college, data.major];
             const newUserInfoFields = {
@@ -209,14 +207,15 @@ class CaseReport extends React.Component {
     }
 
    handleSubmit() {
-        const user_info = loginUser();
+        const user_info = this.props.userInfo;
         const userInfoFields = this.userFormData();
         const casesFields = this.casesFormData();
         
         this.props.dispatch({
             type: 'applicants/updateApplicant',
             payload: {
-                formData: userInfoFields
+                formData: userInfoFields,
+                applicant_id: this.props.userInfo.applicant_id
             }
         });
         
@@ -384,7 +383,7 @@ CaseReport.propTypes = {
 
 function mapStateToProps(state) {
     return {
-
+        userInfo: state.user.userInfo
     };
 }
 

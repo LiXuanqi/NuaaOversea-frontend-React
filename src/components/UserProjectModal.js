@@ -24,7 +24,8 @@ const UserProjectModal = Form.create()(
                     type: 'applicants/patchApplicant',
                     payload: {
                         formData: values,
-                        redirect_url: '/profile'
+                        redirect_url: '/profile',
+                        applicant_id: this.props.userInfo.applicant_id
                     }
                 });
                 form.resetFields();
@@ -65,5 +66,9 @@ const UserProjectModal = Form.create()(
         }
     }
 );
-
-export default connect()(UserProjectModal);
+function mapStateToProps(state) {
+    return {
+        userInfo: state.user.userInfo
+    };
+}
+export default connect(mapStateToProps)(UserProjectModal);

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { connect } from 'dva';
-import { Form, Input, Cascader, Checkbox, Button, Radio, InputNumber } from 'antd';
-import { loginUser } from '../utils/user';
+import { Form, Input, Cascader, Button, Radio, InputNumber } from 'antd';
+
 import { getRecommendations, getResearches, getProjects, projectNameToId, recommendationNameToId, researchNameToId } from '../utils/dataFromServer';
 import request from '../utils/request';
 
@@ -38,9 +38,9 @@ class UserReportForm extends React.Component {
         initData: {},
     };
 
-    async componentWillMount(){
-        if (loginUser().applicant_id) {
-            const { data } = await request('/oversea/api/applicants/' + loginUser().applicant_id);
+    async UNSAFE_componentWillMount(){
+        if (this.props.userInfo.applicant_id) {
+            const { data } = await request('/oversea/api/applicants/' + this.props.userInfo.applicant_id);
             this.setState({
                 ...this.state,
                 initData: {...data}
@@ -67,18 +67,18 @@ class UserReportForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-
                 const newValues = {
                     ...values,
                     college: values.major[0],
                     major: values.major[1]
                 }
-                if (loginUser().applicant_id) {
+                if (this.props.userInfo.applicant_id) {
                     this.props.dispatch({
                         type: 'applicants/updateApplicant',
                         payload: {
                             formData: newValues,
                             redirect_url: '/cases',
+                            applicant_id: this.props.userInfo.applicant_id
                         }
                     })
                 } else {       
@@ -485,6 +485,7 @@ const WrappedUserComplementReportForm = Form.create({
 
 function mapStateToProps(state) {
     return {
+        userInfo: state.user.userInfo
     };
 }
 // const WrappedUserReportForm = Form.create()(UserReportForm);

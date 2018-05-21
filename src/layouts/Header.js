@@ -4,12 +4,11 @@ import Link from 'umi/link';
 import router from 'umi/router';
 import styles from './Header.css';
 import { Button, Dropdown, Avatar, Menu, message } from 'antd';
-import { isLogin, logout } from '../utils/user.js';
 import CaseSearch from '../components/CaseSearch';
 import logo from '../assets/logo.png';
-import { BASE_URL } from '../utils/config';
+import { WEBSITE_NAME, WEBSITE_INTRO } from '../utils/config';
 
-function Header({ history, dispatch }) {
+function Header({ history, dispatch, isLogin }) {
 
     const goToLoginPage = () => {
         router.push('/login?redirect_url=' + history.location.pathname);
@@ -36,10 +35,12 @@ function Header({ history, dispatch }) {
     );
     
     const handleLogout = () => {
-        logout();
+        dispatch({
+            type: 'user/logout'
+        })
     };
     const handleReportOffer = () => {
-        if (isLogin()) {
+        if (isLogin) {
            router.push('/case_report')
         } else {
             message.error('请先登录！');
@@ -54,8 +55,8 @@ function Header({ history, dispatch }) {
                     </span>
                 </Link>
                 <div className={styles.brand}>
-                    <span className={styles.brandName}>Oversea</span>
-                    <span className={styles.brandIntro}>Cases for everyone</span>
+                    <span className={styles.brandName}>{ WEBSITE_NAME }</span>
+                    <span className={styles.brandIntro}>{ WEBSITE_INTRO }</span>
                 </div>
                 <CaseSearch />
             </div>
@@ -67,7 +68,7 @@ function Header({ history, dispatch }) {
                 </div>
                 <div className={styles.userInfoContainer}>
                     {
-                        isLogin()
+                        isLogin
                             ?
                             <div>
                                 <Dropdown overlay={menu} placement="bottomCenter">
@@ -89,7 +90,7 @@ function Header({ history, dispatch }) {
 
 function mapStateToProps(state) {
     return {
-
+        isLogin: state.user.isLogin
     };
 }
 

@@ -6,14 +6,9 @@ import avatar from '../../assets/avatar4.jpg';
 import UserInfoCasesTabel from '../../components/UserInfoCasesTabel';
 import UserInfoStatusTable from '../../components/UserInfoStatusTable';
 import Link from 'umi/link'
-import { loginUser, isLogin } from '../../utils/user';
-import Redirect from 'umi/redirect';
-// TODO: check the login status before render, if not , redirect to home page.
 
-const ProfilePage = () => {
-    const userInfo = loginUser();
+const ProfilePage = ({ userInfo }) => {
     return (
-        isLogin() ?
         <div>
             <Row className={styles.container} type="flex" justify="center" gutter={24}>
 
@@ -36,26 +31,28 @@ const ProfilePage = () => {
                         <Link to="/case_report"><Button>报Offer</Button></Link>
                     </div>
                     <div className={styles.contentContainer}>
-                        <UserInfoCasesTabel applicant_id={ loginUser().applicant_id }/>
+                        <UserInfoCasesTabel applicant_id={ userInfo.applicant_id }/>
                     </div>
                    
                     <div className={styles.headerContainer}>
                         <h2>你的三维</h2>
                     </div>
                     <div className={styles.contentContainer}>
-                        <UserInfoStatusTable applicant_id={ loginUser().applicant_id }/>  
+                        <UserInfoStatusTable applicant_id={ userInfo.applicant_id }/>  
                     </div>
 
                 </Col>
 
             </Row>
         </div>
-        :
-        <Redirect to="/" />
     );
 }
 
 ProfilePage.propTypes = {
 };
-
-export default connect()(ProfilePage);
+function mapStateToProps(state) {
+    return {
+        userInfo: state.user.userInfo
+    };
+}
+export default connect(mapStateToProps)(ProfilePage);

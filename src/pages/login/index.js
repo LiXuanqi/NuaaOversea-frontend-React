@@ -4,7 +4,7 @@ import { Button, Row, Form, Input } from 'antd'
 import styles from './index.less'
 import logo from '../../assets/logo.png'
 import Link from 'umi/link';
-
+import { WEBSITE_NAME } from '../../utils/config';
 const FormItem = Form.Item
 
 const LoginPage = ({
@@ -33,10 +33,12 @@ const LoginPage = ({
 
     return (
         <div className={styles.form}>
-            <div className={styles.logo}>
-                <img alt="logo" src={logo} />
-                <span>NuaaOversea</span>
-            </div>
+            <Link to='/'>
+                <div className={styles.logo}>
+                    <img alt="logo" src={logo} />
+                    <span>{WEBSITE_NAME}</span>
+                </div>
+            </Link>
             <div style={{marginBottom: '8px'}}>
                     <span className={styles.hasUser}>还没有账号？</span>
                     <Link to="/register"><span className={styles.loginText}>注册</span></Link>

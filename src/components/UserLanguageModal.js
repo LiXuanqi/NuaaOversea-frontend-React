@@ -17,7 +17,8 @@ const UserLanguageModal = Form.create()(
                     type: 'applicants/patchApplicant',
                     payload: {
                         formData: values,
-                        redirect_url: '/profile'
+                        redirect_url: '/profile',
+                        applicant_id: this.props.userInfo.applicant_id
                     }
                 });
                 form.resetFields();
@@ -164,5 +165,9 @@ const UserLanguageModal = Form.create()(
         }
     }
 );
-
-export default connect()(UserLanguageModal);
+function mapStateToProps(state) {
+    return {
+        userInfo: state.user.userInfo
+    };
+}
+export default connect(mapStateToProps)(UserLanguageModal);

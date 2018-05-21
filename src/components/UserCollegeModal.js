@@ -3,8 +3,7 @@ import React from 'react'
 import { connect } from 'dva'
 const FormItem = Form.Item;
 
-const UserCollegeModal = Form.create()(
-    
+const UserCollegeModal = Form.create()(  
     class extends React.Component {
         onCreate = () => {
             const form = this.props.form;
@@ -16,7 +15,8 @@ const UserCollegeModal = Form.create()(
                     type: 'applicants/patchApplicant',
                     payload: {
                         formData: values,
-                        redirect_url: '/profile'
+                        redirect_url: '/profile',
+                        applicant_id: this.props.userInfo.applicant_id
                     }
                 });
                 form.resetFields();
@@ -50,4 +50,10 @@ const UserCollegeModal = Form.create()(
     }
 );
 
-export default connect()(UserCollegeModal);
+function mapStateToProps(state) {
+    return {
+        userInfo: state.user.userInfo
+    };
+}
+
+export default connect(mapStateToProps)(UserCollegeModal);

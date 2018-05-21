@@ -2,12 +2,10 @@ import React from 'react';
 import fetch from 'dva/fetch';
 import { connect } from 'dva';
 import { Form, Input, Cascader, Checkbox, Button, Radio, InputNumber } from 'antd';
-import { loginUser, login } from '../utils/user';
-import request from '../utils/request';
+
 
 const FormItem = Form.Item;
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
+
 
 // TODO: if the info exists, should ask user whether update the info?
 class EvaluationForm extends React.Component {

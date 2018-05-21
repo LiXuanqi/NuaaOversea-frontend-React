@@ -11,7 +11,6 @@ export default {
     },
     reducers: {
         saveAllCasesList(state, { payload: { data: newData } }) {
-
             return { ...state,
                 cases_list: newData.data.applications,
             }
@@ -29,7 +28,6 @@ export default {
         },
     },
     effects: {
-        // get all posts.
         *fetchAllCasesList(action, { call, put }) {
             const data = yield call(request, '/oversea/api/applications');
             yield put({

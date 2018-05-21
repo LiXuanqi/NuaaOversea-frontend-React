@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './index.css';
 import { Tag, Divider, Row, Col, Cascader, Slider, Switch } from 'antd';
-import { loginUser } from '../../utils/user';
-
 import CaseCard from '../../components/CaseCard';
 import UserInfoCard from '../../components/UserInfoCard';
 import BillboardCard from '../../components/BillboardCard';
@@ -14,7 +12,6 @@ import pic1 from '../../assets/pic-1.jpg';
 import { tagsFromServer, countriesFromServer, degreesFromServer, resultsFromServer } from '../../utils/dataFromServer';
 
 const CheckableTag = Tag.CheckableTag;
-// TODO: fetch data from server.
 
 const gpaMarks = {
     1: '1.0',
@@ -282,10 +279,6 @@ class CaseList extends React.Component {
     render() {
         const { selectedFilter, rangeFilter, filterByRange, filterBySelected } = this.state;
         const { selectedTags, selectedDegree, selectedCountry, selectedResult, selectedTerm } = selectedFilter;
-        const user_info = loginUser();
-
-
-
         const checkRangeFilter = (item) => {
             const minGpa = rangeFilter.gpa[0];
             const maxGpa = rangeFilter.gpa[1];
@@ -523,8 +516,8 @@ class CaseList extends React.Component {
                 <Col span={6}>
            
                     <UserInfoCard
-                        username={user_info.username}
-                        role={user_info.role}
+                        username={this.props.userInfo.username}
+                        role={this.props.userInfo.role}
                     />
                     <BillboardCard />
                     <BillboardCard />
@@ -541,7 +534,8 @@ CaseList.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        cases_list : state.cases.cases_list
+        cases_list : state.cases.cases_list,
+        userInfo : state.user.userInfo
     };
 }
 

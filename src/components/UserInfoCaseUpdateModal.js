@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, Form, Input, Select, Switch, Icon, Cascader } from 'antd';
 import { getCountries, countryNameToId } from '../utils/dataFromServer';
-import { loginUser } from '../utils/user';
+
 import { connect } from 'dva';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -42,7 +42,7 @@ const UserInfoCaseUpdateModal = Form.create()(
                   payload: {
                       formData: values,
                       application_id: this.props.choosedCase,
-                      applicant_id: loginUser().applicant_id,
+                      applicant_id: this.props.userInfo.applicant_id,
                       redirect_url: '/profile'
                   }
               })
@@ -151,5 +151,9 @@ const UserInfoCaseUpdateModal = Form.create()(
         }
     }
 );
-
-export default connect()(UserInfoCaseUpdateModal);
+function mapStateToProps(state) {
+    return {
+        userInfo: state.user.userInfo
+    };
+}
+export default connect(mapStateToProps)(UserInfoCaseUpdateModal);

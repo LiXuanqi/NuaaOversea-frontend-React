@@ -5,11 +5,11 @@ import styles from './UserInfoCard.css';
 import { Button, Avatar } from 'antd';
 import router from 'umi/router';
 import avatar2 from '../assets/avatar2.jpg';
-import { BASE_URL } from '../utils/config';
+
 const UserInfoCard = ({ history, username, role, helpNumber }) => {
 
     const handleLogin = () => {
-        router.push('/login?redirect_url='+ BASE_URL + history.location.pathname);
+        router.push('/login?redirect_url='+ history.location.pathname);
     };
 
     return (

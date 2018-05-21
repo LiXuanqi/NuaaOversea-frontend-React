@@ -25,26 +25,20 @@ async function login() {
     }
 }
 
-function logout() {
-    sessionStorage.removeItem('token');
-    Cookies.remove('current-user');
-    window.location.reload();
-}
 
-function updateApplicantId(applicant_id) {
-    const str = Cookies.get('current-user');
-    let json = JSON.parse(str);
-    const newJson = {
-        ...json,
-        applicant_id: applicant_id
-    }
-    Cookies.set('current-user', newJson);
-}
+// function updateApplicantId(applicant_id) {
+//     const str = Cookies.get('current-user');
+//     let json = JSON.parse(str);
+//     const newJson = {
+//         ...json,
+//         applicant_id: applicant_id
+//     }
+//     Cookies.set('current-user', newJson);
+// }
 
 export {
     loginUser,
     isLogin,
     login,
-    logout,
-    updateApplicantId
+    // updateApplicantId
 };
