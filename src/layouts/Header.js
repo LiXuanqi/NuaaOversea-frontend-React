@@ -7,11 +7,13 @@ import { Button, Dropdown, Avatar, Menu, message } from 'antd';
 import CaseSearch from '../components/CaseSearch';
 import logo from '../assets/logo.png';
 import { WEBSITE_NAME, WEBSITE_INTRO } from '../utils/config';
+import auth from '../services/auth';
 
 function Header({ history, dispatch, isLogin }) {
 
     const goToLoginPage = () => {
-        router.push('/login?redirect_url=' + history.location.pathname);
+        auth.login();
+        // router.push('/login?redirect_url=' + history.location.pathname);
     }
 
     const goToRegisterPage = () => {
@@ -23,7 +25,7 @@ function Header({ history, dispatch, isLogin }) {
             router.push('/profile');
         }
         if (key === 'logout') {
-            handleLogout();
+            auth.logout();
         }
     };
 
@@ -68,7 +70,7 @@ function Header({ history, dispatch, isLogin }) {
                 </div>
                 <div className={styles.userInfoContainer}>
                     {
-                        isLogin
+                        auth.isAuthenticated()
                             ?
                             <div>
                                 <Dropdown overlay={menu} placement="bottomCenter">
