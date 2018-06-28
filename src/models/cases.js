@@ -2,6 +2,7 @@ import pathToRegexp from 'path-to-regexp';
 import request from '../utils/request';
 import { message } from 'antd'
 import router from 'umi/router';
+import { getApplications, getApplication, getApplicationsByApplicantId, getApplicationByTopic } from '../services/applications';
 export default {
     namespace: 'cases',
     state: {
@@ -29,7 +30,7 @@ export default {
     },
     effects: {
         *fetchAllCasesList(action, { call, put }) {
-            const data = yield call(request, '/oversea/api/applications');
+            const data = yield call(getApplications);
             yield put({
                 type: 'saveAllCasesList',
                 payload: {
@@ -38,7 +39,7 @@ export default {
             });
         },
         *fetchRelatedCasesListByApplicantId({ payload: applicant_id }, { call, put }) {
-            const data = yield call(request, '/oversea/api/applications?applicant_id='+applicant_id);
+            const data = yield call(getApplicationsByApplicantId, applicant_id);
             yield put({
                 type: 'saveRelatedCasesList',
                 payload: {
@@ -48,11 +49,11 @@ export default {
         },
         *fetchOneCase({ payload: response }, { call, put }){
             // FIXME: this is a workaround, it would be better if I can split it into 2 methods.
-            const data = yield call(request, '/oversea/api/applications/'+response.caseId);            
+            const data = yield call(getApplication, response.caseId);            
 
             const applicant_id = data.data.applicant_id;
 
-            const relatedData = yield call(request, '/oversea/api/applications?applicant_id='+applicant_id);
+            const relatedData = yield call(getApplicationsByApplicantId, applicant_id);
 
             yield put({
                 type: 'saveOneCase',
@@ -69,7 +70,7 @@ export default {
             });
         },
         *fetchCasesByTopic({ payload: topic }, { call, put}){
-            const data = yield call(request, '/oversea/api/search/applications?q=topic:' + topic);
+            const data = yield call(getApplicationByTopic, topic);
             yield put({
                 type: 'saveAllCasesList',
                 payload: {

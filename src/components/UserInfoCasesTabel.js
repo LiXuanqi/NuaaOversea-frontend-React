@@ -13,7 +13,7 @@ class UserInfoCasesTabel extends React.Component {
         choosedCase: -1
     }
 
-    async componentWillMount(){
+    async UNSAFE_componentWillMount(){
         this.props.dispatch({
             type: 'app/fetchAllTags'
         });

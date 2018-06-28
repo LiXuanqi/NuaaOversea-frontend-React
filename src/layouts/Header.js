@@ -12,8 +12,8 @@ import auth from '../services/auth';
 function Header({ history, dispatch, isLogin }) {
 
     const goToLoginPage = () => {
-        auth.login();
-        // router.push('/login?redirect_url=' + history.location.pathname);
+        // auth.login();
+        router.push('/login?redirect_url=' + history.location.pathname);
     }
 
     const goToRegisterPage = () => {
@@ -25,7 +25,8 @@ function Header({ history, dispatch, isLogin }) {
             router.push('/profile');
         }
         if (key === 'logout') {
-            auth.logout();
+            // auth.logout();
+            handleLogout();
         }
     };
 
