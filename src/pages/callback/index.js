@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 import auth from '../../services/auth';
 
 const handleAuthentication = ({location}) => {
-  if (/access_token|id_token|error/.test(location.hash)) {
-    auth.handleAuthentication();
+  const token = location['query']['token'];
+  if (token) {
+    auth.handleAuthentication(token);
   }
 }
 

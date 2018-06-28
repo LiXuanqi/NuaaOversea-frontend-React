@@ -1,6 +1,5 @@
 import React from 'react';
 import { Table } from 'antd';
-import request from '../utils/request';
 import PropTypes from 'prop-types';
 import UserCollegeModal from './UserCollegeModal';
 import UserGpaModal from './UserGpaModal';
@@ -10,6 +9,7 @@ import UserProjectModal from './UserProjectModal';
 import UserRecommendationModal from './UserRecommendationModal';
 import UserLanguageModal from './UserLanguageModal';
 import UserGreModal from './UserGreModal';
+import { getApplicant } from '../services/applicants';
 
 const { Column } = Table;
 class UserInfoStatusTabel extends React.Component {
@@ -24,12 +24,10 @@ class UserInfoStatusTabel extends React.Component {
             research: false,
             project: false,
             recommendation: false
-        }
-     
+        }   
     }
-    async componentWillMount(){
-        const { data } = await request('/oversea/api/applicants/'+ this.props.applicant_id);
-        
+    async UNSAFE_componentWillMount(){
+        const { data } = await getApplicant(this.props.applicant_id);        
         let newData = []
         if (data.id) {
             newData = [{

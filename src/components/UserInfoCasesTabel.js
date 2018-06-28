@@ -1,9 +1,9 @@
 import React from 'react';
 import { Table, Divider, Popconfirm, Tag } from 'antd';
-import request from '../utils/request';
 import PropTypes from 'prop-types';
 import { connect } from 'dva';
 import UserInfoCaseUpdateModal from '../components/UserInfoCaseUpdateModal';
+import { getApplicationsByApplicantId } from '../services/applications';
 
 const { Column } = Table;
 
@@ -18,7 +18,7 @@ class UserInfoCasesTabel extends React.Component {
             type: 'app/fetchAllTags'
         });
 
-        const { data } = await request('/oversea/api/applications?applicant_id='+this.props.applicant_id);
+        const { data } = await getApplicationsByApplicantId(this.props.applicant_id);
         const applications = data.applications;
   
         const newApplications = applications.map((item, index)=>{
@@ -98,7 +98,6 @@ class UserInfoCasesTabel extends React.Component {
                 <Column
                     title="录取结果"
                     dataIndex="result"
-      
                 />
                 <Column
                 title="学校"

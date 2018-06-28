@@ -25,8 +25,7 @@ function Header({ history, dispatch, isLogin }) {
             router.push('/profile');
         }
         if (key === 'logout') {
-            // auth.logout();
-            handleLogout();
+            auth.logout();
         }
     };
 

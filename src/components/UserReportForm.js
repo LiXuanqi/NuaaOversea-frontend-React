@@ -4,8 +4,8 @@ import { connect } from 'dva';
 import { Form, Input, Cascader, Button, Radio, InputNumber } from 'antd';
 
 import { getRecommendations, getResearches, getProjects, projectNameToId, recommendationNameToId, researchNameToId } from '../utils/dataFromServer';
-import request from '../utils/request';
 
+import { getApplicant } from '../services/applicants';
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -40,7 +40,7 @@ class UserReportForm extends React.Component {
 
     async UNSAFE_componentWillMount(){
         if (this.props.userInfo.applicant_id) {
-            const { data } = await request('/oversea/api/applicants/' + this.props.userInfo.applicant_id);
+            const { data } = await getApplicant(this.props.userInfo.applicant_id);
             this.setState({
                 ...this.state,
                 initData: {...data}

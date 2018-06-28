@@ -1,5 +1,5 @@
-import auth0 from 'auth0-js';
 import router from 'umi/router';
+import request from '../utils/request';
 
 class Auth {
   constructor() {
@@ -10,75 +10,85 @@ class Auth {
     this.getProfile = this.getProfile.bind(this);
   }
 
-  auth0 = new auth0.WebAuth({
-    domain: 'lixuanqi.auth0.com',
-    clientID: 'YqUby6cL2hNZyN7hQUdfScfnRRkazL1l',
-    redirectUri: 'http://localhost:8000/callback',
-    audience: 'https://lixuanqi.auth0.com/userinfo',
-    responseType: 'token id_token',
-    scope: 'openid profile'
-  });
-
   login() {
-    this.auth0.authorize();
+    request('/oversea/api/tokens', {
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json; charset=UTF-8;"
+        },
+        body: JSON.stringify({
+          username: 'test',
+          password: 'test'
+        })
+      })
+      .then((data) => {
+        const token = data['data']['token'];
+        router.replace(`callback?token=${token}`)
+      })
   }
 
-  handleAuthentication() {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-        router.replace('/');
-      } else if (err) {
-        router.replace('/');
-        console.log(err);
-      }
-    });
+  handleAuthentication(token) {
+    this.setSession(token);   
+    window.location.href="/";
   }
 
-  setSession(authResult) {
+  setSession(token) {
     // Set the time that the Access Token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
+    localStorage.setItem('token', token);
+
     // navigate to the home route
-    router.replace('/');
+    window.location.href="/";
   }
 
   logout() {
     // Clear Access Token and ID Token from local storage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
+    localStorage.removeItem('token');
     // navigate to the home route
-    router.replace('/');
+    window.location.href="/";
   }
 
   isAuthenticated() {
     // Check whether the current time is past the 
     // Access Token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return new Date().getTime() < expiresAt;
+    let token = localStorage.getItem('token');
+    return token ? true : false
   }
 
   userProfile;
 
   getAccessToken() {
-    const accessToken = localStorage.getItem('access_token');
-    if (!accessToken) {
+    const token = localStorage.getItem('token');
+    if (!token) {
       throw new Error('No Access Token found');
     }
-    return accessToken;
+    return token;
   }
 
   getProfile(cb) {
-    let accessToken = this.getAccessToken();
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
-      if (profile) {
-        this.userProfile = profile;
-      }
-      cb(err, profile);
+    let token = this.getAccessToken();
+    return new Promise((resolve, reject) => {
+      request('/oversea/api/users', {
+        headers: {
+          "Token": token
+        }
+      })
+      .then((data) => {
+      
+        resolve(data);
+        // this.userProfile = profile;
+      })
+      .catch((err) => {
+       
+        reject(err);
+      })
     });
+
+    // this.auth0.client.userInfo(token, (err, profile) => {
+    //   if (profile) {
+    //     this.userProfile = profile;
+    //   }
+    //   cb(err, profile);
+    // });
   }
 }
 
