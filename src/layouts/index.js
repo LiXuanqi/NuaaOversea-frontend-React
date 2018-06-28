@@ -13,7 +13,8 @@ function PageLayout({ children, location }) {
   return (
     <div className={styles.normal}>
       <Header />
-      <Row type="flex">
+      
+      <Row type="flex" >
         <Col xl={2} md={1} xs={0}/>
         <Col xl={20} md={22} xs={24}>
           <div className={styles.content}>

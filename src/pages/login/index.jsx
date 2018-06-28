@@ -5,7 +5,7 @@ import styles from './index.less'
 import logo from '../../assets/logo.png'
 import Link from 'umi/link';
 import { WEBSITE_NAME } from '../../utils/config';
-import Auth from '../../services/auth';
+import auth from '../../services/auth';
 
 const FormItem = Form.Item
 
@@ -30,7 +30,8 @@ const LoginPage = ({
       //         redirect_url: redirect_url
       //     }
       //   })
-      Auth.login();
+      const { username, password } = values;
+      auth.login(username, password);
     })
   }
 

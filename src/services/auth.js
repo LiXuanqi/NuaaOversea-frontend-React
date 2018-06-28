@@ -11,15 +11,15 @@ class Auth {
 
   }
 
-  login() {
+  login(username, password) {
     request('/oversea/api/tokens', {
         method: 'POST',
         headers: {
           "Content-type": "application/json; charset=UTF-8;"
         },
         body: JSON.stringify({
-          username: 'test',
-          password: 'test'
+          username: username,
+          password: password
         })
       })
       .then((data) => {
@@ -65,7 +65,7 @@ class Auth {
     return token;
   }
 
-  getProfile(cb) {
+  getProfile() {
     let token = this.getAccessToken();
     return new Promise((resolve, reject) => {
       request('/oversea/api/users', {
@@ -74,9 +74,9 @@ class Auth {
         }
       })
       .then((data) => {
-      
+        this.userProfile = data['data']
         resolve(data);
-        // this.userProfile = profile;
+       
       })
       .catch((err) => {
        

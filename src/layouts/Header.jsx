@@ -12,7 +12,6 @@ import auth from '../services/auth';
 function Header({ history, dispatch }) {
 
   const goToLoginPage = () => {
-    // auth.login();
     router.push('/login?redirect_url=' + history.location.pathname);
   }
 

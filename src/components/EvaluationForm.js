@@ -82,7 +82,7 @@ function mapStateToProps(state) {
     return {
     };
 }
-// const WrappedUserReportForm = Form.create()(UserReportForm);
+
 const WrappedEvaluationForm = Form.create()(connect(mapStateToProps)(EvaluationForm));
 
 export default WrappedEvaluationForm;

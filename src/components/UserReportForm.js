@@ -1,11 +1,9 @@
 import React from 'react';
-
 import { connect } from 'dva';
 import { Form, Input, Cascader, Button, Radio, InputNumber } from 'antd';
-
 import { getRecommendations, getResearches, getProjects, projectNameToId, recommendationNameToId, researchNameToId } from '../utils/dataFromServer';
-
 import { getApplicant } from '../services/applicants';
+
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -39,8 +37,9 @@ class UserReportForm extends React.Component {
     };
 
     async UNSAFE_componentWillMount(){
-        if (this.props.userInfo.applicant_id) {
-            const { data } = await getApplicant(this.props.userInfo.applicant_id);
+
+        if (this.props.applicant_id) {
+            const { data } = await getApplicant(this.props.applicant_id);
             this.setState({
                 ...this.state,
                 initData: {...data}
@@ -72,13 +71,13 @@ class UserReportForm extends React.Component {
                     college: values.major[0],
                     major: values.major[1]
                 }
-                if (this.props.userInfo.applicant_id) {
+                if (this.props.applicant_id) {
                     this.props.dispatch({
                         type: 'applicants/updateApplicant',
                         payload: {
                             formData: newValues,
                             redirect_url: '/cases',
-                            applicant_id: this.props.userInfo.applicant_id
+                            applicant_id: this.props.applicant_id
                         }
                     })
                 } else {       
@@ -482,13 +481,6 @@ const WrappedUserComplementReportForm = Form.create({
     },
 })(UserReportForm);
 
-
-function mapStateToProps(state) {
-    return {
-        userInfo: state.user.userInfo
-    };
-}
-// const WrappedUserReportForm = Form.create()(UserReportForm);
-const WrappedUserReportForm = Form.create()(connect(mapStateToProps)(UserReportForm));
+const WrappedUserReportForm = Form.create()(connect()(UserReportForm));
 
 export {WrappedUserComplementReportForm, WrappedUserReportForm};

@@ -14,7 +14,11 @@ class UserReport extends React.Component {
                 <Row gutter={32}>
                     <Col span={18} className={styles.contentContainer}>
                         
-                        <WrappedUserReportForm hasSubmitButton='true' onRef={()=>{}}/>
+                        <WrappedUserReportForm 
+                            applicant_id={this.props.userInfo.applicant_id}
+                            hasSubmitButton='true' 
+                            onRef={()=>{}}
+                        />
                     </Col>
                     <Col span={6} className={styles.sidebarContainer}>
               
@@ -31,4 +35,9 @@ class UserReport extends React.Component {
 UserReport.propTypes = {
 };
 
-export default connect()(UserReport);
+function mapStateToProps(state) {
+    return {
+      userInfo: state.app.userInfo
+    };
+  }
+export default connect(mapStateToProps)(UserReport);
