@@ -4,8 +4,8 @@ export default {
   },
   plugins: ['umi-plugin-dva'],
   pages: {
-    '/profile': { Route: './src/routes/PrivateRoute.js' },
-    '/case_report': { Route: './src/routes/PrivateRoute.js' },
-    '/user_report': { Route: './src/routes/PrivateRoute.js' },
+    '/profile': { Route: './src/routes/PrivateRoute.jsx' },
+    '/case_report': { Route: './src/routes/PrivateRoute.jsx' },
+    '/user_report': { Route: './src/routes/PrivateRoute.jsx' },
   },
 }
