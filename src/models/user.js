@@ -35,41 +35,6 @@ export default {
         }
     },
     effects: { 
-        *login({ payload: formData }, { call, put }){
-            const { data: res } = yield call(request, '/oversea/api/tokens', {
-                method: 'POST',
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8;"
-                },
-                body: JSON.stringify({
-                    username: formData.username,
-                    password: formData.password
-                })
-            })
-            if (res.error) {
-                message.warn(res.error);
-            } 
-            if (res.token) {
-                const token = res.token;
-                if (token) {
-                    sessionStorage.setItem('token', token);
-                    yield put({
-                        type: 'fetchUserInfo'
-                    });
-                }
-                if (formData.redirect_url) {
-                    router.push(formData.redirect_url);
-                } else {
-                    router.push('/');
-                }
-            }
-        },   
-        *logout(action, { call, put }) {
-            sessionStorage.removeItem('token');
-            yield put({
-                type: 'deleteUserInfo'
-            })
-        },
         *fetchUserInfo(action, {call, put}) {
             const { data,err } = yield call(request, '/oversea/api/users?token=' + sessionStorage.getItem('token'))                     
             if (!err) {

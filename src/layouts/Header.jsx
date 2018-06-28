@@ -9,15 +9,11 @@ import logo from '../assets/logo.png';
 import { WEBSITE_NAME, WEBSITE_INTRO } from '../utils/config';
 import auth from '../services/auth';
 
-function Header({ history, dispatch, isLogin }) {
+function Header({ history, dispatch }) {
 
   const goToLoginPage = () => {
     // auth.login();
     router.push('/login?redirect_url=' + history.location.pathname);
-  }
-
-  const goToRegisterPage = () => {
-    router.push('/register');
   }
 
   const handleUserActionMenuClicked = function ({ key }) {
@@ -44,7 +40,7 @@ function Header({ history, dispatch, isLogin }) {
   );
 
   const handleReportOffer = () => {
-    if (isLogin) {
+    if (auth.isAuthenticated()) {
       router.push('/case_report')
     } else {
       message.error('请先登录！');
@@ -83,7 +79,7 @@ function Header({ history, dispatch, isLogin }) {
               :
               <div>
                 <Button size="large" type="primary" style={{ marginRight: '16px' }} onClick={goToLoginPage}>登陆</Button>
-                <Button size="large" type="primary" onClick={goToRegisterPage}>注册</Button>
+                <Link to='/register'><Button size="large" type="primary">注册</Button></Link>
               </div>
           }
         </div>
@@ -97,10 +93,5 @@ function Header({ history, dispatch, isLogin }) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    isLogin: state.user.isLogin
-  };
-}
 
-export default connect(mapStateToProps)(withRouter(Header));
+export default connect()(withRouter(Header));

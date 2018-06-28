@@ -1,6 +1,5 @@
 import router from 'umi/router';
 import request from '../utils/request';
-
 class Auth {
   constructor() {
     this.login = this.login.bind(this);
@@ -8,6 +7,8 @@ class Auth {
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getProfile = this.getProfile.bind(this);
+    this.register = this.register.bind(this);
+
   }
 
   login() {
@@ -82,16 +83,26 @@ class Auth {
         reject(err);
       })
     });
+  }
 
-    // this.auth0.client.userInfo(token, (err, profile) => {
-    //   if (profile) {
-    //     this.userProfile = profile;
-    //   }
-    //   cb(err, profile);
-    // });
+  register(username, password, email, will_contact) {
+    return request('/oversea/api/users', {
+      method: 'POST',
+      headers: {
+          "Content-type": "application/json; charset=UTF-8;"
+      },
+      body: JSON.stringify({
+          username: username,
+          password: password,
+          email: email,
+          will_contact: will_contact
+      })
+    })
   }
 }
 
 const auth = new Auth();
 
 export default auth;
+
+

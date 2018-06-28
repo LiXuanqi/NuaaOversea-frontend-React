@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Row, Form, Input, Tooltip, Icon, Checkbox } from 'antd'
+import { Button, Row, Form, Input, Tooltip, Icon, Checkbox, message } from 'antd'
 import styles from './index.less'
 import logo from '../../assets/logo.png'
 import Link from 'umi/link';
 import { WEBSITE_NAME } from '../../utils/config';
+import auth from '../../services/auth';
+import router from 'umi/router';
 
 const FormItem = Form.Item
   
@@ -17,7 +19,13 @@ class RegisterPage extends React.Component {
           if (errors) {
             return
           }
-          this.props.dispatch({ type: 'user/register', payload: values })
+          const {username, password, email, will_contact} = values;
+          auth.register(username, password, email, will_contact)
+            .then(() => {
+                this.props.form.resetFields();
+                message.success('注册成功!');
+                router.replace('/');
+            })
         })
     }
     handleConfirmBlur = (e) => {
