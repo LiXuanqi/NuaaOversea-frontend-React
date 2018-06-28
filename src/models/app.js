@@ -26,6 +26,7 @@ export default {
     }
   },
   subscriptions: {
+    // TODO: check whether userInfo exists, if yes, not fetch every time.
     setup({ dispatch, history,state }) {
       return history.listen(({ pathname, query }) => {
         dispatch({
