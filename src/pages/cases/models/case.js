@@ -20,24 +20,31 @@ export default {
       },
     },
     effects: {
-      *fetchCase({ applicationId }, { call, put }){
+      *fetchCase({ applicationId }, { call, put }) {
         const data = yield call(getApplication, applicationId);    
-        // TODO: GraphGL        
-        // const applicant_id = data.data.applicant_id;
-        // const relatedData = yield call(getApplicationsByApplicantId, applicant_id);
-        yield put({
-            type: 'saveCase',
-            payload: {
-                data,
-            },
+        const applicant_id = data.data.applicant_id;
+
+        window.g_app._store.dispatch({
+          type: 'case/fetchRelatedCases',
+          applicant_id: applicant_id
         });
-        // yield put({
-        //     type: 'saveRelatedCases',
-        //     payload: {
-        //         relatedData,
-        //     },
-        // });
+
+        yield put({
+          type: 'saveCase',
+          payload: {
+              data,
+          },
+        });
       },
+      *fetchRelatedCases({applicant_id}, { call, put }) {
+        const relatedData = yield call(getApplicationsByApplicantId, applicant_id);
+        yield put({
+          type: 'saveRelatedCases',
+          payload: {
+              relatedData,
+          },
+        });
+      }
     },
     subscriptions: {
      
