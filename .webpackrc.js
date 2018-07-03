@@ -17,6 +17,7 @@ export default {
     "publicPath": "/oversea/static/",
     "alias": {
         "Services": __dirname + '/src/services/',
-        "Utils": __dirname + '/src/utils/'
+        "Utils": __dirname + '/src/utils/',
+        "Components": __dirname + '/src/components'
     }
 }

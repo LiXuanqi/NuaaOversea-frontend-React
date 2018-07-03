@@ -9,7 +9,6 @@ import BillboardCard from '../../components/BillboardCard';
 import request from '../../utils/request';
 import { researchNameToId, recommendationNameToId, projectNameToId } from '../../utils/dataFromServer';
 import router from 'umi/router';
-import auth from '../../services/auth';
 
 const Step = Steps.Step;
 
@@ -203,7 +202,6 @@ class CaseReport extends React.Component {
   }
 
   handleSubmit() {
-    const user_info = this.props.userInfo;
     const userInfoFields = this.userFormData();
     const casesFields = this.casesFormData();
 

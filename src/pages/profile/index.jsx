@@ -3,25 +3,17 @@ import { connect } from 'dva';
 import { Row, Col, Button, Divider, Icon } from 'antd';
 import styles from './index.css';
 import avatar from '../../assets/avatar4.jpg';
-import UserInfoCasesTabel from '../../components/UserInfoCasesTabel';
-import UserInfoStatusTable from '../../components/UserInfoStatusTable';
+import UserInfoCasesTabel from 'Components/UserInfoCasesTabel.jsx';
+import UserInfoStatusTable from 'Components/UserInfoStatusTable';
 import Link from 'umi/link'
-import auth from '../../services/auth';
-
 class ProfilePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      profile: {}
-    }
-  }
   componentDidMount() {
     this.props.dispatch({
       type: 'user/fetchProfile'
     });
   }
   render() {
-    const { profile } = this.props;
+    const { profile, userDetail, userCases } = this.props;
     return (
       <div>
         <Row className={styles.container} type="flex" justify="center" gutter={24}>
@@ -68,7 +60,9 @@ ProfilePage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    profile: state.user.profile
+    profile: state.user.profile,
+    userDetail: state.user.detail,
+    userCases: state.user.cases
   }
 }
 

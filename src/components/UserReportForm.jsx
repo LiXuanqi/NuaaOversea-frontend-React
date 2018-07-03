@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Form, Input, Cascader, Button, Radio, InputNumber } from 'antd';
-import { getRecommendations, getResearches, getProjects, projectNameToId, recommendationNameToId, researchNameToId } from '../utils/dataFromServer';
-import { getApplicant } from '../services/applicants';
+import { getRecommendations, getResearches, getProjects, projectNameToId, recommendationNameToId, researchNameToId } from 'Utils/dataFromServer';
+import { getApplicant } from 'Services/applicants';
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 // TODO: click next should validate data.
 // TODO: 收集学校的所有专业名,fetch from database.
+
 const majors = [{
   value: '能源与动力学院',
   label: '能源与动力学院',
@@ -36,32 +37,20 @@ class UserReportForm extends React.Component {
     initData: {},
   };
 
-  async UNSAFE_componentWillMount() {
-   
-    if (this.props.userInfo.applicant_id) {
-      const { data } = await getApplicant(this.props.userInfo.applicant_id);
-      this.setState({
-        ...this.state,
-        initData: { ...data }
-      })
-    }
-  }
-
   componentDidMount() {
-    console.log(this.props.userInfo.applicant_id);
-    this.props.onRef(this)
-  }
-
-  async shouldComponentUpdate() {
-    console.log(this.props.userInfo.applicant_id);
-    
+    console.log(this.props.profile)
+    // const applicantId = this.props.profile.applicant_id;
+    // this.props.dispatch({
+    //   type: 'user/fetchDetail',
+    //   applicantId
+    // });
+    // this.props.onRef(this)
   }
 
   check = () => {
     this.props.form.validateFieldsAndScroll(
       (err) => {
         if (!err) {
-          console.info('success');
           this.props.nextPage();
         }
       },
@@ -77,13 +66,13 @@ class UserReportForm extends React.Component {
           college: values.major[0],
           major: values.major[1]
         }
-        if (this.props.userInfo.applicant_id) {
+        if (this.props.profile.applicant_id) {
           this.props.dispatch({
             type: 'applicants/updateApplicant',
             payload: {
               formData: newValues,
               redirect_url: '/cases',
-              applicant_id: this.props.userInfo.applicant_id
+              applicant_id: this.props.profile.applicant_id
             }
           })
         } else {
@@ -418,12 +407,6 @@ class UserReportForm extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    userInfo: state.app.userInfo
-  };
-}
-
 const WrappedUserComplementReportForm = Form.create({
   onFieldsChange(props, changedFields) {
     props.onChange(changedFields);
@@ -491,8 +474,8 @@ const WrappedUserComplementReportForm = Form.create({
   onValuesChange(_, values) {
 
   },
-})(connect(mapStateToProps)(UserReportForm));
+})(connect()(UserReportForm));
 
-const WrappedUserReportForm = Form.create()(connect(mapStateToProps)(UserReportForm));
+const WrappedUserReportForm = Form.create()(connect()(UserReportForm));
 
 export { WrappedUserComplementReportForm, WrappedUserReportForm };

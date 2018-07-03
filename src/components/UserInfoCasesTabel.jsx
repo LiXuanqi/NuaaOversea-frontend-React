@@ -14,9 +14,6 @@ class UserInfoCasesTabel extends React.Component {
     }
 
     async UNSAFE_componentWillMount(){
-        this.props.dispatch({
-            type: 'app/fetchAllTags'
-        });
 
         const { data } = await getApplicationsByApplicantId(this.props.applicant_id);
         const applications = data.applications;

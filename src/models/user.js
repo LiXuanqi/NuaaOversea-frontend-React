@@ -1,15 +1,31 @@
-import auth from '../services/auth';
+import auth from 'Services/auth';
+import { getApplicant } from 'Services/applicants';
+import { getApplicationsByApplicantId } from 'Services/applications';
 
 export default {
   namespace: 'user',
   state: {
-    profile: {}
+    profile: {},
+    detail: {},
+    cases: []
   },
   reducers: {
-    saveProfile(state, { payload }) {
+    saveProfile(state, { data }) {
       return {
         ...state,
-        profile: payload,
+        profile: data,
+      }
+    },
+    saveDetail(state, { data }) {
+      return {
+        ...state,
+        detail: data
+      }
+    },
+    saveCases(state, { data }) {
+      return {
+        ...state,
+        cases: data['applications']
       }
     }
   },
@@ -19,8 +35,41 @@ export default {
       if (!err) {
         yield put({
           type: 'saveProfile',
-          payload: data
-        })
+          data
+        });
+      }
+ 
+      const applicantId = data['applicant_id'];
+      if (applicantId) {
+        // fetch Details
+        yield put({
+          type: 'fetchDetail',
+          applicantId
+        });
+        // fetch Cases
+        yield put({
+          type: 'fetchCases',
+          applicantId
+        });
+      }
+
+    },
+    *fetchDetail({ applicantId }, { call, put }) {
+      const { data, err } = yield call(getApplicant, applicantId);
+      if (!err) {
+        yield put({
+          type: 'saveDetail',
+          data
+        });
+      }
+    },
+    *fetchCases({ applicantId }, { call, put }) {
+      const { data, err } = yield call(getApplicationsByApplicantId, applicantId);
+      if (!err) {
+        yield put({
+          type: 'saveCases',
+          data
+        });
       }
     }
   },
@@ -29,7 +78,7 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         const profile = window.g_app._store.getState()['user']['profile'];
-        if (JSON.stringify(profile) === "{}") {
+        if (JSON.stringify(profile) == "{}") {
           dispatch({
             type: 'fetchProfile',
           })

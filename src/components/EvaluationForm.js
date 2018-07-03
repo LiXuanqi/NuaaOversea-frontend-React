@@ -78,10 +78,7 @@ class EvaluationForm extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-    };
-}
+
 
 const WrappedEvaluationForm = Form.create()(connect(mapStateToProps)(EvaluationForm));
 
