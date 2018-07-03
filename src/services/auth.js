@@ -35,7 +35,7 @@ class Auth {
 
   setSession(token) {
     // Set the time that the Access Token will expire at
-    localStorage.setItem('token', token);
+    sessionStorage.setItem('token', token);
 
     // navigate to the home route
     window.location.href="/";
@@ -43,22 +43,21 @@ class Auth {
 
   logout() {
     // Clear Access Token and ID Token from local storage
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     // navigate to the home route
     window.location.href="/";
   }
 
   isAuthenticated() {
-    // Check whether the current time is past the 
-    // Access Token's expiry time
-    let token = localStorage.getItem('token');
+    
+    let token = sessionStorage.getItem('token');
     return token ? true : false
   }
 
   userProfile;
 
   getAccessToken() {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (!token) {
       throw new Error('No Access Token found');
     }
@@ -67,21 +66,10 @@ class Auth {
 
   getProfile() {
     let token = this.getAccessToken();
-    return new Promise((resolve, reject) => {
-      request('/oversea/api/users', {
-        headers: {
-          "Token": token
-        }
-      })
-      .then((data) => {
-        this.userProfile = data['data']
-        resolve(data);
-       
-      })
-      .catch((err) => {
-       
-        reject(err);
-      })
+    return request('/oversea/api/users', {
+      headers: {
+        "Token": token
+      }
     });
   }
 

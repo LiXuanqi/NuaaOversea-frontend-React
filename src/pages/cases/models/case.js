@@ -24,7 +24,7 @@ export default {
         const data = yield call(getApplication, applicationId);    
         const applicant_id = data.data.applicant_id;
 
-        window.g_app._store.dispatch({
+        yield put({
           type: 'case/fetchRelatedCases',
           applicant_id: applicant_id
         });

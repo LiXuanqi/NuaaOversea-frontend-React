@@ -9,22 +9,19 @@ import Link from 'umi/link'
 import auth from '../../services/auth';
 
 class ProfilePage extends React.Component {
-  componentWillMount() {
-    this.setState({ profile: {} });
-    const { userProfile, getProfile } = auth;
-    if (!userProfile) {
-      getProfile()
-        .then((data) => {
-          this.setState({
-            profile: data['data']
-          });
-        })
-    } else {
-      this.setState({ profile: userProfile });
+  constructor(props) {
+    super(props);
+    this.state = {
+      profile: {}
     }
   }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'user/fetchProfile'
+    });
+  }
   render() {
-    const { profile } = this.state;
+    const { profile } = this.props;
     return (
       <div>
         <Row className={styles.container} type="flex" justify="center" gutter={24}>
@@ -66,6 +63,13 @@ class ProfilePage extends React.Component {
 }
 
 ProfilePage.propTypes = {
+
 };
 
-export default connect()(ProfilePage);
+function mapStateToProps(state) {
+  return {
+    profile: state.user.profile
+  }
+}
+
+export default connect(mapStateToProps)(ProfilePage);

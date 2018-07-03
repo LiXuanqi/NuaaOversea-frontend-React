@@ -10,12 +10,6 @@ export default {
         related_cases_list: [],
     },
     reducers: {
-        saveRelatedCasesList(state, { payload: { relatedData: newData } }) {
-
-            return { ...state,
-                related_cases_list: newData.data.applications,
-            }
-        },
         saveOneCase(state, { payload: {data: newData } }) {
             return { ...state,
                 case_data: newData.data,
@@ -23,37 +17,6 @@ export default {
         },
     },
     effects: {
-        *fetchRelatedCasesListByApplicantId({ payload: applicant_id }, { call, put }) {
-            const data = yield call(getApplicationsByApplicantId, applicant_id);
-            yield put({
-                type: 'saveRelatedCasesList',
-                payload: {
-                    data,
-                },
-            });
-        },
-        *fetchOneCase({ payload: response }, { call, put }){
-            // FIXME: this is a workaround, it would be better if I can split it into 2 methods.
-            const data = yield call(getApplication, response.caseId);            
-
-            const applicant_id = data.data.applicant_id;
-
-            const relatedData = yield call(getApplicationsByApplicantId, applicant_id);
-
-            yield put({
-                type: 'saveOneCase',
-                payload: {
-                    data,
-                },
-            });
-
-            yield put({
-                type: 'saveRelatedCasesList',
-                payload: {
-                    relatedData,
-                },
-            });
-        },
         *fetchCasesByTopic({ payload: topic }, { call, put}){
             const data = yield call(getApplicationByTopic, topic);
             yield put({
@@ -110,17 +73,6 @@ export default {
         }
     },
     subscriptions: {
-        setup({ dispatch, history }) {
-            return history.listen(({ pathname, query })=> {
-                const match = pathToRegexp('/cases/:caseId').exec(pathname);
-                if (match) {
-                    const caseId = match[1];
-                    dispatch({
-                        type: 'fetchOneCase',
-                        payload: { caseId },
-                    });
-                }                  
-            });
-        },
+
     },
 };

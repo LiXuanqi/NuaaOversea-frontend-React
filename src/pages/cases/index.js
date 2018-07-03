@@ -516,8 +516,8 @@ class CaseList extends React.Component {
                 <Col span={6}>
            
                     <UserInfoCard
-                        username={this.props.userInfo.username}
-                        role={this.props.userInfo.role}
+                        username={this.props.profile.username}
+                        role={this.props.profile.role}
                     />
                     <BillboardCard />
                     <BillboardCard />
@@ -535,7 +535,7 @@ CaseList.propTypes = {
 function mapStateToProps(state) {
     return {
         casesList : state.casesList.list,
-        userInfo : state.user.userInfo
+        profile : state.user.profile
     };
 }
 
