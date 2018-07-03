@@ -8,6 +8,8 @@ const getApplicant = (id) => {
   return request(`/oversea/api/applicants/${id}`);
 }
 
+
+
 export {
   getApplicant,
   getApplicants

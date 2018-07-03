@@ -4,7 +4,7 @@ import { Row, Col, Button, Divider, Icon } from 'antd';
 import styles from './index.css';
 import avatar from '../../assets/avatar4.jpg';
 import UserInfoCasesTabel from 'Components/UserInfoCasesTabel.jsx';
-import UserInfoStatusTable from 'Components/UserInfoStatusTable';
+import UserInfoStatusTable from 'Components/UserInfoStatusTable.jsx';
 import Link from 'umi/link'
 class ProfilePage extends React.Component {
   componentDidMount() {
@@ -37,14 +37,14 @@ class ProfilePage extends React.Component {
               <Link to="/case_report"><Button>报Offer</Button></Link>
             </div>
             <div className={styles.contentContainer}>
-              <UserInfoCasesTabel applicant_id={profile.applicant_id} />
+              <UserInfoCasesTabel initData={userCases} />
             </div>
   
             <div className={styles.headerContainer}>
               <h2>你的三维</h2>
             </div>
             <div className={styles.contentContainer}>
-              <UserInfoStatusTable applicant_id={profile.applicant_id} />
+              <UserInfoStatusTable initData={userDetail} />
             </div>
           </Col>
         </Row>

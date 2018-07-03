@@ -1,6 +1,6 @@
 import auth from 'Services/auth';
 import { getApplicant } from 'Services/applicants';
-import { getApplicationsByApplicantId } from 'Services/applications';
+import { getApplicationsByApplicantId, deleteApplication, patchApplication } from 'Services/applications';
 
 export default {
   namespace: 'user',
@@ -27,6 +27,15 @@ export default {
         ...state,
         cases: data['applications']
       }
+    },
+    saveDeleteCase(state, { applicationId }) {
+      const newCases = state.cases.filter((item) => {
+        return item.id !== applicationId;
+      });
+      return {
+        ...state,
+        cases: newCases
+      }
     }
   },
   effects: {
@@ -38,7 +47,6 @@ export default {
           data
         });
       }
- 
       const applicantId = data['applicant_id'];
       if (applicantId) {
         // fetch Details
@@ -52,7 +60,6 @@ export default {
           applicantId
         });
       }
-
     },
     *fetchDetail({ applicantId }, { call, put }) {
       const { data, err } = yield call(getApplicant, applicantId);
@@ -71,6 +78,25 @@ export default {
           data
         });
       }
+    },
+    *deleteCase({ applicationId }, { call, put }) {
+      const { err } = yield call(deleteApplication, applicationId);
+      if (!err) {
+        yield put({
+          type: 'saveDeletedCase',
+          applicationId
+        });
+      }
+    },
+    *patchCase({ formData, applicationId }, { call, put }) {
+      const { data, err } = yield call(patchApplication, applicationId, formData);
+      const applicantId = data['applicant_id'];
+      if (!err) {
+        yield put({
+          type: 'fetchCases',
+          applicantId
+        });
+      }
     }
   },
   subscriptions: {
@@ -78,7 +104,7 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         const profile = window.g_app._store.getState()['user']['profile'];
-        if (JSON.stringify(profile) == "{}") {
+        if (JSON.stringify(profile) === "{}") {
           dispatch({
             type: 'fetchProfile',
           })

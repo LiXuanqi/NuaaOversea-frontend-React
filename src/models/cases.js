@@ -26,33 +26,6 @@ export default {
                 },
             });
         },
-        *deleteCaseById({ payload }, { call, put }){
-            const {data} = yield call(request, '/oversea/api/applications/' + payload.application_id + '?token=' + sessionStorage.getItem('token'), {
-                method: 'DELETE'
-            });
-            if (data === "") {
-                router.push('/refresh?redirect_url='+payload.redirect_url);
-                message.success('删除成功');
-            }
-        },
-        *updateCase({ payload }, { call, put }) {
-            const { data } = yield call(request, '/oversea/api/applications/' + payload.application_id, {
-                method: 'PUT',
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8;"
-                },
-                body: JSON.stringify({
-                    ...payload.formData,
-                    term: payload.formData.term[0] + payload.formData.term[1],
-                    applicant_id: payload.applicant_id,
-                    token: sessionStorage.getItem('token')
-                })
-            });
-            if (data.id) {
-                router.push('/refresh?redirect_url='+payload.redirect_url);
-                message.success('修改成功');
-            }
-        },
         *postCase({ payload: formData }, { call, put}) {
             const { data } = yield call(request, '/oversea/api/applications', {
                 method: 'POST',

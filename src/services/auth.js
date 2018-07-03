@@ -65,7 +65,7 @@ class Auth {
   }
 
   getProfile() {
-    let token = this.getAccessToken();
+    const token = this.getAccessToken();
     return request('/oversea/api/users', {
       headers: {
         "Token": token

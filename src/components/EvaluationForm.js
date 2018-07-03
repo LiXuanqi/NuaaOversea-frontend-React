@@ -80,6 +80,6 @@ class EvaluationForm extends React.Component {
 
 
 
-const WrappedEvaluationForm = Form.create()(connect(mapStateToProps)(EvaluationForm));
+const WrappedEvaluationForm = Form.create()(connect()(EvaluationForm));
 
 export default WrappedEvaluationForm;
