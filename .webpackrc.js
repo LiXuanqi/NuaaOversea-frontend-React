@@ -14,5 +14,9 @@ export default {
             "changeOrigin": true
         }
     },
-    "publicPath": "/oversea/static/"
+    "publicPath": "/oversea/static/",
+    "alias": {
+        "Services": __dirname + '/src/services/',
+        "Utils": __dirname + '/src/utils/'
+    }
 }

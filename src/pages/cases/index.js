@@ -484,7 +484,7 @@ class CaseList extends React.Component {
                             <div className={styles.cardListContainer}>
                                 
                                 {
-                                    this.props.cases_list.filter(filterByRange === false ? () => true : checkRangeFilter).filter(filterBySelected === false ? () => true : checkSelectedFilter).map((item, index)=>{
+                                    this.props.casesList.filter(filterByRange === false ? () => true : checkRangeFilter).filter(filterBySelected === false ? () => true : checkSelectedFilter).map((item, index)=>{
                                
                                         return this.renderCaseCard(
                                             index,
@@ -534,7 +534,7 @@ CaseList.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        cases_list : state.cases.cases_list,
+        casesList : state.casesList.list,
         userInfo : state.user.userInfo
     };
 }

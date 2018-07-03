@@ -6,9 +6,11 @@ import Cover from '../components/Cover';
 import cardCover1 from '../assets/card-1.jpg';
 import cardCover2 from '../assets/card-2.jpg';
 import cardCover3 from '../assets/card-3.jpg';
+
 const { Meta } = Card;
 
-function IndexPage() {
+const IndexPage = ({ loading }) => {
+  console.log(loading);
   return (
     <div>
       <Row>
@@ -68,4 +70,10 @@ function IndexPage() {
 IndexPage.propTypes = {
 };
 
-export default connect()(IndexPage);
+function mapStateToProps(state) {
+  return {
+    loading: state.loading
+  };
+}
+
+export default connect(mapStateToProps)(IndexPage);

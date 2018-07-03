@@ -1,21 +1,15 @@
 import pathToRegexp from 'path-to-regexp';
-import request from '../utils/request';
+import request from 'Utils/request';
 import { message } from 'antd'
 import router from 'umi/router';
-import { getApplications, getApplication, getApplicationsByApplicantId, getApplicationByTopic } from '../services/applications';
+import { getApplication, getApplicationsByApplicantId, getApplicationByTopic } from 'Services/applications';
 export default {
     namespace: 'cases',
     state: {
-        cases_list: [],
         case_data: {},
         related_cases_list: [],
     },
     reducers: {
-        saveAllCasesList(state, { payload: { data: newData } }) {
-            return { ...state,
-                cases_list: newData.data.applications,
-            }
-        },
         saveRelatedCasesList(state, { payload: { relatedData: newData } }) {
 
             return { ...state,
@@ -29,15 +23,6 @@ export default {
         },
     },
     effects: {
-        *fetchAllCasesList(action, { call, put }) {
-            const data = yield call(getApplications);
-            yield put({
-                type: 'saveAllCasesList',
-                payload: {
-                    data,
-                },
-            });
-        },
         *fetchRelatedCasesListByApplicantId({ payload: applicant_id }, { call, put }) {
             const data = yield call(getApplicationsByApplicantId, applicant_id);
             yield put({
@@ -127,19 +112,6 @@ export default {
     subscriptions: {
         setup({ dispatch, history }) {
             return history.listen(({ pathname, query })=> {
-                if (pathToRegexp('/cases').exec(pathname)) {
-                    // with topic in query.
-                    if (query.topic) {
-                        dispatch({
-                            type: 'fetchCasesByTopic',
-                            payload: query.topic
-                        })
-                    } else {
-                        dispatch({
-                            type: 'fetchAllCasesList',
-                        });
-                    }
-                } 
                 const match = pathToRegexp('/cases/:caseId').exec(pathname);
                 if (match) {
                     const caseId = match[1];

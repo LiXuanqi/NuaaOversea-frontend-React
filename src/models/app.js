@@ -29,6 +29,7 @@ export default {
     // TODO: check whether userInfo exists, if yes, not fetch every time.
     setup({ dispatch, history,state }) {
       return history.listen(({ pathname, query }) => {
+        console.log(window.g_app._store.getState());
         dispatch({
           type: 'fetchUserInfo',
         })

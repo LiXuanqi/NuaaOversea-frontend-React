@@ -12,7 +12,7 @@ const handleAuthentication = ({location}) => {
 }
 
 class Callback extends Component {
-  render() {
+  render() { 
     handleAuthentication(this.props);
     return (
       <div className={styles.loading}>
