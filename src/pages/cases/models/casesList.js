@@ -1,5 +1,5 @@
 import pathToRegexp from 'path-to-regexp';
-import { getApplications } from 'Services/applications';
+import { getApplications, getApplicationsByTopic  } from 'Services/applications';
 
 export default {
     namespace: 'casesList',
@@ -23,6 +23,15 @@ export default {
                 },
             });
         },
+        *fetchCasesByTopic({ topic }, { call, put }) {
+          const data = yield call(getApplicationsByTopic, topic);
+          yield put({
+              type: 'saveCases',
+              payload: {
+                  data,
+              },
+          });
+        },
     },
     subscriptions: {
         setup({ dispatch, history }) {
@@ -32,7 +41,7 @@ export default {
                     if (query.topic) {
                         dispatch({
                             type: 'fetchCasesByTopic',
-                            payload: query.topic
+                            topic: query.topic
                         })
                     } else {
                         dispatch({
