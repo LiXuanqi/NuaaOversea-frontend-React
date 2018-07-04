@@ -1,5 +1,4 @@
 import React from 'react';
-import UserLanguageModal from './UserLanguageModal';
 import UserStatusModel from './UserStatusModel';
 import { Table, Form, Radio, Input, InputNumber } from 'antd';
 import { researchNameToId, getResearches, getProjects, projectNameToId, getRecommendations, recommendationNameToId } from 'Utils/dataFromServer'

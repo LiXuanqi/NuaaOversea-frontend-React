@@ -1,7 +1,6 @@
 import auth from 'Services/auth';
-import { getApplicant } from 'Services/applicants';
+import { getApplicant, patchApplicant } from 'Services/applicants';
 import { getApplicationsByApplicantId, deleteApplication, patchApplication } from 'Services/applications';
-
 export default {
   namespace: 'user',
   state: {
@@ -96,6 +95,21 @@ export default {
           type: 'fetchCases',
           applicantId
         });
+        resolve();
+      } else {
+        reject(err);
+      }
+    },
+    *patchDetail({ formData, resolve, reject }, { call, put, select }) {
+      const applicantId = yield select((state) => {
+        return state['user']['profile']['applicant_id'];
+      })
+      const { data, err } = yield call(patchApplicant, applicantId, formData);
+      if (!err) {
+        yield put({
+          type: 'fetchDetail',
+          applicantId
+        })
         resolve();
       } else {
         reject(err);

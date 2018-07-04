@@ -11,17 +11,21 @@ const UserStatusModal = Form.create()(
         if (err) {
           return;
         }
-        console.log(values);
-        // this.props.dispatch({
-        //   type: 'applicants/patchApplicant',
-        //   payload: {
-        //     formData: values,
-        //     redirect_url: '/profile',
-        //     applicant_id: this.props.userInfo.applicant_id
-        //   }
-        // });
-        form.resetFields();
-        this.props.onCancel();
+        
+        new Promise((resolve, reject) => {
+          this.props.dispatch({
+            type: 'user/patchDetail',
+            formData: values,
+            resolve,
+            reject
+          });
+        })
+        .then(() => {
+          form.resetFields();
+          this.props.onCancel();
+        })
+
+    
       });
     }
     render() {
