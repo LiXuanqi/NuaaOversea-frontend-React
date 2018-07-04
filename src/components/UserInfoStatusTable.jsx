@@ -56,71 +56,43 @@ class UserInfoStatusTabel extends React.Component {
     return formatedData;
   }
   showEditModal = (e) => {
-    if (e.key === "TOEFL" || e.key === "IELTS") {
-      this.setState({
-        visible: {
-          ...this.state.visible,
-          language: true
-        }
-      });
+    let newVisibel = {};
+    switch(e.key) {
+      case "TOEFL":
+        newVisibel = { language: true }
+        break;
+      case "IELTS":
+        newVisibel = { language: true }
+        break;
+      case "GRE":
+        newVisibel = { gre: true }
+        break;
+      case "学院":
+        newVisibel = { college: true }
+        break;
+      case "专业":
+        newVisibel = { major: true }
+        break;
+      case "GPA":
+        newVisibel = { gpa: true }
+        break;
+      case "研究情况":
+        newVisibel = { research: true }
+        break;
+      case "项目情况":
+        newVisibel = { project: true }
+        break;
+      case "推荐信":
+        newVisibel = { recommendation: true }
+        break;
+      default: null;    
     }
-    if (e.key === "GRE") {
-      this.setState({
-        visible: {
-          ...this.state.visible,
-          gre: true
-        }
-      });
-    }
-
-    if (e.key === "学院") {
-      this.setState({
-        visible: {
-          ...this.state.visible,
-          college: true
-        }
-      });
-    }
-    if (e.key === "专业") {
-      this.setState({
-        visible: {
-          ...this.state.visible,
-          major: true
-        }
-      });
-    }
-    if (e.key === "GPA") {
-      this.setState({
-        visible: {
-          ...this.state.visible,
-          gpa: true
-        }
-      });
-    }
-    if (e.key === "研究情况") {
-      this.setState({
-        visible: {
-          ...this.state.visible,
-          research: true
-        }
-      });
-    }
-    if (e.key === "项目情况") {
-      this.setState({
-        visible: {
-          ...this.state.visible,
-          project: true
-        }
-      });
-    }
-    if (e.key === "推荐信") {
-      this.setState({
-        visible: {
-          ...this.state.visible,
-          recommendation: true
-        }
-      });
-    }
+    this.setState({
+      visible: {
+        ...this.state.visible,
+        ...newVisibel
+      }
+    });
   }
   handleCancel = () => {
     this.setState({
