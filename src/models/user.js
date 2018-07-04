@@ -88,7 +88,7 @@ export default {
         });
       }
     },
-    *patchCase({ formData, applicationId }, { call, put }) {
+    *patchCase({ formData, applicationId, resolve, reject }, { call, put }) {
       const { data, err } = yield call(patchApplication, applicationId, formData);
       const applicantId = data['applicant_id'];
       if (!err) {
@@ -96,6 +96,9 @@ export default {
           type: 'fetchCases',
           applicantId
         });
+        resolve();
+      } else {
+        reject(err);
       }
     }
   },

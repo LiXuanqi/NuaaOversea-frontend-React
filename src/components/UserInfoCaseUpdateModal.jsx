@@ -37,17 +37,22 @@ const UserInfoCaseUpdateModal = Form.create()(
           return;
         }
 
-        this.props.dispatch({
-          type: 'user/patchCase',
-          formData: {
-            ...values,
-            term: values['term'][0] + values['term'][1]
-          },
-          applicationId: this.props.choosedCase
+        new Promise((resolve, reject) => {
+          this.props.dispatch({
+            type: 'user/patchCase',
+            formData: {
+              ...values,
+              term: values['term'][0] + values['term'][1]
+            },
+            applicationId: this.props.choosedCase,
+            resolve,
+            reject
+          })
         })
         .then(() => {
           this.props.onCancel();
         })
+       
 
         form.resetFields();
         this.setState({
