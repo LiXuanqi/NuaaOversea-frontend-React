@@ -9,6 +9,11 @@
 .picContainer{
     position: relative;
 }
+@media (max-width: 764px) {
+    .picContainer{
+        display: none;
+    }
+}
 .pic{
     position: absolute;
     top: 0;
@@ -40,6 +45,13 @@
     /* 24+368 = 391 */
     padding-top: 391px; 
     margin: 0 20px;
+}
+
+@media (max-width: 764px) {
+    .filterContainer{
+        /* 24+368 = 391 */
+        padding-top: 16px; 
+    }
 }
 
 .tagFilterContainer{
