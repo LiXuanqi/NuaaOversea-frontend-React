@@ -1,18 +1,14 @@
-.container{
-    display: flex;
+.container {
+    padding-left: 16px;
 }
-
 .contentContainer{
-    width: 75%;
     background-color: #fff; 
-    padding-top: 32px;
     padding-left: 40px;
     padding-right: 40px;
     padding-bottom: 32px;
- 
 }
+
 .sidebarContainer{
-    width: 25%;
-    min-height: 1280px;
     margin-left: 32px;
 }
+

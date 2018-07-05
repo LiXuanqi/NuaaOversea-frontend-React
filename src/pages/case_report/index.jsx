@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './index.css'
-import { Steps, Icon, Button, Divider, message } from 'antd';
+import { Steps, Icon, Button, Divider, message, Row, Col } from 'antd';
 import WrappedCaseReportForm from '../../components/CaseReportForm';
 import { WrappedUserComplementReportForm } from '../../components/UserReportForm';
 import CaseReportCheckCard from '../../components/CaseReportCheckCard';
 import BillboardCard from '../../components/BillboardCard';
-import request from '../../utils/request';
 import { researchNameToId, recommendationNameToId, projectNameToId } from '../../utils/dataFromServer';
 import router from 'umi/router';
 
@@ -270,9 +269,8 @@ class CaseReport extends React.Component {
     const casesFields = this.state.casesFields;
     const userInfoFields = this.state.userInfoFields;
     return (
-      <div className={styles.container}>
-
-        <div className={styles.contentContainer}>
+      <Row gutter={32} className={styles.container}>
+        <Col xs={24} sm={18} className={styles.contentContainer}>
 
           {
             current === 0 ?
@@ -363,12 +361,12 @@ class CaseReport extends React.Component {
             }
           </div>
 
-        </div>
-        <div className={styles.sidebarContainer}>
+        </Col>
+        <Col xs={0} sm={6} >
           <BillboardCard />
           <BillboardCard />
-        </div>
-      </div>
+        </Col>
+      </Row>
     );
   }
 }

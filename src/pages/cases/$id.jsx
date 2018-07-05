@@ -76,8 +76,6 @@ class Case extends React.Component {
             </div>
           }
 
-       
-
           <Divider />
           <h2>其它录取结果</h2>
           {/* {this.renderResultCard("CMU", "MS in Marketing", "rej")} */}
