@@ -73,11 +73,10 @@ class CaseReport extends React.Component {
   }
 
   async UNSAFE_componentWillMount() {
+    const {userDetail, applicantId } = this.props;
 
-    const applicant_id = this.props.userInfo.applicant_id; 
-    if (applicant_id) {
-      const { data } = await request('/oversea/api/applicants/' + applicant_id)
-
+    if (applicantId) {
+      const data = userDetail;
       let newMajor = [data.college, data.major];
       const newUserInfoFields = {
         major: {
@@ -205,13 +204,20 @@ class CaseReport extends React.Component {
     const userInfoFields = this.userFormData();
     const casesFields = this.casesFormData();
 
-    this.props.dispatch({
-      type: 'applicants/updateApplicant',
-      payload: {
+    new Promise((resolve, reject) => {
+      this.props.dispatch({
+        type: 'user/updateOrPostDetail',
         formData: userInfoFields,
-        applicant_id: this.props.userInfo.applicant_id
-      }
-    });
+        resolve,
+        reject
+      })
+    })
+    .then(() => {
+      router.push('/profile');
+      message.success("成功");
+    })
+
+    // TODO: optimize the logic.
     casesFields.cases.forEach((item, index) => {
       this.props.dispatch({
         type: 'cases/postCase',
@@ -308,7 +314,7 @@ class CaseReport extends React.Component {
             current === 0 ?
               <div>
                 <WrappedUserComplementReportForm
-                  applicant_id={this.props.userInfo.applicant_id}
+                  applicantId={this.props.applicantId}
                   {...userInfoFields}
                   onChange={this.handleUserFormChange}
                   onRef={this.onUserRef}
@@ -374,7 +380,8 @@ CaseReport.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    userInfo: state.app.userInfo
+    applicantId: state.user.profile['applicant_id'],
+    userDetail: state.user.detail
   };
 }
 

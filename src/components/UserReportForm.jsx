@@ -65,7 +65,6 @@ class UserReportForm extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.profile)
     this.props.onRef(this)
   }
 
@@ -88,36 +87,18 @@ class UserReportForm extends React.Component {
           college: values.major[0],
           major: values.major[1]
         }
-        // TODO: can be optimized, eg: updateOrPostDetail and handle the logic in the effect.
-        if (this.props.applicantId) {
-          // update
-          new Promise((resolve, reject) => {
-            this.props.dispatch({
-              type: 'user/updateDetail',
-              formData: newValues,
-              resolve,
-              reject
-            });
+        new Promise((resolve, reject) => {
+          this.props.dispatch({
+            type: 'user/updateOrPostDetail',
+            formData: newValues,
+            resolve,
+            reject
           })
-          .then(() => {
-            router.push('/profile');
-            message.success("修改成功");
-          })
-        } else {
-          // post
-          new Promise((resolve, reject) => {
-            this.props.dispatch({
-              type: 'user/postDetail',
-              formData: newValues,
-              resolve,
-              reject
-            });
-          })
-          .then(() => {
-            router.push('/profile');
-            message.success("注册成功");
-          })
-        }
+        })
+        .then(() => {
+          router.push('/profile');
+          message.success("成功");
+        })
       }
     });
   }

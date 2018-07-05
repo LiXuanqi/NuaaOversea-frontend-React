@@ -100,20 +100,6 @@ export default {
         reject(err);
       }
     },
-    *postDetail({ formData, resolve, reject }, { call, put }) {
-      const { data, err } = yield call(postApplicant, formData);
-      console.log(data);
-      if (!err) {
-        const applicantId = data['id'];
-        yield put({
-          type: 'fetchDetail',
-          applicantId
-        })
-        resolve();
-      } else {
-        reject(err);
-      }
-    },
     *patchDetail({ formData, resolve, reject }, { call, put, select }) {
       const applicantId = yield select((state) => {
         return state['user']['profile']['applicant_id'];
@@ -129,12 +115,41 @@ export default {
         reject(err);
       }
     },
+    *postDetail({ formData, resolve, reject }, { call, put }) {
+      const { data, err } = yield call(postApplicant, formData);
+      if (!err) {
+        const applicantId = data['id'];
+        yield put({
+          type: 'fetchDetail',
+          applicantId
+        })
+        resolve();
+      } else {
+        reject(err);
+      }
+    },
     *updateDetail({ formData, resolve, reject }, { call, put, select }) {
       const applicantId = yield select((state) => {
         return state['user']['profile']['applicant_id'];
       })
       const { data, err } = yield call(updateApplicant, applicantId, formData);
       if (!err) {
+        yield put({
+          type: 'fetchDetail',
+          applicantId
+        });
+        resolve();
+      } else {
+        reject(err);
+      }
+    },
+    *updateOrPostDetail({ formData, resolve, reject }, { call, put, select }) {
+      let applicantId = yield select((state) => {
+        return state['user']['profile']['applicant_id'];
+      })
+      const { data, err } = applicantId ? yield call(updateApplicant, applicantId, formData) : yield call(postApplicant, formData);
+      if (!err) {
+        applicantId = data['id'];
         yield put({
           type: 'fetchDetail',
           applicantId
