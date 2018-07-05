@@ -39,8 +39,16 @@ const patchApplication = (id, data) => {
   });
 }
 
-const postApplication = () => {
-  
+const postApplication = (data) => {
+  const token = auth.getAccessToken();
+  return request('/oversea/api/applications', {
+    method: 'POST',
+    headers: {
+      "Content-type": "application/json; charset=UTF-8;",
+      "Token": token
+    },
+    body: JSON.stringify(data)
+  });
 }
 
 export {
@@ -48,6 +56,7 @@ export {
   getApplication,
   getApplicationsByApplicantId,
   getApplicationsByTopic,
+  postApplication,
   deleteApplication,
   patchApplication
 }

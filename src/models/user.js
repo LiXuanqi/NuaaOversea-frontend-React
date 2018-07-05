@@ -1,6 +1,6 @@
 import auth from 'Services/auth';
 import { getApplicant, postApplicant, patchApplicant, updateApplicant } from 'Services/applicants';
-import { getApplicationsByApplicantId, deleteApplication, patchApplication } from 'Services/applications';
+import { getApplicationsByApplicantId, postApplication, deleteApplication, patchApplication } from 'Services/applications';
 export default {
   namespace: 'user',
   state: {
@@ -120,6 +120,9 @@ export default {
       if (!err) {
         const applicantId = data['id'];
         yield put({
+          type: 'fetchProfile'
+        })
+        yield put({
           type: 'fetchDetail',
           applicantId
         })
@@ -150,14 +153,55 @@ export default {
       const { data, err } = applicantId ? yield call(updateApplicant, applicantId, formData) : yield call(postApplicant, formData);
       if (!err) {
         applicantId = data['id'];
+        // workaround way.
+        let outResolve = resolve;
+        new Promise((resolve, reject) => {
+          window.g_app._store.dispatch({
+            type: 'user/fetchProfile',
+            resolve
+          })
+          .then(() => {
+            outResolve()
+          })
+        })
         yield put({
           type: 'fetchDetail',
           applicantId
-        });
-        resolve();
+        })
       } else {
         reject(err);
       }
+    },
+    *postCases({ cases, resolve, reject }, { call, put, select }) {
+      const applicantId = yield select((state) => {
+        return state['user']['profile']['applicant_id'];
+      })
+      if (applicantId) {
+        const data = yield cases.map((item) => {
+          return call(postApplication, {
+            ...item,
+            applicant_id: applicantId
+          });
+        })
+        let isSuccess = true;
+        data.forEach(item => {
+          if (item.err) {
+            isSuccess = false;
+          }
+        });
+        if (isSuccess) {
+          yield put({
+            type: 'fetchCases',
+            applicantId
+          });
+          resolve(); 
+        } else {
+          reject();
+        }
+      } else {
+        console.log('没有applicant_id')
+      }
+     
     }
   },
   subscriptions: {

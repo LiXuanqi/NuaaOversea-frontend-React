@@ -203,7 +203,7 @@ class CaseReport extends React.Component {
   handleSubmit() {
     const userInfoFields = this.userFormData();
     const casesFields = this.casesFormData();
-
+    // TODO: make sure this executed before post cases.
     new Promise((resolve, reject) => {
       this.props.dispatch({
         type: 'user/updateOrPostDetail',
@@ -213,22 +213,21 @@ class CaseReport extends React.Component {
       })
     })
     .then(() => {
-      router.push('/profile');
-      message.success("成功");
+      new Promise((resolve, reject) => {
+        this.props.dispatch({
+          type: 'user/postCases',
+          cases: casesFields.cases,
+          resolve,
+          reject
+        });
+      })
+      .then(() => {
+        router.push('/profile');
+        message.success('添加成功');
+      })
     })
 
-    // TODO: optimize the logic.
-    casesFields.cases.forEach((item, index) => {
-      this.props.dispatch({
-        type: 'cases/postCase',
-        payload: {
-          ...item,
-          applicant_id: this.props.userInfo.applicant_id
-        }
-      });
-    })
-    router.push('/cases');
-    message.success('汇报成功');
+    
   }
 
   userFormData = () => {
