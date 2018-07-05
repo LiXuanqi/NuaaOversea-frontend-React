@@ -51,24 +51,32 @@ class Case extends React.Component {
             tags={caseData.tags}
           />
 
-          <div className={styles.rateContainer}>
-            <span className={styles.rateText}>研究经历</span>
-            <Rate disabled defaultValue={caseData['research']['value']} />
-            <span>{caseData['research']['name']}</span>
-          </div>
+          {
+            JSON.stringify(caseData) === "{}" ?
+            <span>加载中</span>
+            :
+            <div>
+              <div className={styles.rateContainer}>
+                <span className={styles.rateText}>研究经历</span>
+                <Rate disabled value={caseData['research']['value']} />
+                <span>{caseData['research']['name']}</span>
+              </div>
 
-          <div className={styles.rateContainer}>
-            <span className={styles.rateText}>实习经历</span>
-            <Rate disabled defaultValue={caseData['project']['value']} />
-            <span>{caseData['project']['name']}</span>
-          </div>
+              <div className={styles.rateContainer}>
+                <span className={styles.rateText}>实习经历</span>
+                <Rate disabled value={caseData['project']['value']} />
+                <span>{caseData['project']['name']}</span>
+              </div>
 
-          <div className={styles.rateContainer}>
-            <span className={styles.rateText}>推荐信</span>
-            <Rate disabled defaultValue={caseData['recommendation']['value']} />
-            <span>{caseData['recommendation']['name']}</span>
-          </div>
+              <div className={styles.rateContainer}>
+                <span className={styles.rateText}>推荐信</span>
+                <Rate disabled value={caseData['recommendation']['value']} />
+                <span>{caseData['recommendation']['name']}</span>
+              </div>
+            </div>
+          }
 
+       
 
           <Divider />
           <h2>其它录取结果</h2>
