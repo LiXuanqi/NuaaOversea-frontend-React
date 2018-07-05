@@ -200,8 +200,7 @@ export default {
         }
       } else {
         console.log('没有applicant_id')
-      }
-     
+      }   
     }
   },
   subscriptions: {

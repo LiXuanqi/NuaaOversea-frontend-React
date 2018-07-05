@@ -28,6 +28,9 @@ class UserInfoStatusTabel extends React.Component {
     }
   }
   formatData = (rawData) => {
+    if (JSON.stringify(rawData) === "{}") {
+      return null;
+    }
     const formatedData = [{
       key: '学院',
       value: rawData.college,
@@ -418,8 +421,7 @@ class UserInfoStatusTabel extends React.Component {
                                         </div>
                                     }            
                                 </Form>)
-                      }
-                       
+                      }     
                     }
                   </UserStatusModel>
                   : null
@@ -433,7 +435,7 @@ class UserInfoStatusTabel extends React.Component {
                   >
                     {
                       (form) => {
-                        const initGre = record.value.split('+');
+                        const initGre = record.value.split('+')
                         const initVerbal = parseInt(initGre[0], 10);
                         const initQuantitative = parseInt(initGre[1], 10);
                         const initWriting = parseInt(initGre[2], 10);
