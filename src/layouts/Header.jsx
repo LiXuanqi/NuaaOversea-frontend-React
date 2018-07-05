@@ -16,22 +16,31 @@ function Header({ history, dispatch }) {
   }
 
   const handleUserActionMenuClicked = function ({ key }) {
-    if (key === 'user_info') {
-      router.push('/profile');
-    }
-    if (key === 'logout') {
-      auth.logout();
+    switch(key) {
+      case "user_info":
+        router.push('/profile');
+        break;
+      case "logout":
+        auth.logout();
+        break;
+      case "login":
+        router.push('/login');
+        break;
+      case "register":
+        router.push('/register');
+        break;
+      default: null;
     }
   };
 
-  const menu = (
+  const loginMenu = (
     <Menu onClick={handleUserActionMenuClicked}>
       <Menu.Item key="user_info">个人信息</Menu.Item>
       <Menu.Item key="logout">注销</Menu.Item>
     </Menu>
   );
 
-  const mobileMenu = (
+  const mobileUnLoginMenu = (
     <Menu onClick={handleUserActionMenuClicked}>
       <Menu.Item key="login">登陆</Menu.Item>
       <Menu.Item key="register">注册</Menu.Item>
@@ -70,7 +79,7 @@ function Header({ history, dispatch }) {
             auth.isAuthenticated()
               ?
               <div>
-                <Dropdown overlay={menu} placement="bottomCenter">
+                <Dropdown overlay={loginMenu} placement="bottomCenter">
                   <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
                 </Dropdown>
 
@@ -83,9 +92,17 @@ function Header({ history, dispatch }) {
           }
         </div>
         <div className={styles.mobile}>
-          <Dropdown overlay={mobileMenu} placement="bottomCenter">
-            <Button shape="circle" icon="bars"/>
-          </Dropdown>
+          {
+            auth.isAuthenticated() ?
+              <Dropdown overlay={loginMenu} placement="bottomCenter" trigger={['click']}>
+                <Button shape="circle" icon="user"/>
+              </Dropdown>
+              : <Dropdown overlay={mobileUnLoginMenu} placement="bottomCenter" trigger={['click']}>
+                  <Button shape="circle" icon="bars"/>
+                </Dropdown>
+          }
+       
+     
         </div>
       </div>
     </div>
