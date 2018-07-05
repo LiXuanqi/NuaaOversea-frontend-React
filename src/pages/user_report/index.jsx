@@ -10,7 +10,7 @@ const UserReport = ({ userDetail, applicantId }) => {
   return (
     <div className={styles.container}>
       <Row gutter={32}>
-        <Col span={18} className={styles.contentContainer}>
+        <Col xs={24} sm={18} className={styles.contentContainer}>
           <WrappedUserReportForm
             hasSubmitButton='true'
             onRef={() => { }}
@@ -18,7 +18,7 @@ const UserReport = ({ userDetail, applicantId }) => {
             applicantId={applicantId}
           />
         </Col>
-        <Col span={6} className={styles.sidebarContainer}>
+        <Col xs={0} sm={6} className={styles.sidebarContainer}>
           <BillboardCard />
           <BillboardCard />
         </Col>

@@ -5,8 +5,14 @@
 }
 
 .contentContainer{
-    background-color: #fff; 
-    padding-top: 48px;
+    margin-top: 16px;
     padding-right: 48px;
     border-radius: 5px;
+}
+
+
+@media (min-width: 764px) { 
+    .contentContainer{
+        background-color: #fff; 
+    } 
 }
