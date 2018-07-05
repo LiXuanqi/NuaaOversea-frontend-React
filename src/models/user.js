@@ -1,5 +1,5 @@
 import auth from 'Services/auth';
-import { getApplicant, patchApplicant } from 'Services/applicants';
+import { getApplicant, postApplicant, patchApplicant, updateApplicant } from 'Services/applicants';
 import { getApplicationsByApplicantId, deleteApplication, patchApplication } from 'Services/applications';
 export default {
   namespace: 'user',
@@ -100,6 +100,20 @@ export default {
         reject(err);
       }
     },
+    *postDetail({ formData, resolve, reject }, { call, put }) {
+      const { data, err } = yield call(postApplicant, formData);
+      console.log(data);
+      if (!err) {
+        const applicantId = data['id'];
+        yield put({
+          type: 'fetchDetail',
+          applicantId
+        })
+        resolve();
+      } else {
+        reject(err);
+      }
+    },
     *patchDetail({ formData, resolve, reject }, { call, put, select }) {
       const applicantId = yield select((state) => {
         return state['user']['profile']['applicant_id'];
@@ -110,6 +124,21 @@ export default {
           type: 'fetchDetail',
           applicantId
         })
+        resolve();
+      } else {
+        reject(err);
+      }
+    },
+    *updateDetail({ formData, resolve, reject }, { call, put, select }) {
+      const applicantId = yield select((state) => {
+        return state['user']['profile']['applicant_id'];
+      })
+      const { data, err } = yield call(updateApplicant, applicantId, formData);
+      if (!err) {
+        yield put({
+          type: 'fetchDetail',
+          applicantId
+        });
         resolve();
       } else {
         reject(err);

@@ -1,12 +1,40 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Input, Cascader, Button, Radio, InputNumber } from 'antd';
+import { Form, Input, Cascader, Button, Radio, InputNumber, message } from 'antd';
 import { getRecommendations, getResearches, getProjects, projectNameToId, recommendationNameToId, researchNameToId } from 'Utils/dataFromServer';
-import { getApplicant } from 'Services/applicants';
-
+import router from 'umi/router';
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
+
+const radioStyle = {
+  display: 'block',
+  height: '30px',
+  lineHeight: '30px',
+};
+
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 // TODO: click next should validate data.
 // TODO: 收集学校的所有专业名,fetch from database.
 
@@ -34,17 +62,11 @@ class UserReportForm extends React.Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
-    initData: {},
   };
 
   componentDidMount() {
     console.log(this.props.profile)
-    // const applicantId = this.props.profile.applicant_id;
-    // this.props.dispatch({
-    //   type: 'user/fetchDetail',
-    //   applicantId
-    // });
-    // this.props.onRef(this)
+    this.props.onRef(this)
   }
 
   check = () => {
@@ -56,32 +78,44 @@ class UserReportForm extends React.Component {
       },
     );
   }
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        // TODO: abstract to a function.
         const newValues = {
           ...values,
           college: values.major[0],
           major: values.major[1]
         }
-        if (this.props.profile.applicant_id) {
-          this.props.dispatch({
-            type: 'applicants/updateApplicant',
-            payload: {
+        // TODO: can be optimized, eg: updateOrPostDetail and handle the logic in the effect.
+        if (this.props.applicantId) {
+          // update
+          new Promise((resolve, reject) => {
+            this.props.dispatch({
+              type: 'user/updateDetail',
               formData: newValues,
-              redirect_url: '/cases',
-              applicant_id: this.props.profile.applicant_id
-            }
+              resolve,
+              reject
+            });
+          })
+          .then(() => {
+            router.push('/profile');
+            message.success("修改成功");
           })
         } else {
-          this.props.dispatch({
-            type: 'applicants/postApplicant',
-            payload: {
+          // post
+          new Promise((resolve, reject) => {
+            this.props.dispatch({
+              type: 'user/postDetail',
               formData: newValues,
-              redirect_url: '/cases',
-            }
+              resolve,
+              reject
+            });
+          })
+          .then(() => {
+            router.push('/profile');
+            message.success("注册成功");
           })
         }
       }
@@ -91,7 +125,6 @@ class UserReportForm extends React.Component {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
-
   handleTestTypeChange = () => {
     this.props.form.setFieldsValue({
       language_reading: "",
@@ -100,39 +133,9 @@ class UserReportForm extends React.Component {
       language_writing: ""
     });
   }
-
   render() {
-    const radioStyle = {
-      display: 'block',
-      height: '30px',
-      lineHeight: '30px',
-    };
-    const { initData } = this.state;
-
-    const { getFieldDecorator, getFieldValue } = this.props.form;
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-      },
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-
+    const { initData, applicantId, form } = this.props;
+    const { getFieldDecorator, getFieldValue } = form;
     return (
       <Form onSubmit={this.handleSubmit}>
         <FormItem
@@ -392,19 +395,21 @@ class UserReportForm extends React.Component {
             </RadioGroup>
           )}
         </FormItem>
-
-
         {
           this.props.hasSubmitButton === 'true' ?
             (
               <FormItem {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">注册</Button>
+                <Button type="primary" htmlType="submit">{applicantId ? "更新" : "注册"}</Button>
               </FormItem>
             ) : null
         }
       </Form>
     );
   }
+}
+
+UserReportForm.defaultProps = {
+  initData: {}
 }
 
 const WrappedUserComplementReportForm = Form.create({
