@@ -5,7 +5,6 @@
 .contentContainer{
     width: 75%;
     background-color: #fff; 
-    margin-top: 48px;
     padding-top: 32px;
     padding-left: 40px;
     padding-right: 40px;
@@ -16,6 +15,4 @@
     width: 25%;
     min-height: 1280px;
     margin-left: 32px;
-    margin-top: 56px;
-    /* background-color: #fff; */
 }
