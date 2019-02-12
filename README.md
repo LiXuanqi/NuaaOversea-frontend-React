@@ -10,6 +10,12 @@ Created with React and ❤️
 
 This repository stores the code for **frontend**. You can visit the backend code [here](https://github.com/LiXuanqi/NuaaOversea-backend-Flask)
 
+![Screenshot](./docs/imgs/index.png)
+
+|      Home         |  Profile | Form |
+| :-------------:| :-----:| :-----: |
+| ![Screenshot](./docs/imgs/home.png) | ![Screenshot](./docs/imgs/profile.png) | ![Screenshot](./docs/imgs/form.png)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
