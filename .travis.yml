@@ -4,8 +4,8 @@ node_js:
 install:
   - npm install
 script:
-  - npm test
-  - echo "$ip ecdsa-sha2-nistp256 $pub_key" >> $HOME/.ssh/known_hosts
+ # - npm test
+  # - echo "$ip ecdsa-sha2-nistp256 $pub_key" >> $HOME/.ssh/known_hosts
 # before_deploy:
 #   - openssl aes-256-cbc -K $encrypted_5c9a41d00b85_key -iv $encrypted_5c9a41d00b85_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
 #   - eval "$(ssh-agent -s)"
