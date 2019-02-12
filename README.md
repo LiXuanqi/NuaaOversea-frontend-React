@@ -10,7 +10,7 @@ Created with React and ❤️
 
 This repository stores the code for **frontend**. You can visit the backend code [here](https://github.com/LiXuanqi/NuaaOversea-backend-Flask)
 
-![Screenshot](./docs/imgs/index.png)
+![Screenshot](./docs/imgs/index-chrome-mac.png)
 
 |      Home         |  Profile | Form |
 | :-------------:| :-----:| :-----: |
